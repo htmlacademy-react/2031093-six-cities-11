@@ -1,9 +1,10 @@
-import { MainPageProps } from '../../utils/props';
 import MainPage from '../../pages/main-page/main-page';
 
-function App({isPremium, rating}: MainPageProps): JSX.Element {
+function App({children}: React.PropsWithChildren): JSX.Element {
   return (
-    <MainPage isPremium={isPremium} rating={rating} />
+    <MainPage>
+      {children}
+    </MainPage>
   );
 }
 
