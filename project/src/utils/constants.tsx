@@ -1,3 +1,5 @@
+export const offersQuantity = 5;
+
 export enum Rating {
   OneStar = '20%',
   TwoStar = '40%',

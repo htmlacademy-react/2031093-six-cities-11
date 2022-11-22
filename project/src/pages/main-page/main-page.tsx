@@ -1,17 +1,7 @@
 import OfferCard from '../../components/offer-card/offer-card';
-import * as Const from '../../utils/constants';
+import { Offer } from '../../utils/props';
 
-type MainPageProps = {
-  isPremium: boolean;
-  rating: Const.Rating;
-}
-
-const props: MainPageProps = {
-  isPremium: true,
-  rating: Const.Rating.FourStar,
-};
-
-function MainPage({children}: React.PropsWithChildren): JSX.Element {
+function MainPage(offers: Offer[]): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -103,10 +93,7 @@ function MainPage({children}: React.PropsWithChildren): JSX.Element {
               </form>
               <div className="cities__places-list places__list tabs__content">
                 {/* Place for offer cards */}
-                {children}
-                {OfferCard(props)}
-                {OfferCard(props)}
-                {OfferCard(props)}
+                {Object.values(offers).map((offer: Offer) => OfferCard(offer))}
               </div>
             </section>
             <div className="cities__right-section">

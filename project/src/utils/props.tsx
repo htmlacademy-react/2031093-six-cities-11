@@ -1,6 +1,9 @@
-import * as Const from './constants';
-
-export type MainPageProps = {
+export type Offer = {
+  isFavorite: boolean;
   isPremium: boolean;
-  rating: Const.Rating;
+  picture: string;
+  price: number;
+  rating: string;
+  title: string;
+  type: string;
 }

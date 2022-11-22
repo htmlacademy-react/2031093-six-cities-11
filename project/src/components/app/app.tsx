@@ -1,10 +1,9 @@
 import MainPage from '../../pages/main-page/main-page';
+import { Offer } from '../../utils/props';
 
-function App({children}: React.PropsWithChildren): JSX.Element {
+function App(offers: Offer[]): JSX.Element {
   return (
-    <MainPage>
-      {children}
-    </MainPage>
+    <MainPage {...offers} />
   );
 }
 
