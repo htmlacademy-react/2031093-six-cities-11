@@ -39,8 +39,8 @@ function FavoritesPage(citiesOffers: CityOffers[]): JSX.Element {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-                {/* Place for favorites locations */}
-                {Object.values(citiesOffers).map((cityOffers: CityOffers) => FavoritesLocations(cityOffers))}
+              {/* Place for favorites locations */}
+              {Object.values(citiesOffers).map((cityOffers: CityOffers) => FavoritesLocations(cityOffers))}
             </ul>
           </section>
         </div>

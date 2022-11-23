@@ -7,11 +7,11 @@ function FavoritesCard(offer: Offer): JSX.Element {
 
   return (
     <article className="favorites__card place-card">
-    {offer.isPremium ?
-      <div className="place-card__mark">
-        <span>Premium</span>
-      </div> :
-      ''}
+      {offer.isPremium ?
+        <div className="place-card__mark">
+          <span>Premium</span>
+        </div> :
+        ''}
       <div className="favorites__image-wrapper place-card__image-wrapper">
         <a href="#">
           <img className="place-card__image" src={offer.picture} width="150" height="110" alt="Place image"></img>
