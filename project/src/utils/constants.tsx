@@ -7,3 +7,10 @@ export enum Rating {
   FourStar = '80%',
   FiveStar = '100%'
 }
+
+export enum AppRoute {
+  Main = '/',
+  Login = '/login',
+  Favorites = '/favorites', //Private
+  Room = '/offer', //'/offer/:id',
+}

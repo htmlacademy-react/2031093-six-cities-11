@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom';
 
-function NotFoundScreen(): JSX.Element {
+function NotFoundPage(): JSX.Element {
   return (
     <section className="game">
       <header className="game__header">
@@ -20,4 +20,4 @@ function NotFoundScreen(): JSX.Element {
   );
 }
 
-export default NotFoundScreen;
+export default NotFoundPage;
