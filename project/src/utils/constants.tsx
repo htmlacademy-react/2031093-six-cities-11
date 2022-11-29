@@ -11,8 +11,8 @@ export enum Rating {
 export enum AppRoute {
   Main = '/',
   Login = '/login',
-  Favorites = '/favorites', //TODO Private
-  Room = '/offer', //TODO '/offer/:id',
+  Favorites = '/favorites',
+  Room = '/offer/:id',
 }
 
 export enum AuthorizationStatus {

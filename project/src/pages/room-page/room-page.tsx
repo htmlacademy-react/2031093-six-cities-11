@@ -1,3 +1,4 @@
+import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import ReviewCard from '../../components/review-card/review-card';
 import OfferCard from '../../components/offer-card/offer-card';
@@ -5,10 +6,14 @@ import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
 import { Offer } from '../../utils/props';
 
-function RoomPage(offer: Offer): JSX.Element {
+function RoomPage(offers: Offer[]): JSX.Element {
   const style = {
-    width: offer.rating,
+    width: offers[0].rating,
   };
+  const params = useParams();
+  const {id} = params;
+  const offerId: number = id ? parseInt(id, 10) : 0;
+  const offer: Offer = offers[offerId];
 
   return (
     <div className="page">
@@ -84,7 +89,7 @@ function RoomPage(offer: Offer): JSX.Element {
                 </li>
               </ul>
               <div className="property__price">
-                <b className="property__price-value">&euro;120</b>
+                <b className="property__price-value">&euro;{offer.price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <div className="property__inside">
@@ -206,8 +211,6 @@ function RoomPage(offer: Offer): JSX.Element {
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
               {/* Place for offer cards */}
-              {OfferCard(offer)}
-              {OfferCard(offer)}
               {OfferCard(offer)}
             </div>
           </section>
