@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async';
 import { Offer } from '../../utils/props';
 import LocationsListItem from '../../components/locations-list-item/locations-list-item';
 import Logo from '../../components/logo/logo';
@@ -7,6 +8,9 @@ import OfferCard from '../../components/offer-card/offer-card';
 function MainPage(offers: Offer[]): JSX.Element {
   return (
     <div className="page page--gray page--main">
+      <Helmet>
+        <title>Six cities</title>
+      </Helmet>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">

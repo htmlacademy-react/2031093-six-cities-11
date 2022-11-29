@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async';
 import ReviewCard from '../../components/review-card/review-card';
 import OfferCard from '../../components/offer-card/offer-card';
 import Logo from '../../components/logo/logo';
@@ -11,6 +12,9 @@ function RoomPage(offer: Offer): JSX.Element {
 
   return (
     <div className="page">
+      <Helmet>
+        <title>Six cities. Offer overview</title>
+      </Helmet>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">

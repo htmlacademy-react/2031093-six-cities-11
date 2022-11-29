@@ -1,8 +1,12 @@
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 function NotFoundPage(): JSX.Element {
   return (
     <section className="game">
+      <Helmet>
+        <title>Six cities. 404. Page not found</title>
+      </Helmet>
       <header className="game__header">
 
         <svg xmlns="http://www.w3.org/2000/svg" className="timer" viewBox="0 0 780 780">

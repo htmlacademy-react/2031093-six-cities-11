@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { CityOffers } from '../../utils/props';
 import FavoritesLocations from '../../components/favorites-locations/favorites-locations';
 import Logo from '../../components/logo/logo';
@@ -8,6 +9,9 @@ function FavoritesPage(citiesOffers: CityOffers[]): JSX.Element {
 
   return (
     <div className="page">
+      <Helmet>
+        <title>Six cities. Favorites</title>
+      </Helmet>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
