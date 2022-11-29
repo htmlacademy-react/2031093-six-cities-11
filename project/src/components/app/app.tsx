@@ -1,11 +1,12 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { AppRoute } from '../../utils/constants';
+import { AppRoute, AuthorizationStatus } from '../../utils/constants';
 import { Offer, CityOffers } from '../../utils/props';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import LoginPage from '../../pages/login-page/login-page';
 import MainPage from '../../pages/main-page/main-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import RoomPage from '../../pages/room-page/room-page';
+import PrivateRoute from '../../components/private-route/private-route';
 
 type AppProps = {
   offers: Offer[];
@@ -26,7 +27,11 @@ function App({ offers, citiesOffers }: AppProps): JSX.Element {
         />
         <Route
           path={AppRoute.Favorites}
-          element={<FavoritesPage {...citiesOffers} />}
+          element={
+            <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth} >
+              <FavoritesPage {...citiesOffers} />
+            </PrivateRoute>
+          }
         />
         <Route
           path={AppRoute.Room}
