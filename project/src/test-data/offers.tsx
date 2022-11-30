@@ -1,5 +1,5 @@
 import * as Const from '../utils/constants';
-import { Offer } from '../utils/props';
+import { Offer, CityOffers } from '../utils/props';
 
 const getRating = (): string => Const.Rating.FourStar;
 
@@ -16,4 +16,13 @@ for (let i = 0; i < Const.offersQuantity; i++) {
   });
 }
 
-export default offers;
+const cities = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+const citiesOffers: CityOffers[] = [];
+for (let i = 0; i < cities.length; i++) {
+  citiesOffers.push({
+    city: cities[i],
+    offers,
+  });
+}
+
+export { offers, citiesOffers };

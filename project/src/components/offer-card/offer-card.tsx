@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Offer } from '../../utils/props';
 
 function OfferCard(offer: Offer): JSX.Element {
@@ -14,9 +15,9 @@ function OfferCard(offer: Offer): JSX.Element {
         </div> :
         ''}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
+        <Link to="#">
           <img className="place-card__image" src={offer.picture} width="260" height="200" alt="Place image"></img>
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -38,7 +39,7 @@ function OfferCard(offer: Offer): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{offer.title}</a>
+          <Link to="#">{offer.title}</Link>
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>

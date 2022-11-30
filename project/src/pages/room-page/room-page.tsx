@@ -1,39 +1,30 @@
+import { useParams } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import ReviewCard from '../../components/review-card/review-card';
 import OfferCard from '../../components/offer-card/offer-card';
+import Logo from '../../components/logo/logo';
+import Nav from '../../components/nav/nav';
 import { Offer } from '../../utils/props';
 
-function RoomPage(offer: Offer): JSX.Element {
+function RoomPage(offers: Offer[]): JSX.Element {
   const style = {
-    width: offer.rating,
+    width: offers[0].rating,
   };
+  const params = useParams();
+  const {id} = params;
+  const offerId: number = id ? parseInt(id, 10) : 0;
+  const offer: Offer = offers[offerId];
 
   return (
     <div className="page">
+      <Helmet>
+        <title>Six cities. Offer overview</title>
+      </Helmet>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
-            <div className="header__left">
-              <a className="header__logo-link" href="main.html">
-                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"></img>
-              </a>
-            </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    <span className="header__favorite-count">3</span>
-                  </a>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
+            <Logo />
+            <Nav />
           </div>
         </div>
       </header>
@@ -98,7 +89,7 @@ function RoomPage(offer: Offer): JSX.Element {
                 </li>
               </ul>
               <div className="property__price">
-                <b className="property__price-value">&euro;120</b>
+                <b className="property__price-value">&euro;{offer.price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <div className="property__inside">
@@ -220,8 +211,6 @@ function RoomPage(offer: Offer): JSX.Element {
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
               {/* Place for offer cards */}
-              {OfferCard(offer)}
-              {OfferCard(offer)}
               {OfferCard(offer)}
             </div>
           </section>
