@@ -21,13 +21,33 @@ const offers: Offer[] = [];
 for (let i = 0; i < Const.offersQuantity; i++) {
   offers.push({
     id: nanoid(),
-    isFavorite: !!(i % 2),
     isPremium: (i === 1),
-    picture: `img/apartment-0${(i % 3) + 1}.jpg`,
     price: 100 + 10 * i,
-    rating: getRating(i),
     title: `Nice ${getApartmentType(i)} ${i}`,
     type: `${getApartmentType(i).slice(0, 1).toUpperCase()}${getApartmentType(i).slice(1)}`,
+    isFavorite: !!(i % 2),
+    rating: getRating(i),
+    photos: [
+      `img/apartment-0${(i % 3) + 1}.jpg`,
+      `img/apartment-0${(i % 3) + 1}.jpg`,
+      `img/apartment-0${(i % 3) + 1}.jpg`,
+    ],
+    description: 'description',
+    bedrooms: i,
+    guests: i,
+    owner: {
+      name: 'Max',
+      avatar: 'img/avatar-max.jpg',
+      isPro: !!(i % 2)
+    },
+    equipments: [
+      'Wi-Fi',
+      'Heating',
+      'Kitchen',
+      'Fridge',
+      'Washing machine',
+      'Dishwasher'
+    ],
   });
 }
 

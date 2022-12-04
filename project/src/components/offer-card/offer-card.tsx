@@ -6,6 +6,8 @@ function OfferCard(offer: Offer): JSX.Element {
     width: offer.rating,
   };
   const className = `place-card__bookmark-button ${offer.isFavorite ? 'place-card__bookmark-button--active ' : ''}button`;
+  const index = 0;
+  const photo = (offer.photos.length > 0) ? offer.photos[index] : '';
 
   return (
     <article className="cities__card place-card">
@@ -16,7 +18,7 @@ function OfferCard(offer: Offer): JSX.Element {
         ''}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to="#">
-          <img className="place-card__image" src={offer.picture} width="260" height="200" alt="Place image"></img>
+          <img className="place-card__image" src={photo} width="260" height="200" alt="Place image"></img>
         </Link>
       </div>
       <div className="place-card__info">

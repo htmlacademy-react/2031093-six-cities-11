@@ -4,6 +4,9 @@ import FavoritesCard from '../../components/favorites-card/favorites-card';
 
 function FavoritesLocations(cityOffers: CityOffers): JSX.Element {
   const city: string = cityOffers.city;
+  const favoriteOffers = Object.values(cityOffers.offers)
+    .filter((offer) => offer.isFavorite)
+    .map((offer: Offer) => FavoritesCard({offer}));
 
   return (
     <li className="favorites__locations-items">
@@ -16,7 +19,7 @@ function FavoritesLocations(cityOffers: CityOffers): JSX.Element {
       </div>
       <div className="favorites__places">
         {/* Place for favorites cards */}
-        {Object.values(cityOffers.offers).map((offer: Offer) => FavoritesCard(offer))}
+        {favoriteOffers}
       </div>
     </li>
   );

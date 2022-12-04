@@ -1,10 +1,16 @@
 import { Link } from 'react-router-dom';
 import { Offer } from '../../utils/props';
 
-function FavoritesCard(offer: Offer): JSX.Element {
+type FavoriteOfferProps = {
+  offer: Offer;
+}
+
+function FavoritesCard({offer}: FavoriteOfferProps): JSX.Element {
   const style = {
     width: offer.rating,
   };
+  const index = 0;
+  const photo = (offer.photos.length > 0) ? offer.photos[index] : '';
 
   return (
     <article className="favorites__card place-card">
@@ -15,7 +21,7 @@ function FavoritesCard(offer: Offer): JSX.Element {
         ''}
       <div className="favorites__image-wrapper place-card__image-wrapper">
         <Link to="#">
-          <img className="place-card__image" src={offer.picture} width="150" height="110" alt="Place image"></img>
+          <img className="place-card__image" src={photo} width="150" height="110" alt="Place image"></img>
         </Link>
       </div>
       <div className="favorites__card-info place-card__info">

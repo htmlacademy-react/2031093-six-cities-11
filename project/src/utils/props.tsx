@@ -1,12 +1,23 @@
+export type Owner = {
+  name: string;
+  avatar: string;
+  isPro: boolean;
+}
+
 export type Offer = {
   id: string;
-  isFavorite: boolean;
   isPremium: boolean;
-  picture: string;
   price: number;
-  rating: string;
   title: string;
   type: string;
+  isFavorite: boolean;
+  rating: string;
+  photos: string[];
+  description: string;
+  bedrooms: number;
+  guests: number;
+  owner: Owner;
+  equipments: string[];
 }
 
 export type CityOffers = {
