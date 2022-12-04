@@ -17,12 +17,12 @@ export type Host = {
 }
 
 export type Offer = {
+  id: string;//TODO type number after test
   bedrooms: number;
   city: City;
   description: string;
   goods: string[];
   host: Host;
-  id: string;//TODO type number after test
   images: string[] | [string];
   isFavorite: boolean;
   isPremium: boolean;
