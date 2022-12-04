@@ -9,9 +9,10 @@ import { Offer } from '../../utils/props';
 
 type RoomPageProps = {
   offers: Offer[];
+  onSubmit: () => void;
 }
 
-function RoomPage({ offers }: RoomPageProps): JSX.Element {
+function RoomPage({ offers, onSubmit }: RoomPageProps): JSX.Element {
   const style = {
     width: offers[0].rating,
   };
@@ -162,7 +163,7 @@ function RoomPage({ offers }: RoomPageProps): JSX.Element {
                   <ReviewCard />
                 </ul>
                 {/* Place for add review form */}
-                <ReviewForm />
+                <ReviewForm onSubmit={onSubmit} />
               </section>
             </div>
           </div>

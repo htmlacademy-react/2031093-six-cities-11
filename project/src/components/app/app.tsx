@@ -37,7 +37,14 @@ function App({ offers, citiesOffers }: AppProps): JSX.Element {
           />
           <Route
             path={AppRoute.Room}
-            element={<RoomPage offers={offers} />}
+            element={
+              <RoomPage
+                offers={offers}
+                onSubmit={() => {
+                  throw new Error('Function \'onAnswer\' isn\'t implemented.');
+                }}
+              />
+            }
           />
           <Route
             path={'*'}

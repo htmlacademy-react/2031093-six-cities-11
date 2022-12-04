@@ -1,7 +1,11 @@
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import { Rating } from '../../utils/constants';
 
-function ReviewForm(): JSX.Element {
+type ReviewFormProps = {
+  onSubmit: () => void;
+};
+
+function ReviewForm({ onSubmit }: ReviewFormProps): JSX.Element {
   const [formData, setFormData] = useState({
     rating: Rating.ZeroStar,
     text: '',
@@ -17,7 +21,12 @@ function ReviewForm(): JSX.Element {
   };
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="#" method="post"
+      onSubmit={(evt: FormEvent<HTMLFormElement>) => {
+        evt.preventDefault();
+        onSubmit();
+      }}
+    >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         <input className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio"></input>
