@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Offer } from '../../utils/props';
+import { AppRoute } from '../../utils/constants';
 
 type FavoriteOfferProps = {
   offer: Offer;
@@ -9,8 +10,9 @@ function FavoritesCard({ offer }: FavoriteOfferProps): JSX.Element {
   const style = {
     width: offer.rating,
   };
-  const index = 0;
-  const photo = (offer.photos.length > 0) ? offer.photos[index] : '';
+  const images = offer.images as string[];
+  const photo = (images.length > 0) ? images[0] : '';
+  const route = AppRoute.Room.slice(0, AppRoute.Room.indexOf(':'));
 
   return (
     <article className="favorites__card place-card">
@@ -20,7 +22,7 @@ function FavoritesCard({ offer }: FavoriteOfferProps): JSX.Element {
         </div> :
         ''}
       <div className="favorites__image-wrapper place-card__image-wrapper">
-        <Link to="#">
+        <Link to={`${route}${offer.id}`}>
           <img className="place-card__image" src={photo} width="150" height="110" alt="Place image"></img>
         </Link>
       </div>

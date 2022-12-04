@@ -10,7 +10,7 @@ function FavoritesLocations({ cityOffers: offers }: FavoritesLocationsProps): JS
   const city: string = offers.city;
   const favoriteOffers = Object.values(offers.offers)
     .filter((offer) => offer.isFavorite)
-    .map((offer: Offer) => FavoritesCard({offer}));
+    .map((offer: Offer) => <FavoritesCard offer={offer} key={offer.id} />);
 
   return (
     <li className="favorites__locations-items">

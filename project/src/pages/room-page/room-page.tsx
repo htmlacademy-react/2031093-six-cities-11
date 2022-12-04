@@ -15,9 +15,10 @@ function RoomPage({ offers }: RoomPageProps): JSX.Element {
     width: offers[0].rating,
   };
   const params = useParams();
+
   const {id} = params;
-  const offerId: number = id ? parseInt(id, 10) : 0;
-  const offer: Offer = offers[offerId];
+  let offer: Offer | undefined = offers.find((o) => o.id === id);
+  offer = offer ? offer : offers[0];
 
   return (
     <div className="page">
@@ -159,6 +160,7 @@ function RoomPage({ offers }: RoomPageProps): JSX.Element {
                   {/* Place for review cards */}
                   {ReviewCard()}
                 </ul>
+                {/* Place for add review form */}
                 <form className="reviews__form form" action="#" method="post">
                   <label className="reviews__label form__label" htmlFor="review">Your review</label>
                   <div className="reviews__rating-form form__rating">
@@ -214,7 +216,7 @@ function RoomPage({ offers }: RoomPageProps): JSX.Element {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              {/* Place for offer cards */}
+              {/* Place for offer card */}
               {<OfferCard offer={offer} />}
             </div>
           </section>

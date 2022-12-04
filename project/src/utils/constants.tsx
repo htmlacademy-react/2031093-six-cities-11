@@ -1,11 +1,20 @@
 export const offersQuantity = 4;
 
+export const cities: string[] = [
+  'Paris',
+  'Cologne',
+  'Brussels',
+  'Amsterdam',
+  'Hamburg',
+  'Dusseldorf',
+];
+
 export enum Rating {
-  OneStar = '20%',
-  TwoStar = '40%',
-  ThreeStar = '60%',
-  FourStar = '80%',
-  FiveStar = '100%'
+  OneStar = 20,
+  TwoStar = 40,
+  ThreeStar = 60,
+  FourStar = 80,
+  FiveStar = 100,
 }
 
 export enum AppRoute {
