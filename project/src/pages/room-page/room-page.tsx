@@ -6,7 +6,11 @@ import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
 import { Offer } from '../../utils/props';
 
-function RoomPage(offers: Offer[]): JSX.Element {
+type RoomPageProps = {
+  offers: Offer[];
+}
+
+function RoomPage({ offers }: RoomPageProps): JSX.Element {
   const style = {
     width: offers[0].rating,
   };
@@ -211,7 +215,7 @@ function RoomPage(offers: Offer[]): JSX.Element {
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
               {/* Place for offer cards */}
-              {OfferCard(offer)}
+              {<OfferCard offer={offer} />}
             </div>
           </section>
         </div>

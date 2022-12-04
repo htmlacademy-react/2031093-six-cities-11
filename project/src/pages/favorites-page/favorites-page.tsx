@@ -5,7 +5,11 @@ import FavoritesLocations from '../../components/favorites-locations/favorites-l
 import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
 
-function FavoritesPage(citiesOffers: CityOffers[]): JSX.Element {
+type FavoritesPageProps = {
+  citiesOffers: CityOffers[];
+}
+
+function FavoritesPage({ citiesOffers }: FavoritesPageProps): JSX.Element {
 
   return (
     <div className="page">
@@ -27,7 +31,7 @@ function FavoritesPage(citiesOffers: CityOffers[]): JSX.Element {
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
               {/* Place for favorites locations */}
-              {Object.values(citiesOffers).map((cityOffers: CityOffers) => FavoritesLocations(cityOffers))}
+              {Object.values(citiesOffers).map((cityOffers: CityOffers) => <FavoritesLocations cityOffers={cityOffers} key={cityOffers.city}/>)}
             </ul>
           </section>
         </div>

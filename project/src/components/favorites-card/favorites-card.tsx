@@ -5,7 +5,7 @@ type FavoriteOfferProps = {
   offer: Offer;
 }
 
-function FavoritesCard({offer}: FavoriteOfferProps): JSX.Element {
+function FavoritesCard({ offer }: FavoriteOfferProps): JSX.Element {
   const style = {
     width: offer.rating,
   };

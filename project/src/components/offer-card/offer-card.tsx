@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom';
 import { Offer } from '../../utils/props';
 
-function OfferCard(offer: Offer): JSX.Element {
+type OfferCardProps = {
+  offer: Offer;
+}
+
+function OfferCard({ offer }: OfferCardProps): JSX.Element {
   const style = {
     width: offer.rating,
   };

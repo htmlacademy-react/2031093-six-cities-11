@@ -24,8 +24,3 @@ export type CityOffers = {
   city: string;
   offers: Offer[];
 }
-
-export type LocationsListItemProps = {
-  city: string;
-  isActive?: boolean;
-}
