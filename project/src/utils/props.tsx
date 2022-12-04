@@ -1,4 +1,5 @@
 export type Offer = {
+  id: string;
   isFavorite: boolean;
   isPremium: boolean;
   picture: string;

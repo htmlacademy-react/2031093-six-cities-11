@@ -1,4 +1,4 @@
-export const offersQuantity = 5;
+export const offersQuantity = 4;
 
 export enum Rating {
   OneStar = '20%',
@@ -19,4 +19,11 @@ export enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
+}
+
+export enum ApartmentType {
+  Apartment = 'apartment',
+  Room = 'room',
+  House = 'house',
+  Hotel = 'hotel',
 }
