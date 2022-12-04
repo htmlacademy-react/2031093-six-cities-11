@@ -10,6 +10,7 @@ export const cities: string[] = [
 ];
 
 export enum Rating {
+  ZeroStar = 0,
   OneStar = 1,
   TwoStar = 2,
   ThreeStar = 3,
