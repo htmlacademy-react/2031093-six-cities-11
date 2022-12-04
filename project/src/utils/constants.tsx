@@ -10,11 +10,11 @@ export const cities: string[] = [
 ];
 
 export enum Rating {
-  OneStar = 20,
-  TwoStar = 40,
-  ThreeStar = 60,
-  FourStar = 80,
-  FiveStar = 100,
+  OneStar = 1,
+  TwoStar = 2,
+  ThreeStar = 3,
+  FourStar = 4,
+  FiveStar = 5,
 }
 
 export enum AppRoute {

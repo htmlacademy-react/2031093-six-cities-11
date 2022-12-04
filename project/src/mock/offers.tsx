@@ -30,7 +30,7 @@ for (let i = 0; i < Const.offersQuantity; i++) {
       },
       name: '',
     },
-    description: 'description',
+    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
     goods: [
       'Wi-Fi',
       'Kitchen',
@@ -60,7 +60,7 @@ for (let i = 0; i < Const.offersQuantity; i++) {
     previewImage: `img/apartment-0${(i % 3) + 1}.jpg`,
     price: 100 + 10 * i,
     rating: getRating(i),
-    title: `Nice ${getApartmentType(i)} ${i}`,
+    title: `Beautiful & luxurious ${getApartmentType(i)} at great location`,
     type: `${getApartmentType(i).slice(0, 1).toUpperCase()}${getApartmentType(i).slice(1)}`,
   });
 }

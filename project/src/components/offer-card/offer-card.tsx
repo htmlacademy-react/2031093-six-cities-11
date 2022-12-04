@@ -8,7 +8,7 @@ type OfferCardProps = {
 
 function OfferCard({ offer }: OfferCardProps): JSX.Element {
   const style = {
-    width: offer.rating,
+    width: `${offer.rating * 20}%`,
   };
   const className = `place-card__bookmark-button ${offer.isFavorite ? 'place-card__bookmark-button--active ' : ''}button`;
   const images = offer.images as string[];

@@ -8,7 +8,7 @@ type FavoriteOfferProps = {
 
 function FavoritesCard({ offer }: FavoriteOfferProps): JSX.Element {
   const style = {
-    width: offer.rating,
+    width: `${offer.rating * 20}%`,
   };
   const images = offer.images as string[];
   const photo = (images.length > 0) ? images[0] : '';
