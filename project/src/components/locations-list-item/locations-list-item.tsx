@@ -1,5 +1,9 @@
 import { Link } from 'react-router-dom';
-import { LocationsListItemProps } from '../../utils/props';
+
+type LocationsListItemProps = {
+  city: string;
+  isActive?: boolean;
+}
 
 function LocationsListItem({ city, isActive = true }: LocationsListItemProps): JSX.Element {
   const className = `locations__item-link tabs__item${isActive ? ' tabs__item--active' : ''}`;

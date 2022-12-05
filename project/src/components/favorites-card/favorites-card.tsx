@@ -1,10 +1,18 @@
 import { Link } from 'react-router-dom';
 import { Offer } from '../../utils/props';
+import { AppRoute } from '../../utils/constants';
 
-function FavoritesCard(offer: Offer): JSX.Element {
+type FavoriteOfferProps = {
+  offer: Offer;
+}
+
+function FavoritesCard({ offer }: FavoriteOfferProps): JSX.Element {
   const style = {
-    width: offer.rating,
+    width: `${offer.rating * 20}%`,
   };
+  const images = offer.images as string[];
+  const photo = (images.length > 0) ? images[0] : '';
+  const route = AppRoute.Room.slice(0, AppRoute.Room.indexOf(':'));
 
   return (
     <article className="favorites__card place-card">
@@ -14,8 +22,8 @@ function FavoritesCard(offer: Offer): JSX.Element {
         </div> :
         ''}
       <div className="favorites__image-wrapper place-card__image-wrapper">
-        <Link to="#">
-          <img className="place-card__image" src={offer.picture} width="150" height="110" alt="Place image"></img>
+        <Link to={`${route}${offer.id}`}>
+          <img className="place-card__image" src={photo} width="150" height="110" alt="Place"></img>
         </Link>
       </div>
       <div className="favorites__card-info place-card__info">

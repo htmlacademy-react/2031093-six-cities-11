@@ -1,19 +1,26 @@
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import ReviewCard from '../../components/review-card/review-card';
+import ReviewForm from '../../components/review-form/review-form';
 import OfferCard from '../../components/offer-card/offer-card';
 import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
 import { Offer } from '../../utils/props';
 
-function RoomPage(offers: Offer[]): JSX.Element {
+type RoomPageProps = {
+  offers: Offer[];
+  onSubmit: () => void;
+}
+
+function RoomPage({ offers, onSubmit }: RoomPageProps): JSX.Element {
   const style = {
     width: offers[0].rating,
   };
   const params = useParams();
+
   const {id} = params;
-  const offerId: number = id ? parseInt(id, 10) : 0;
-  const offer: Offer = offers[offerId];
+  let offer: Offer | undefined = offers.find((o) => o.id === id);
+  offer = offer ? offer : offers[0];
 
   return (
     <div className="page">
@@ -35,22 +42,22 @@ function RoomPage(offers: Offer[]): JSX.Element {
             <div className="property__gallery">
               {/* Place for galary cards */}
               <div className="property__image-wrapper">
-                <img className="property__image" src="img/room.jpg" alt="Photo studio"></img>
+                <img className="property__image" src="img/room.jpg" alt="studio"></img>
               </div>
               <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Photo studio"></img>
+                <img className="property__image" src="img/apartment-01.jpg" alt="studio"></img>
               </div>
               <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-02.jpg" alt="Photo studio"></img>
+                <img className="property__image" src="img/apartment-02.jpg" alt="studio"></img>
               </div>
               <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-03.jpg" alt="Photo studio"></img>
+                <img className="property__image" src="img/apartment-03.jpg" alt="studio"></img>
               </div>
               <div className="property__image-wrapper">
-                <img className="property__image" src="img/studio-01.jpg" alt="Photo studio"></img>
+                <img className="property__image" src="img/studio-01.jpg" alt="studio"></img>
               </div>
               <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Photo studio"></img>
+                <img className="property__image" src="img/apartment-01.jpg" alt="studio"></img>
               </div>
             </div>
           </div>
@@ -153,54 +160,10 @@ function RoomPage(offers: Offer[]): JSX.Element {
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
                 <ul className="reviews__list">
                   {/* Place for review cards */}
-                  {ReviewCard()}
+                  <ReviewCard />
                 </ul>
-                <form className="reviews__form form" action="#" method="post">
-                  <label className="reviews__label form__label" htmlFor="review">Your review</label>
-                  <div className="reviews__rating-form form__rating">
-                    <input className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio"></input>
-                    <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
-                      <svg className="form__star-image" width="37" height="33">
-                        <use xlinkHref="#icon-star"></use>
-                      </svg>
-                    </label>
-
-                    <input className="form__rating-input visually-hidden" name="rating" value="4" id="4-stars" type="radio"></input>
-                    <label htmlFor="4-stars" className="reviews__rating-label form__rating-label" title="good">
-                      <svg className="form__star-image" width="37" height="33">
-                        <use xlinkHref="#icon-star"></use>
-                      </svg>
-                    </label>
-
-                    <input className="form__rating-input visually-hidden" name="rating" value="3" id="3-stars" type="radio"></input>
-                    <label htmlFor="3-stars" className="reviews__rating-label form__rating-label" title="not bad">
-                      <svg className="form__star-image" width="37" height="33">
-                        <use xlinkHref="#icon-star"></use>
-                      </svg>
-                    </label>
-
-                    <input className="form__rating-input visually-hidden" name="rating" value="2" id="2-stars" type="radio"></input>
-                    <label htmlFor="2-stars" className="reviews__rating-label form__rating-label" title="badly">
-                      <svg className="form__star-image" width="37" height="33">
-                        <use xlinkHref="#icon-star"></use>
-                      </svg>
-                    </label>
-
-                    <input className="form__rating-input visually-hidden" name="rating" value="1" id="1-star" type="radio"></input>
-                    <label htmlFor="1-star" className="reviews__rating-label form__rating-label" title="terribly">
-                      <svg className="form__star-image" width="37" height="33">
-                        <use xlinkHref="#icon-star"></use>
-                      </svg>
-                    </label>
-                  </div>
-                  <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"></textarea>
-                  <div className="reviews__button-wrapper">
-                    <p className="reviews__help">
-                      To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
-                    </p>
-                    <button className="reviews__submit form__submit button" type="submit" disabled>Submit</button>
-                  </div>
-                </form>
+                {/* Place for add review form */}
+                <ReviewForm onSubmit={onSubmit} />
               </section>
             </div>
           </div>
@@ -210,8 +173,8 @@ function RoomPage(offers: Offer[]): JSX.Element {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              {/* Place for offer cards */}
-              {OfferCard(offer)}
+              {/* Place for offer card */}
+              {<OfferCard offer={offer} />}
             </div>
           </section>
         </div>

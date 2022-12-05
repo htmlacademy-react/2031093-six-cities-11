@@ -1,11 +1,20 @@
 import { Link } from 'react-router-dom';
 import { Offer } from '../../utils/props';
+import { AppRoute } from '../../utils/constants';
 
-function OfferCard(offer: Offer): JSX.Element {
+type OfferCardProps = {
+  offer: Offer;
+}
+
+function OfferCard({ offer }: OfferCardProps): JSX.Element {
   const style = {
-    width: offer.rating,
+    width: `${offer.rating * 20}%`,
   };
   const className = `place-card__bookmark-button ${offer.isFavorite ? 'place-card__bookmark-button--active ' : ''}button`;
+  const images = offer.images as string[];
+  const photo = (images.length > 0) ? images[0] : '';
+  const route = AppRoute.Room.slice(0, AppRoute.Room.indexOf(':'));
+  const link = `${route}${offer.id}`;
 
   return (
     <article className="cities__card place-card">
@@ -15,8 +24,8 @@ function OfferCard(offer: Offer): JSX.Element {
         </div> :
         ''}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to="#">
-          <img className="place-card__image" src={offer.picture} width="260" height="200" alt="Place image"></img>
+        <Link to={link}>
+          <img className="place-card__image" src={photo} width="260" height="200" alt="Place"></img>
         </Link>
       </div>
       <div className="place-card__info">
@@ -39,7 +48,7 @@ function OfferCard(offer: Offer): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to="#">{offer.title}</Link>
+          <Link to={link}>{offer.title}</Link>
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>

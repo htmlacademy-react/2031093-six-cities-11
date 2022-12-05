@@ -21,7 +21,7 @@ function App({ offers, citiesOffers }: AppProps): JSX.Element {
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<MainPage {...offers} />}
+            element={<MainPage offers={offers} />}
           />
           <Route
             path={AppRoute.Login}
@@ -30,14 +30,21 @@ function App({ offers, citiesOffers }: AppProps): JSX.Element {
           <Route
             path={AppRoute.Favorites}
             element={
-              <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth} >
-                <FavoritesPage {...citiesOffers} />
+              <PrivateRoute authorizationStatus={AuthorizationStatus.Auth} >
+                <FavoritesPage citiesOffers={citiesOffers} />
               </PrivateRoute>
             }
           />
           <Route
             path={AppRoute.Room}
-            element={<RoomPage {...offers} />}
+            element={
+              <RoomPage
+                offers={offers}
+                onSubmit={() => {
+                  throw new Error('Function \'onAnswer\' isn\'t implemented.');
+                }}
+              />
+            }
           />
           <Route
             path={'*'}
