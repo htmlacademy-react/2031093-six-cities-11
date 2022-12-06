@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Offer } from '../../utils/props';
+import { Offer } from '../../types/types';
 import { AppRoute } from '../../utils/constants';
 
 type OfferCardProps = {

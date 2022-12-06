@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom';
-import { CityOffers, Offer } from '../../utils/props';
+import { Offer } from '../../types/types';
 import FavoritesCard from '../../components/favorites-card/favorites-card';
 
 type FavoritesLocationsProps = {
-  cityOffers: CityOffers;
+  offers: Offer[];
+  city: string;
 }
 
-function FavoritesLocations({ cityOffers: offers }: FavoritesLocationsProps): JSX.Element {
-  const city: string = offers.city;
-  const favoriteOffers = Object.values(offers.offers)
+function FavoritesLocations({ offers, city }: FavoritesLocationsProps): JSX.Element {
+  const favoriteOffers = Object.values(offers)
     .filter((offer) => offer.isFavorite)
     .map((offer: Offer) => <FavoritesCard offer={offer} key={offer.id} />);
 

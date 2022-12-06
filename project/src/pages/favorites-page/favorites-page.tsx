@@ -1,15 +1,16 @@
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { CityOffers } from '../../utils/props';
+import { Offer } from '../../types/types';
+import * as Const from '../../utils/constants';
 import FavoritesLocations from '../../components/favorites-locations/favorites-locations';
 import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
 
 type FavoritesPageProps = {
-  citiesOffers: CityOffers[];
+  offers: Offer[];
 }
 
-function FavoritesPage({ citiesOffers }: FavoritesPageProps): JSX.Element {
+function FavoritesPage({ offers }: FavoritesPageProps): JSX.Element {
 
   return (
     <div className="page">
@@ -31,7 +32,11 @@ function FavoritesPage({ citiesOffers }: FavoritesPageProps): JSX.Element {
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
               {/* Place for favorites locations */}
-              {Object.values(citiesOffers).map((cityOffers: CityOffers) => <FavoritesLocations cityOffers={cityOffers} key={cityOffers.city}/>)}
+              {Const.CITIES.map((city) => {
+                const favoriteOffers = Object.values(offers)
+                  .filter((offer: Offer) => offer.city.name === city);
+                return (favoriteOffers.length > 0) && <FavoritesLocations offers={favoriteOffers} city={city} key={city} />;
+              })}
             </ul>
           </section>
         </div>

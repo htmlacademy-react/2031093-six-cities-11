@@ -5,7 +5,7 @@ import ReviewForm from '../../components/review-form/review-form';
 import OfferCard from '../../components/offer-card/offer-card';
 import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
-import { Offer } from '../../utils/props';
+import { Offer } from '../../types/types';
 
 type RoomPageProps = {
   offers: Offer[];

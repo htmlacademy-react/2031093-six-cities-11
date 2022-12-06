@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { Offer } from '../../utils/props';
+import { Offer } from '../../types/types';
 import LocationsListItem from '../../components/locations-list-item/locations-list-item';
 import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
@@ -64,7 +64,7 @@ function MainPage({ offers }: MainPageProps): JSX.Element {
               <OffersList offers={offers} />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <section id="map" className="cities__map map"></section>
             </div>
           </div>
         </div>
