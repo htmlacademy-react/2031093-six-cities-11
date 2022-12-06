@@ -31,8 +31,8 @@ for (let i = 0; i < Const.OFFERS_QUANTITY; i++) {
     bedrooms: i,
     city: {
       location: {
-        latitude: coordinates[i % coordinatesMinInd][0],
-        longitude: coordinates[i % coordinatesMinInd][1],
+        latitude: 52.35514938496378,
+        longitude: 4.673877537499948,
         zoom: 1,
       },
       name: 'Amsterdam',
@@ -59,8 +59,8 @@ for (let i = 0; i < Const.OFFERS_QUANTITY; i++) {
     isFavorite: !!(i % 2),
     isPremium: (i === 1),
     location: {
-      latitude: 52.35514938496378,
-      longitude: 4.673877537499948,
+      latitude: coordinates[i % coordinatesMinInd][0],
+      longitude: coordinates[i % coordinatesMinInd][1],
       zoom: 1,
     },
     maxAdults: i,
