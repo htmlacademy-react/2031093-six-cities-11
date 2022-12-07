@@ -31,11 +31,15 @@ function FavoritesPage({ offers }: FavoritesPageProps): JSX.Element {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              {/* Place for favorites locations */}
               {Const.CITIES.map((city) => {
                 const favoriteOffers = Object.values(offers)
                   .filter((offer: Offer) => offer.city.name === city);
-                return (favoriteOffers.length > 0) && <FavoritesLocations offers={favoriteOffers} city={city} key={city} />;
+                return (favoriteOffers.length > 0) && (
+                  <FavoritesLocations
+                    offers={favoriteOffers}
+                    city={city}
+                  />
+                );
               })}
             </ul>
           </section>

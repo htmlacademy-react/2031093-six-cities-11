@@ -6,9 +6,10 @@ import { AppRoute } from '../../utils/constants';
 type OfferCardProps = {
   offer: Offer;
   onMouseEnter?: (event: MouseEvent<HTMLLIElement>) => void;
+  parent: string;
 }
 
-function OfferCard({ offer, onMouseEnter }: OfferCardProps): JSX.Element {
+function OfferCard({ offer, onMouseEnter, parent }: OfferCardProps): JSX.Element {
   const style = {
     width: `${offer.rating * 20}%`,
   };
@@ -25,13 +26,13 @@ function OfferCard({ offer, onMouseEnter }: OfferCardProps): JSX.Element {
   };
 
   return (
-    <article className="cities__card place-card" onMouseEnter={handleMouseEnter}>
+    <article className={`${parent}__card place-card`} onMouseEnter={handleMouseEnter}>
       {offer.isPremium ?
         <div className="place-card__mark">
           <span>Premium</span>
         </div> :
         ''}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={`${parent}__image-wrapper place-card__image-wrapper`}>
         <Link to={link}>
           <img className="place-card__image" src={photo} width="260" height="200" alt="Place"></img>
         </Link>

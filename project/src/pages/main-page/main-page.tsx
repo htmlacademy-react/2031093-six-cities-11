@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { City, Offer } from '../../types/types';
 import { CITIES } from '../../utils/constants';
@@ -10,29 +9,19 @@ import OffersList from '../../components/offers-list/offers-list';
 
 type MainPageProps = {
   offers: Offer[];
+  currentCity: string;
+  onLocationClick: (cityName: string) => void;
+  selectedOffer: Offer | undefined;
+  onListItemHover: (listItemName: string) => void;
 }
 
-function MainPage({ offers }: MainPageProps): JSX.Element {
+const MAP_HEIGHT = '850px';
+
+function MainPage({ offers, currentCity, onLocationClick, selectedOffer, onListItemHover }: MainPageProps): JSX.Element {
   const placesQty = offers.length;
 
-  const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(
-    undefined
-  );
-
-  const onListItemHover = (listItemName: string) => {
-    setSelectedOffer(offers.find((offer) => offer.title === listItemName));
-  };
-
-  const [selectedCity, setSelectedCity] = useState<City | undefined>(
-    undefined
-  );
-
-  const onLocationClick = (cityName: string) => {
-    setSelectedCity(offers.map((offer) => offer.city).find((city) => city.name === cityName));
-  };
-
-  const currentCity: string | undefined = selectedCity && selectedCity.name;
-  const cityOffers: Offer[] = offers.filter((offer) => selectedCity && offer.city.name === selectedCity.name);
+  const cityOffers: Offer[] = offers.filter((offer) => currentCity && offer.city.name === currentCity);
+  const selectedCity: City | undefined = offers.map((offer) => offer.city).find((city) => city.name === currentCity);
 
   return (
     <div className="page page--gray page--main">
@@ -53,9 +42,14 @@ function MainPage({ offers }: MainPageProps): JSX.Element {
         <div className="tabs">
           <section className="locations container">
             <ul className="locations__list tabs__list">
-              {CITIES.map((city: string) =>
-                <LocationsListItem city={city} onLocationClick={onLocationClick} isActive={currentCity === city} key={city} />
-              )}
+              {CITIES.map((city: string) => (
+                <LocationsListItem
+                  city={city}
+                  onLocationClick={onLocationClick}
+                  isActive={currentCity === city}
+                  key={`location-${city}`}
+                />
+              ))}
             </ul>
           </section>
         </div>
@@ -79,13 +73,24 @@ function MainPage({ offers }: MainPageProps): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              {/* Place for offer cards */}
-              <OffersList offers={cityOffers} onListItemHover={onListItemHover} />
+              <div className="cities__places-list places__list tabs__content">
+                <OffersList
+                  offers={cityOffers}
+                  onListItemHover={onListItemHover}
+                  parent={'cities'}
+                />
+              </div>
             </section>
             <div id="map" className="cities__right-section">
               <section className="cities__map map">
-                {cityOffers && (cityOffers.length > 0) && selectedCity
-                  && <Map city={selectedCity} offers={cityOffers} selectedOffer={selectedOffer} />}
+                {cityOffers && (cityOffers.length > 0) && selectedCity && (
+                  <Map
+                    city={selectedCity}
+                    offers={cityOffers}
+                    selectedOffer={selectedOffer}
+                    height={MAP_HEIGHT}
+                  />
+                )}
               </section>
             </div>
           </div>

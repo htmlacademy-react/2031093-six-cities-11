@@ -5,9 +5,10 @@ import OfferCard from '../../components/offer-card/offer-card';
 type OffersListProps = {
   offers: Offer[];
   onListItemHover: (listItemName: string) => void;
+  parent: string;
 }
 
-function OffersList({ offers, onListItemHover }: OffersListProps): JSX.Element {
+function OffersList({ offers, onListItemHover, parent }: OffersListProps): JSX.Element {
   const handleListItemHover = (event: MouseEvent<HTMLLIElement>) => {
     event.preventDefault();
 
@@ -18,9 +19,16 @@ function OffersList({ offers, onListItemHover }: OffersListProps): JSX.Element {
   };
 
   return (
-    <div className="cities__places-list places__list tabs__content">
-      {Object.values(offers).map((offer: Offer) => <OfferCard offer={offer} onMouseEnter={handleListItemHover} key={offer.id} />)}
-    </div>
+    <>
+      {Object.values(offers).map((offer: Offer) => (
+        <OfferCard
+          offer={offer}
+          onMouseEnter={handleListItemHover}
+          parent={parent}
+          key={`${parent}-${offer.id}`}
+        />
+      ))}
+    </>
   );
 }
 

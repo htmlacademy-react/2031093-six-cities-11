@@ -10,7 +10,7 @@ type FavoritesLocationsProps = {
 function FavoritesLocations({ offers, city }: FavoritesLocationsProps): JSX.Element {
   const favoriteOffers = Object.values(offers)
     .filter((offer) => offer.isFavorite)
-    .map((offer: Offer) => <FavoritesCard offer={offer} key={offer.id} />);
+    .map((offer: Offer) => <FavoritesCard offer={offer} key={`favorite-offer-${offer.id}`} />);
 
   return (
     <li className="favorites__locations-items">
@@ -22,7 +22,6 @@ function FavoritesLocations({ offers, city }: FavoritesLocationsProps): JSX.Elem
         </div>
       </div>
       <div className="favorites__places">
-        {/* Place for favorites cards */}
         {favoriteOffers}
       </div>
     </li>
