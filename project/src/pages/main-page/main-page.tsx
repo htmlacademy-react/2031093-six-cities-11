@@ -1,7 +1,10 @@
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Offer } from '../../utils/props';
+import { City, Offer } from '../../types/types';
+import { CITIES } from '../../utils/constants';
 import LocationsListItem from '../../components/locations-list-item/locations-list-item';
 import Logo from '../../components/logo/logo';
+import Map from '../../components/map/map';
 import Nav from '../../components/nav/nav';
 import OffersList from '../../components/offers-list/offers-list';
 
@@ -11,6 +14,25 @@ type MainPageProps = {
 
 function MainPage({ offers }: MainPageProps): JSX.Element {
   const placesQty = offers.length;
+
+  const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(
+    undefined
+  );
+
+  const onListItemHover = (listItemName: string) => {
+    setSelectedOffer(offers.find((offer) => offer.title === listItemName));
+  };
+
+  const [selectedCity, setSelectedCity] = useState<City | undefined>(
+    undefined
+  );
+
+  const onLocationClick = (cityName: string) => {
+    setSelectedCity(offers.map((offer) => offer.city).find((city) => city.name === cityName));
+  };
+
+  const currentCity: string | undefined = selectedCity && selectedCity.name;
+  const cityOffers: Offer[] = offers.filter((offer) => selectedCity && offer.city.name === selectedCity.name);
 
   return (
     <div className="page page--gray page--main">
@@ -31,12 +53,9 @@ function MainPage({ offers }: MainPageProps): JSX.Element {
         <div className="tabs">
           <section className="locations container">
             <ul className="locations__list tabs__list">
-              <LocationsListItem city={'Paris'} isActive={false} />
-              <LocationsListItem city={'Cologne'} isActive={false} />
-              <LocationsListItem city={'Brussels'} isActive={false} />
-              <LocationsListItem city={'Amsterdam'} />
-              <LocationsListItem city={'Hamburg'} isActive={false} />
-              <LocationsListItem city={'Dusseldorf'} isActive={false} />
+              {CITIES.map((city: string) =>
+                <LocationsListItem city={city} onLocationClick={onLocationClick} isActive={currentCity === city} key={city} />
+              )}
             </ul>
           </section>
         </div>
@@ -61,10 +80,13 @@ function MainPage({ offers }: MainPageProps): JSX.Element {
                 </ul>
               </form>
               {/* Place for offer cards */}
-              <OffersList offers={offers} />
+              <OffersList offers={cityOffers} onListItemHover={onListItemHover} />
             </section>
-            <div className="cities__right-section">
-              <section className="cities__map map"></section>
+            <div id="map" className="cities__right-section">
+              <section className="cities__map map">
+                {cityOffers && (cityOffers.length > 0) && selectedCity
+                  && <Map city={selectedCity} offers={cityOffers} selectedOffer={selectedOffer} />}
+              </section>
             </div>
           </div>
         </div>
