@@ -34,3 +34,16 @@ export type Offer = {
   title: string;
   type: string;
 }
+
+export type Comment = {
+  id: string;//TODO type number after test
+  comment: string;
+  date: string;
+  rating: number;
+  user: {
+    id: string;//TODO type number after test
+    avatarUrl: string;
+    isPro: boolean;
+    name: string;
+  };
+}

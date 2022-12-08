@@ -52,9 +52,9 @@ for (let i = 0; i < Const.OFFERS_QUANTITY; i++) {
       name: 'Max',
     },
     images: [
-      `img/apartment-0${(i % 3) + 1}.jpg`,
-      `img/apartment-0${(i % 3) + 1}.jpg`,
-      `img/apartment-0${(i % 3) + 1}.jpg`,
+      `img/apartment-0${(i + 0) % 3 + 1}.jpg`,
+      `img/apartment-0${(i + 1) % 3 + 1}.jpg`,
+      `img/apartment-0${(i + 2) % 3 + 1}.jpg`,
     ],
     isFavorite: !!(i % 2),
     isPremium: (i === 1),
