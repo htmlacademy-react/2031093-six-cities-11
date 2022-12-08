@@ -1,23 +1,21 @@
-import { useState, FormEvent } from 'react';
-import { Rating } from '../../utils/constants';
+import { FormEvent } from 'react';
+
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { changeFormData } from '../../store/action';
 
 type ReviewFormProps = {
   onSubmit: () => void;
 };
 
 function ReviewForm({ onSubmit }: ReviewFormProps): JSX.Element {
-  const [formData, setFormData] = useState({
-    rating: Rating.ZeroStar,
-    text: '',
-  });
+  const dispatch = useAppDispatch();
 
+  const formData = useAppSelector((state) => state.formData);
   const handleChangeText = ({ target: { value: text } }: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setFormData({
+    dispatch(changeFormData({
       ...formData,
       text,
-    },
-
-    );
+    }));
   };
 
   return (

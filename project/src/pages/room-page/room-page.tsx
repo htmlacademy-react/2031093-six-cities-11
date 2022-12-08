@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+
 import { Offer, Comment } from '../../types/types';
 import Logo from '../../components/logo/logo';
 import Map from '../../components/map/map';

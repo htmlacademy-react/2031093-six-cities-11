@@ -1,3 +1,5 @@
+import { Rating } from '../utils/constants';
+
 export type Location = {
   latitude: number;
   longitude: number;
@@ -46,4 +48,9 @@ export type Comment = {
     isPro: boolean;
     name: string;
   };
+}
+
+export type FormData = {
+  rating: Rating;
+  text: string;
 }

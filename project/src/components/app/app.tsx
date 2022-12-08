@@ -1,6 +1,8 @@
-import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { changeCity, changeOffer } from '../../store/action';
 import { AppRoute, AuthorizationStatus } from '../../utils/constants';
 import { Offer, Comment } from '../../types/types';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
@@ -16,14 +18,19 @@ type AppProps = {
 };
 
 function App({ offers, comments }: AppProps): JSX.Element {
-  const [currentCity, setSelectedCity] = useState<string>('');
+  const dispatch = useAppDispatch();
+
+  const currentCity = useAppSelector((state) => state.city);
   const onLocationClick = (cityName: string) => {
-    setSelectedCity(cityName);
+    dispatch(changeCity(cityName));
   };
 
-  const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(undefined);
+  const selectedOffer = useAppSelector((state) => state.offer);
   const onListItemHover = (listItemName: string) => {
-    setSelectedOffer(offers.find((offer) => offer.title === listItemName));
+    const newOffer = offers.find((offer) => offer.title === listItemName);
+    if (newOffer) {
+      dispatch(changeOffer(newOffer));
+    }
   };
 
   return (
