@@ -1,15 +1,16 @@
 import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
+
 import { Offer } from '../../types/types';
 import { AppRoute } from '../../utils/constants';
 
 type OfferCardProps = {
   offer: Offer;
-  onMouseEnter?: (event: MouseEvent<HTMLLIElement>) => void;
   parent: string;
+  onMouseEnter?: (event: MouseEvent<HTMLLIElement>) => void;
 }
 
-function OfferCard({ offer, onMouseEnter, parent }: OfferCardProps): JSX.Element {
+function OfferCard({ offer, parent, onMouseEnter }: OfferCardProps): JSX.Element {
   const style = {
     width: `${offer.rating * 20}%`,
   };
@@ -26,7 +27,10 @@ function OfferCard({ offer, onMouseEnter, parent }: OfferCardProps): JSX.Element
   };
 
   return (
-    <article className={`${parent}__card place-card`} onMouseEnter={handleMouseEnter}>
+    <article
+      className={`${parent}__card place-card`}
+      onMouseEnter={handleMouseEnter}
+    >
       {offer.isPremium ?
         <div className="place-card__mark">
           <span>Premium</span>

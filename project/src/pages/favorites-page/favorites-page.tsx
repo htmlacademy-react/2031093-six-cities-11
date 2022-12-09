@@ -11,6 +11,7 @@ type FavoritesPageProps = {
 }
 
 function FavoritesPage({ offers }: FavoritesPageProps): JSX.Element {
+  const favoritesQty = offers.filter((offer) => offer.isFavorite).length;
 
   return (
     <div className="page">
@@ -21,7 +22,7 @@ function FavoritesPage({ offers }: FavoritesPageProps): JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <Logo />
-            <Nav />
+            <Nav offersQty={favoritesQty} />
           </div>
         </div>
       </header>

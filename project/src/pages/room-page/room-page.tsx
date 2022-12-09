@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+
 import { Offer, Comment } from '../../types/types';
 import Logo from '../../components/logo/logo';
 import Map from '../../components/map/map';
@@ -15,23 +16,24 @@ type RoomPageProps = {
   selectedOffer: Offer | undefined;
   onListItemHover: (listItemName: string) => void;
   comments: Comment[];
+  favoritesQty: number;
   onOfferReviewFormSubmit: () => void;
 }
 
 const MAP_HEIGHT = '579px';
 
-function RoomPage({ offers, selectedOffer, onListItemHover, comments, onOfferReviewFormSubmit }: RoomPageProps): JSX.Element {
+function RoomPage({ offers, selectedOffer, onListItemHover, comments, favoritesQty, onOfferReviewFormSubmit }: RoomPageProps): JSX.Element {
   const params = useParams();
   const {id} = params;
   const offerOptional: Offer | undefined = offers.find((o) => o.id === id);
   const offer: Offer = offerOptional ? offerOptional : offers[0];
 
   const ratingStyle = {
-    width: `${offer.rating * 20}%`,
+    width: `${offer ? offer.rating * 20 : 0}%`,
   };
-  const bookmarksClassName = `property__bookmark-button ${offer.isFavorite ? 'property__bookmark-button--active ' : ''}button`;
+  const bookmarksClassName = `property__bookmark-button ${offer && offer.isFavorite ? 'property__bookmark-button--active ' : ''}button`;
   const nearbyOffers: Offer[] = offers
-    .filter((ofr) => offer.city.name && ofr.city.name === offer.city.name && ofr.id !== offer.id)
+    .filter((ofr) => offer.city.name && ofr.id !== offer.id)
     .slice(0, 3);
 
   return (
@@ -43,7 +45,7 @@ function RoomPage({ offers, selectedOffer, onListItemHover, comments, onOfferRev
         <div className="container">
           <div className="header__wrapper">
             <Logo />
-            <Nav />
+            <Nav offersQty={favoritesQty} />
           </div>
         </div>
       </header>
@@ -53,20 +55,20 @@ function RoomPage({ offers, selectedOffer, onListItemHover, comments, onOfferRev
           <div className="property__gallery-container container">
             <div className="property__gallery">
               {offer && offer.images && offer.images.map((imagePath) => (
-                <GalaryCard imagePath={imagePath} key={`${offer.id}-${imagePath}`} />
+                <GalaryCard imagePath={imagePath} key={`${offer && offer.id}-${imagePath}`} />
               ))}
             </div>
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              {offer.isPremium ?
+              {offer && offer.isPremium ?
                 <div className="property__mark">
                   <span>Premium</span>
                 </div> :
                 ''}
               <div className="property__name-wrapper">
                 <h1 className="property__name">
-                  {offer.title}
+                  {offer && offer.title}
                 </h1>
                 <button className={bookmarksClassName} type="button">
                   <svg className="property__bookmark-icon" width="31" height="33">
@@ -84,41 +86,41 @@ function RoomPage({ offers, selectedOffer, onListItemHover, comments, onOfferRev
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
-                  {offer.type}
+                  {offer && offer.type}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
-                  {offer.bedrooms}
+                  {offer && offer.bedrooms}
                 </li>
                 <li className="property__feature property__feature--adults">
-                  {offer.maxAdults}
+                  {offer && offer.maxAdults}
                 </li>
               </ul>
               <div className="property__price">
-                <b className="property__price-value">&euro;{offer.price}</b>
+                <b className="property__price-value">&euro;{offer && offer.price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
-                  {offer.goods.map((item) => <InsideItemCard item={item} key={`${offer.id}-${item}`} /> )}
+                  {offer && offer.goods.map((item) => <InsideItemCard item={item} key={`${offer && offer.id}-${item}`} /> )}
                 </ul>
               </div>
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
-                  <div className={`property__avatar-wrapper${offer.host.isPro ? ' property__avatar-wrapper--pro user__avatar-wrapper' : ''}`}>
-                    <img className="property__avatar user__avatar" src={offer.host.avatarUrl} width="74" height="74" alt="Host avatar"></img>
+                  <div className={`property__avatar-wrapper${offer && offer.host.isPro ? ' property__avatar-wrapper--pro user__avatar-wrapper' : ''}`}>
+                    <img className="property__avatar user__avatar" src={offer && offer.host.avatarUrl} width="74" height="74" alt="Host avatar"></img>
                   </div>
                   <span className="property__user-name">
-                    {offer.host.name}
+                    {offer && offer.host.name}
                   </span>
                   <span className="property__user-status">
-                    {offer.host.isPro ? 'Pro' : ''}
+                    {offer && offer.host.isPro ? 'Pro' : ''}
                   </span>
                 </div>
                 <div className="property__description">
                   <p className="property__text">
-                    {offer.description}
+                    {offer && offer.description}
                   </p>
                 </div>
               </div>
@@ -130,7 +132,7 @@ function RoomPage({ offers, selectedOffer, onListItemHover, comments, onOfferRev
             </div>
           </div>
           <section className="property__map map">
-            {nearbyOffers && (nearbyOffers.length > 0) && offer.city &&
+            {nearbyOffers && (nearbyOffers.length > 0) && offer && offer.city &&
               <Map
                 city={offer.city}
                 offers={nearbyOffers}

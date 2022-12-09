@@ -51,7 +51,7 @@ function Map({ city, offers, selectedOffer, height, width }: MapProps): JSX.Elem
 
         marker
           .setIcon(
-            selectedOffer !== undefined && offer.title === selectedOffer.title
+            selectedOffer !== undefined && offer.id === selectedOffer.id
               ? currentCustomIcon
               : defaultCustomIcon
           )
