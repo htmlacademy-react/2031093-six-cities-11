@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppDispatch } from '../../hooks';
 import { changeCity, storeOffers, changeOffer } from '../../store/action';
 import { AppRoute, AuthorizationStatus } from '../../utils/constants';
 import { Offer, Comment } from '../../types/types';
@@ -20,15 +20,12 @@ type AppProps = {
 function App({ offers, comments }: AppProps): JSX.Element {
   const dispatch = useAppDispatch();
 
-  const currentCity = useAppSelector((state) => state.city);
-  const cityOffers = useAppSelector((state) => state.offers);
   const onLocationClick = (cityName: string) => {
     dispatch(changeCity(cityName));
     dispatch(storeOffers(offers
       .filter((offer) => offer.city.name === cityName)));
   };
 
-  const selectedOffer = useAppSelector((state) => state.offer);
   const onListItemClick = (listItemId: string) => {
     const newOffer = offers.find((offer) => offer.id === listItemId);
     if (newOffer) {
@@ -46,8 +43,6 @@ function App({ offers, comments }: AppProps): JSX.Element {
             path={AppRoute.Main}
             element={
               <MainPage
-                offers={cityOffers}
-                currentCity={currentCity}
                 onLocationClick={onLocationClick}
                 onOfferCardClick={onListItemClick}
                 favoritesQty={favoritesQty}
@@ -63,7 +58,6 @@ function App({ offers, comments }: AppProps): JSX.Element {
             element={
               <PrivateRoute authorizationStatus={AuthorizationStatus.Auth} >
                 <FavoritesPage
-                  offers={offers}
                   onOfferCardClick={onListItemClick}
                 />
               </PrivateRoute>
@@ -73,8 +67,6 @@ function App({ offers, comments }: AppProps): JSX.Element {
             path={AppRoute.Room}
             element={
               <RoomPage
-                offers={offers}
-                selectedOffer={selectedOffer}
                 comments={comments}
                 favoritesQty={favoritesQty}
                 onOfferCardClick={onListItemClick}

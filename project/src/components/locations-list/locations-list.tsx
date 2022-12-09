@@ -1,12 +1,13 @@
+import { useAppSelector } from '../../hooks/index';
 import { CITIES } from '../../utils/constants';
 import LocationsListItem from '../../components/locations-list-item/locations-list-item';
 
 type LocationsListProps = {
-  currentCity: string;
   onLocationClick: (cityName: string) => void;
 }
 
-function LocationsList({ currentCity, onLocationClick }: LocationsListProps): JSX.Element {
+function LocationsList({ onLocationClick }: LocationsListProps): JSX.Element {
+  const currentCity: string = useAppSelector((state) => state.city);
 
   return (
     <ul className="locations__list tabs__list">

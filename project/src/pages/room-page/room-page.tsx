@@ -1,7 +1,7 @@
 import { useState } from 'react';
-// import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
+import { useAppSelector } from '../../hooks/index';
 import { Offer, Comment } from '../../types/types';
 import Logo from '../../components/logo/logo';
 import Map from '../../components/map/map';
@@ -13,8 +13,6 @@ import ReviewList from '../../components/review-list/review-list';
 import ReviewForm from '../../components/review-form/review-form';
 
 type RoomPageProps = {
-  offers: Offer[];
-  selectedOffer: Offer | undefined;
   comments: Comment[];
   favoritesQty: number;
   onOfferCardClick: (offerId: string) => void;
@@ -23,7 +21,9 @@ type RoomPageProps = {
 
 const MAP_HEIGHT = '579px';
 
-function RoomPage({ offers, selectedOffer: offer, comments, favoritesQty, onOfferCardClick, onOfferReviewFormSubmit }: RoomPageProps): JSX.Element {
+function RoomPage({ comments, favoritesQty, onOfferCardClick, onOfferReviewFormSubmit }: RoomPageProps): JSX.Element {
+  const offers: Offer[] = useAppSelector((state) => state.offers);
+  const offer: Offer | undefined = useAppSelector((state) => state.offer);
   const ratingStyle = {
     width: `${offer ? offer.rating * 20 : 0}%`,
   };

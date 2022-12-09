@@ -1,11 +1,9 @@
 import { SyntheticEvent } from 'react';
 
 import { useAppSelector, useAppDispatch } from '../../hooks/index';
-// import { storeSortedOffers } from '../../store/action';
-import { changeSortType } from '../../store/action';//TODO
+import { changeSortType } from '../../store/action';
 import { debounce } from '../../utils/utils';
 import * as Const from '../../utils/constants';
-// import { Offer } from '../../types/types';
 
 const DEBOUNCE_MILLISECONDS = 200;
 const SORT_LIST_CLASS = '.places__options--custom';
@@ -14,7 +12,7 @@ const SORT_LIST_CLASS_OPENED = 'places__options--opened';
 
 function SortList(): JSX.Element {
   const dispacth = useAppDispatch();
-  // const offers = useAppSelector((state) => state.offers);
+  const oldSortType = useAppSelector((state) => state.sortType);
 
   const handleSortingTypeMouseEnter = () => {
     const sortListElement = document.querySelector(SORT_LIST_CLASS);
@@ -30,9 +28,7 @@ function SortList(): JSX.Element {
     }
   };
 
-  const oldSortType = useAppSelector((state) => state.sortType);
   const handleSortTypeClick = (evt: SyntheticEvent<HTMLElement>) => {
-
     const sortType = evt.currentTarget.dataset.sortType as Const.SortType;
     if (sortType && sortType !== oldSortType) {
       dispacth(changeSortType(sortType));
@@ -44,41 +40,13 @@ function SortList(): JSX.Element {
         item.classList.remove(SORT_LIST_CLASS_ACTIVE);
       });
     }
+
     evt.currentTarget.classList.add(SORT_LIST_CLASS_ACTIVE);
     const sortListSelectedTypeElement = document.querySelector('.places__sorting-type');
     if (sortListSelectedTypeElement) {
       sortListSelectedTypeElement.textContent = evt.currentTarget.textContent;
     }
     handleSortingTypeMouseLeave();
-
-    // if (sortType) {
-    //   // let sortedOffers: Offer[] = [];
-
-    //   switch (sortType) {
-    //     case Const.SortType.PriceLowToHigh:
-    //       // sortedOffers = offers.slice().sort((o1: Offer, o2: Offer) => o1.price - o2.price);
-    //       dispacth(changeSortType(Const.SortType.PriceLowToHigh));
-    //       break;
-
-    //     case Const.SortType.PriceHighToLow:
-    //       // sortedOffers = offers.slice().sort((o1: Offer, o2: Offer) => o2.price - o1.price);
-    //       dispacth(changeSortType(Const.SortType.PriceHighToLow));
-    //       break;
-
-    //     case Const.SortType.TopRatedFirst:
-    //       // sortedOffers = offers.slice().sort((o1: Offer, o2: Offer) => o2.rating - o1.rating);
-    //       dispacth(changeSortType(Const.SortType.TopRatedFirst));
-    //       break;
-
-    //     case Const.SortType.Popular:
-    //     default:
-    //       // sortedOffers = offers.slice();
-    //       dispacth(changeSortType(Const.SortType.Popular));
-    //       break;
-    //   }
-
-    //   // dispacth(storeSortedOffers(sortedOffers));
-    // }
   };
 
   return (

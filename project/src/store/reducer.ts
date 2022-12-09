@@ -13,7 +13,6 @@ const initialState = {
   offers,
   city: Const.INITIAL_CITY,
   sortType: Const.DEFAULT_SORT_TYPE,
-  // sortedOffers: offers,
   offer: Const.INITIAL_OFFER,
   formData,
 };
@@ -29,9 +28,6 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(UserAction.changeSortType, (state, action) => {
       state.sortType = action.payload;
     })
-    // .addCase(UserAction.storeSortedOffers, (state, action) => {
-    //   state.sortedOffers = action.payload;
-    // })
     .addCase(UserAction.changeOffer, (state, action) => {
       if (action.payload) {
         state.offer = action.payload;
