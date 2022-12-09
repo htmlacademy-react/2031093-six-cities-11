@@ -29,7 +29,7 @@ function RoomPage({ offers, selectedOffer, onListItemHover, comments, favoritesQ
   const offer: Offer = offerOptional ? offerOptional : offers[0];
 
   const ratingStyle = {
-    width: `${offer && offer.rating * 20 || 0}%`,
+    width: `${offer ? offer.rating * 20 : 0}%`,
   };
   const bookmarksClassName = `property__bookmark-button ${offer && offer.isFavorite ? 'property__bookmark-button--active ' : ''}button`;
   const nearbyOffers: Offer[] = offers
