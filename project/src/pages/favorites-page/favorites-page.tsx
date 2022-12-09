@@ -8,9 +8,10 @@ import Nav from '../../components/nav/nav';
 
 type FavoritesPageProps = {
   offers: Offer[];
+  onOfferCardClick: (offerId: string) => void;
 }
 
-function FavoritesPage({ offers }: FavoritesPageProps): JSX.Element {
+function FavoritesPage({ offers, onOfferCardClick }: FavoritesPageProps): JSX.Element {
   const favoritesQty = offers.filter((offer) => offer.isFavorite).length;
 
   return (
@@ -39,6 +40,7 @@ function FavoritesPage({ offers }: FavoritesPageProps): JSX.Element {
                   <FavoritesLocations
                     offers={favoriteOffers}
                     city={city}
+                    onOfferCardClick={onOfferCardClick}
                   />
                 );
               })}

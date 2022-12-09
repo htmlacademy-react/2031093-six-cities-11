@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 import { City, Offer } from '../../types/types';
@@ -11,15 +12,22 @@ type MainPageProps = {
   offers: Offer[];
   currentCity: string;
   onLocationClick: (cityName: string) => void;
-  selectedOffer: Offer | undefined;
-  onListItemHover: (listItemName: string) => void;
+  onOfferCardClick: (offerId: string) => void;
   favoritesQty: number;
 }
 
 const MAP_HEIGHT = '850px';
 
-function MainPage({ offers, currentCity, onLocationClick, selectedOffer, onListItemHover, favoritesQty }: MainPageProps): JSX.Element {
+function MainPage({ offers, currentCity, onLocationClick, onOfferCardClick, favoritesQty }: MainPageProps): JSX.Element {
   const placesQty = offers.length;
+
+  const [hoveredOffer, setHoveredOffer] = useState<Offer | undefined>(
+    undefined
+  );
+
+  const onOfferCardHover = (offerId: string) => {
+    setHoveredOffer(offers.find((offer) => offer.id === offerId));
+  };
 
   const cityOffers: Offer[] = offers.filter((offer) => currentCity && offer.city.name === currentCity);
   const selectedCity: City | undefined = offers.map((offer) => offer.city).find((city) => city.name === currentCity);
@@ -71,8 +79,9 @@ function MainPage({ offers, currentCity, onLocationClick, selectedOffer, onListI
               <div className="cities__places-list places__list tabs__content">
                 <OffersList
                   offers={cityOffers}
-                  onListItemHover={onListItemHover}
                   parent={'cities'}
+                  onOfferCardHover={onOfferCardHover}
+                  onOfferCardClick={onOfferCardClick}
                 />
               </div>
             </section>
@@ -82,7 +91,7 @@ function MainPage({ offers, currentCity, onLocationClick, selectedOffer, onListI
                   <Map
                     city={selectedCity}
                     offers={cityOffers}
-                    selectedOffer={selectedOffer}
+                    selectedOffer={hoveredOffer}
                     height={MAP_HEIGHT}
                   />
                 )}

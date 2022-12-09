@@ -29,8 +29,8 @@ function App({ offers, comments }: AppProps): JSX.Element {
   };
 
   const selectedOffer = useAppSelector((state) => state.offer);
-  const onListItemHover = (listItemName: string) => {
-    const newOffer = offers.find((offer) => offer.title === listItemName);
+  const onListItemClick = (listItemId: string) => {
+    const newOffer = offers.find((offer) => offer.id === listItemId);
     if (newOffer) {
       dispatch(changeOffer(newOffer));
     }
@@ -49,8 +49,7 @@ function App({ offers, comments }: AppProps): JSX.Element {
                 offers={cityOffers}
                 currentCity={currentCity}
                 onLocationClick={onLocationClick}
-                selectedOffer={selectedOffer}
-                onListItemHover={onListItemHover}
+                onOfferCardClick={onListItemClick}
                 favoritesQty={favoritesQty}
               />
             }
@@ -65,6 +64,7 @@ function App({ offers, comments }: AppProps): JSX.Element {
               <PrivateRoute authorizationStatus={AuthorizationStatus.Auth} >
                 <FavoritesPage
                   offers={offers}
+                  onOfferCardClick={onListItemClick}
                 />
               </PrivateRoute>
             }
@@ -75,9 +75,9 @@ function App({ offers, comments }: AppProps): JSX.Element {
               <RoomPage
                 offers={offers}
                 selectedOffer={selectedOffer}
-                onListItemHover={onListItemHover}
                 comments={comments}
                 favoritesQty={favoritesQty}
+                onOfferCardClick={onListItemClick}
                 onOfferReviewFormSubmit={() => {
                   throw new Error('Function \'onAnswer\' isn\'t implemented.');
                 }}

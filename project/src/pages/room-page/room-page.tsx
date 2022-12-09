@@ -1,4 +1,5 @@
-import { useParams } from 'react-router-dom';
+import { useState } from 'react';
+// import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
 import { Offer, Comment } from '../../types/types';
@@ -14,27 +15,30 @@ import ReviewForm from '../../components/review-form/review-form';
 type RoomPageProps = {
   offers: Offer[];
   selectedOffer: Offer | undefined;
-  onListItemHover: (listItemName: string) => void;
   comments: Comment[];
   favoritesQty: number;
+  onOfferCardClick: (offerId: string) => void;
   onOfferReviewFormSubmit: () => void;
 }
 
 const MAP_HEIGHT = '579px';
 
-function RoomPage({ offers, selectedOffer, onListItemHover, comments, favoritesQty, onOfferReviewFormSubmit }: RoomPageProps): JSX.Element {
-  const params = useParams();
-  const {id} = params;
-  const offerOptional: Offer | undefined = offers.find((o) => o.id === id);
-  const offer: Offer = offerOptional ? offerOptional : offers[0];
-
+function RoomPage({ offers, selectedOffer: offer, comments, favoritesQty, onOfferCardClick, onOfferReviewFormSubmit }: RoomPageProps): JSX.Element {
   const ratingStyle = {
     width: `${offer ? offer.rating * 20 : 0}%`,
   };
   const bookmarksClassName = `property__bookmark-button ${offer && offer.isFavorite ? 'property__bookmark-button--active ' : ''}button`;
   const nearbyOffers: Offer[] = offers
-    .filter((ofr) => offer.city.name && ofr.id !== offer.id)
+    .filter((o) => offer && o.id !== offer.id)
     .slice(0, 3);
+
+  const [hoveredOffer, setHoveredOffer] = useState<Offer | undefined>(
+    undefined
+  );
+
+  const onOfferCardHover = (offerId: string) => {
+    setHoveredOffer(offers.find((o) => o.id === offerId));
+  };
 
   return (
     <div className="page">
@@ -136,7 +140,7 @@ function RoomPage({ offers, selectedOffer, onListItemHover, comments, favoritesQ
               <Map
                 city={offer.city}
                 offers={nearbyOffers}
-                selectedOffer={selectedOffer}
+                selectedOffer={hoveredOffer}
                 height={MAP_HEIGHT}
               />}
           </section>
@@ -147,8 +151,9 @@ function RoomPage({ offers, selectedOffer, onListItemHover, comments, favoritesQ
             <div className="near-places__list places__list">
               <OffersList
                 offers={nearbyOffers}
-                onListItemHover={onListItemHover}
                 parent={'near-places'}
+                onOfferCardHover={onOfferCardHover}
+                onOfferCardClick={onOfferCardClick}
               />
             </div>
           </section>

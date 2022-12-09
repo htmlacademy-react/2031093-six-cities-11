@@ -42,6 +42,8 @@ function Map({ city, offers, selectedOffer, height, width }: MapProps): JSX.Elem
   }
 
   useEffect(() => {
+    const markerGroup: Marker[] = [];
+
     if (map) {
       offers.forEach((offer) => {
         const marker = new Marker({
@@ -56,8 +58,11 @@ function Map({ city, offers, selectedOffer, height, width }: MapProps): JSX.Elem
               : defaultCustomIcon
           )
           .addTo(map);
+        markerGroup.push(marker);
       });
     }
+
+    return () => markerGroup.forEach((marker) => marker.remove());
   }, [map, offers, selectedOffer]);
 
   return <div style={style} ref={mapRef}></div>;

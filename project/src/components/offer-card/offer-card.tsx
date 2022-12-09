@@ -8,9 +8,10 @@ type OfferCardProps = {
   offer: Offer;
   parent: string;
   onMouseEnter?: (event: MouseEvent<HTMLLIElement>) => void;
+  onClick?: (event: MouseEvent<HTMLLIElement>) => void;
 }
 
-function OfferCard({ offer, parent, onMouseEnter }: OfferCardProps): JSX.Element {
+function OfferCard({ offer, parent, onMouseEnter, onClick }: OfferCardProps): JSX.Element {
   const style = {
     width: `${offer.rating * 20}%`,
   };
@@ -26,10 +27,17 @@ function OfferCard({ offer, parent, onMouseEnter }: OfferCardProps): JSX.Element
     }
   };
 
+  const handleClick = (evt: MouseEvent<HTMLLIElement>) => {
+    if (onClick) {
+      onClick(evt);
+    }
+  };
+
   return (
-    <article
+    <article data-id={offer.id}
       className={`${parent}__card place-card`}
       onMouseEnter={handleMouseEnter}
+      onClick={handleClick}
     >
       {offer.isPremium ?
         <div className="place-card__mark">

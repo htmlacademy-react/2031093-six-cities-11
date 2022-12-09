@@ -6,17 +6,27 @@ import OfferCard from '../../components/offer-card/offer-card';
 type OffersListProps = {
   offers: Offer[];
   parent: string;
-  onListItemHover: (listItemName: string) => void;
+  onOfferCardHover: (offerId: string) => void;
+  onOfferCardClick: (offerId: string) => void;
 }
 
-function OffersList({ offers, parent, onListItemHover }: OffersListProps): JSX.Element {
-  const handleListItemHover = (event: MouseEvent<HTMLLIElement>) => {
-    event.preventDefault();
-
-    const cardTitleElement: HTMLLIElement | null = event.currentTarget.querySelector('.place-card__name a');
-    if (cardTitleElement) {
-      onListItemHover(cardTitleElement.innerText);
+function OffersList({ offers, parent, onOfferCardHover, onOfferCardClick }: OffersListProps): JSX.Element {
+  const handleOfferCardMouseEvent = (evt: MouseEvent<HTMLLIElement>, callback: (offerId: string) => void) => {
+    evt.preventDefault();
+    const cardElement: HTMLLIElement | null = evt.currentTarget;
+    if (cardElement && cardElement.dataset.id) {
+      callback(cardElement.dataset.id);
     }
+  };
+
+  const handleOfferCardHover = (evt: MouseEvent<HTMLLIElement>) => {
+    evt.preventDefault();
+    handleOfferCardMouseEvent(evt, onOfferCardHover);
+  };
+
+  const handleOfferCardClick = (evt: MouseEvent<HTMLLIElement>) => {
+    evt.preventDefault();
+    handleOfferCardMouseEvent(evt, onOfferCardClick);
   };
 
   return (
@@ -25,7 +35,8 @@ function OffersList({ offers, parent, onListItemHover }: OffersListProps): JSX.E
         <OfferCard
           offer={offer}
           parent={parent}
-          onMouseEnter={handleListItemHover}
+          onMouseEnter={handleOfferCardHover}
+          onClick={handleOfferCardClick}
           key={`${parent}-${offer.id}`}
         />
       ))}
