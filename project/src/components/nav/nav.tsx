@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../utils/constants';
 
-function Nav(): JSX.Element {
+type NavProps = {
+  offersQty: number;
+}
+
+function Nav({ offersQty }: NavProps): JSX.Element {
   return (
     <nav className="header__nav">
       <ul className="header__nav-list">
@@ -10,7 +14,7 @@ function Nav(): JSX.Element {
             <div className="header__avatar-wrapper user__avatar-wrapper">
             </div>
             <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-            <span className="header__favorite-count">3</span>
+            <span className="header__favorite-count">{offersQty}</span>
           </Link>
         </li>
         <li className="header__nav-item">

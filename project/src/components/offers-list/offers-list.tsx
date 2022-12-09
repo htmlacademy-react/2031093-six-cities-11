@@ -1,14 +1,15 @@
 import { MouseEvent } from 'react';
+
 import { Offer } from '../../types/types';
 import OfferCard from '../../components/offer-card/offer-card';
 
 type OffersListProps = {
   offers: Offer[];
-  onListItemHover: (listItemName: string) => void;
   parent: string;
+  onListItemHover: (listItemName: string) => void;
 }
 
-function OffersList({ offers, onListItemHover, parent }: OffersListProps): JSX.Element {
+function OffersList({ offers, parent, onListItemHover }: OffersListProps): JSX.Element {
   const handleListItemHover = (event: MouseEvent<HTMLLIElement>) => {
     event.preventDefault();
 
@@ -23,8 +24,8 @@ function OffersList({ offers, onListItemHover, parent }: OffersListProps): JSX.E
       {Object.values(offers).map((offer: Offer) => (
         <OfferCard
           offer={offer}
-          onMouseEnter={handleListItemHover}
           parent={parent}
+          onMouseEnter={handleListItemHover}
           key={`${parent}-${offer.id}`}
         />
       ))}

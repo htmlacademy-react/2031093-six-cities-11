@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
+
 import { City, Offer } from '../../types/types';
-import { CITIES } from '../../utils/constants';
-import LocationsListItem from '../../components/locations-list-item/locations-list-item';
+import LocationsList from '../../components/locations-list/locations-list';
 import Logo from '../../components/logo/logo';
 import Map from '../../components/map/map';
 import Nav from '../../components/nav/nav';
@@ -13,11 +13,12 @@ type MainPageProps = {
   onLocationClick: (cityName: string) => void;
   selectedOffer: Offer | undefined;
   onListItemHover: (listItemName: string) => void;
+  favoritesQty: number;
 }
 
 const MAP_HEIGHT = '850px';
 
-function MainPage({ offers, currentCity, onLocationClick, selectedOffer, onListItemHover }: MainPageProps): JSX.Element {
+function MainPage({ offers, currentCity, onLocationClick, selectedOffer, onListItemHover, favoritesQty }: MainPageProps): JSX.Element {
   const placesQty = offers.length;
 
   const cityOffers: Offer[] = offers.filter((offer) => currentCity && offer.city.name === currentCity);
@@ -32,7 +33,7 @@ function MainPage({ offers, currentCity, onLocationClick, selectedOffer, onListI
         <div className="container">
           <div className="header__wrapper">
             <Logo />
-            <Nav />
+            <Nav offersQty={favoritesQty} />
           </div>
         </div>
       </header>
@@ -41,23 +42,17 @@ function MainPage({ offers, currentCity, onLocationClick, selectedOffer, onListI
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <ul className="locations__list tabs__list">
-              {CITIES.map((city: string) => (
-                <LocationsListItem
-                  city={city}
-                  onLocationClick={onLocationClick}
-                  isActive={currentCity === city}
-                  key={`location-${city}`}
-                />
-              ))}
-            </ul>
+            <LocationsList
+              currentCity={currentCity}
+              onLocationClick={onLocationClick}
+            />
           </section>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{placesQty} places to stay in Amsterdam</b>
+              <b className="places__found">{placesQty} places to stay in {currentCity}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -83,7 +78,7 @@ function MainPage({ offers, currentCity, onLocationClick, selectedOffer, onListI
             </section>
             <div id="map" className="cities__right-section">
               <section className="cities__map map">
-                {cityOffers && (cityOffers.length > 0) && selectedCity && (
+                {selectedCity && cityOffers && (
                   <Map
                     city={selectedCity}
                     offers={cityOffers}
