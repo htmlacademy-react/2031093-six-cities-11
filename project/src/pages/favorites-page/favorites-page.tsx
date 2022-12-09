@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+
+import { useAppSelector } from '../../hooks/index';
 import { Offer } from '../../types/types';
 import * as Const from '../../utils/constants';
 import FavoritesLocations from '../../components/favorites-locations/favorites-locations';
@@ -7,10 +9,11 @@ import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
 
 type FavoritesPageProps = {
-  offers: Offer[];
+  onOfferCardClick: (offerId: string) => void;
 }
 
-function FavoritesPage({ offers }: FavoritesPageProps): JSX.Element {
+function FavoritesPage({ onOfferCardClick }: FavoritesPageProps): JSX.Element {
+  const offers: Offer[] = useAppSelector((state) => state.offers);
   const favoritesQty = offers.filter((offer) => offer.isFavorite).length;
 
   return (
@@ -33,12 +36,13 @@ function FavoritesPage({ offers }: FavoritesPageProps): JSX.Element {
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
               {Const.CITIES.map((city) => {
-                const favoriteOffers = Object.values(offers)
-                  .filter((offer: Offer) => offer.city.name === city);
+                const favoriteOffers = Object.values(offers).filter((offer: Offer) => offer.city.name === city);
                 return (favoriteOffers.length > 0) && (
                   <FavoritesLocations
                     offers={favoriteOffers}
                     city={city}
+                    onOfferCardClick={onOfferCardClick}
+                    key={city}
                   />
                 );
               })}

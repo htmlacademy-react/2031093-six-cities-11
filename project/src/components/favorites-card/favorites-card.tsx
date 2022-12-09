@@ -1,3 +1,4 @@
+import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Offer } from '../../types/types';
@@ -5,9 +6,10 @@ import { AppRoute } from '../../utils/constants';
 
 type FavoriteOfferProps = {
   offer: Offer;
+  onClick?: (event: MouseEvent<HTMLLIElement>) => void;
 }
 
-function FavoritesCard({ offer }: FavoriteOfferProps): JSX.Element {
+function FavoritesCard({ offer, onClick }: FavoriteOfferProps): JSX.Element {
   const style = {
     width: `${offer.rating * 20}%`,
   };
@@ -15,8 +17,17 @@ function FavoritesCard({ offer }: FavoriteOfferProps): JSX.Element {
   const photo = (images.length > 0) ? images[0] : '';
   const route = AppRoute.Room.slice(0, AppRoute.Room.indexOf(':'));
 
+  const handleClick = (evt: MouseEvent<HTMLLIElement>) => {
+    if (onClick) {
+      onClick(evt);
+    }
+  };
+
   return (
-    <article className="favorites__card place-card">
+    <article data-id={offer.id}
+      className="favorites__card place-card"
+      onClick={handleClick}
+    >
       {offer.isPremium ?
         <div className="place-card__mark">
           <span>Premium</span>

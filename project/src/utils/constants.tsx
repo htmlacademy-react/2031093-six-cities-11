@@ -1,8 +1,8 @@
 import { Offer } from '../types/types';
 
 export const OFFERS_QUANTITY = 4;
-export const URL_MARKER_DEFAULT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
-export const URL_MARKER_CURRENT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
+export const URL_MARKER_DEFAULT = './img/pin.svg';
+export const URL_MARKER_CURRENT = './img/pin-active.svg';
 
 
 export const INITIAL_OFFER: Offer | undefined = undefined;
@@ -44,3 +44,11 @@ export enum ApartmentType {
   House = 'house',
   Hotel = 'hotel',
 }
+
+export enum SortType {
+  Popular = 'Popular',
+  PriceLowToHigh = 'Price: low to high',
+  PriceHighToLow = 'Price: high to low',
+  TopRatedFirst = 'Top rated first'
+}
+export const DEFAULT_SORT_TYPE = SortType.Popular;

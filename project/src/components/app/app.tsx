@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { changeCity, getCityOffers, changeOffer } from '../../store/action';
+import { useAppDispatch } from '../../hooks';
+import { changeCity, storeOffers, changeOffer } from '../../store/action';
 import { AppRoute, AuthorizationStatus } from '../../utils/constants';
 import { Offer, Comment } from '../../types/types';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
@@ -20,17 +20,14 @@ type AppProps = {
 function App({ offers, comments }: AppProps): JSX.Element {
   const dispatch = useAppDispatch();
 
-  const currentCity = useAppSelector((state) => state.city);
-  const cityOffers = useAppSelector((state) => state.offers);
   const onLocationClick = (cityName: string) => {
     dispatch(changeCity(cityName));
-    dispatch(getCityOffers(offers
+    dispatch(storeOffers(offers
       .filter((offer) => offer.city.name === cityName)));
   };
 
-  const selectedOffer = useAppSelector((state) => state.offer);
-  const onListItemHover = (listItemName: string) => {
-    const newOffer = offers.find((offer) => offer.title === listItemName);
+  const onListItemClick = (listItemId: string) => {
+    const newOffer = offers.find((offer) => offer.id === listItemId);
     if (newOffer) {
       dispatch(changeOffer(newOffer));
     }
@@ -46,11 +43,8 @@ function App({ offers, comments }: AppProps): JSX.Element {
             path={AppRoute.Main}
             element={
               <MainPage
-                offers={cityOffers}
-                currentCity={currentCity}
                 onLocationClick={onLocationClick}
-                selectedOffer={selectedOffer}
-                onListItemHover={onListItemHover}
+                onOfferCardClick={onListItemClick}
                 favoritesQty={favoritesQty}
               />
             }
@@ -64,7 +58,7 @@ function App({ offers, comments }: AppProps): JSX.Element {
             element={
               <PrivateRoute authorizationStatus={AuthorizationStatus.Auth} >
                 <FavoritesPage
-                  offers={offers}
+                  onOfferCardClick={onListItemClick}
                 />
               </PrivateRoute>
             }
@@ -73,11 +67,9 @@ function App({ offers, comments }: AppProps): JSX.Element {
             path={AppRoute.Room}
             element={
               <RoomPage
-                offers={offers}
-                selectedOffer={selectedOffer}
-                onListItemHover={onListItemHover}
                 comments={comments}
                 favoritesQty={favoritesQty}
+                onOfferCardClick={onListItemClick}
                 onOfferReviewFormSubmit={() => {
                   throw new Error('Function \'onAnswer\' isn\'t implemented.');
                 }}

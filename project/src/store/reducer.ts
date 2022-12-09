@@ -10,19 +10,23 @@ const formData: FormData = {
   text: '',
 };
 const initialState = {
-  city: Const.INITIAL_CITY,
   offers,
+  city: Const.INITIAL_CITY,
+  sortType: Const.DEFAULT_SORT_TYPE,
   offer: Const.INITIAL_OFFER,
   formData,
 };
 
 const reducer = createReducer(initialState, (builder) => {
   builder
+    .addCase(UserAction.storeOffers, (state, action) => {
+      state.offers = action.payload;
+    })
     .addCase(UserAction.changeCity, (state, action) => {
       state.city = action.payload;
     })
-    .addCase(UserAction.getCityOffers, (state, action) => {
-      state.offers = action.payload;
+    .addCase(UserAction.changeSortType, (state, action) => {
+      state.sortType = action.payload;
     })
     .addCase(UserAction.changeOffer, (state, action) => {
       if (action.payload) {
