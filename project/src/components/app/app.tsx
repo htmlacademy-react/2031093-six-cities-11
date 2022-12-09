@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { changeCity, getCityOffers, changeOffer } from '../../store/action';
+import { changeCity, storeOffers, changeOffer } from '../../store/action';
 import { AppRoute, AuthorizationStatus } from '../../utils/constants';
 import { Offer, Comment } from '../../types/types';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
@@ -24,7 +24,7 @@ function App({ offers, comments }: AppProps): JSX.Element {
   const cityOffers = useAppSelector((state) => state.offers);
   const onLocationClick = (cityName: string) => {
     dispatch(changeCity(cityName));
-    dispatch(getCityOffers(offers
+    dispatch(storeOffers(offers
       .filter((offer) => offer.city.name === cityName)));
   };
 
