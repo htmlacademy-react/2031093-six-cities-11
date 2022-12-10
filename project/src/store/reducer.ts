@@ -1,16 +1,24 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { offers } from '../mock/offers';
-import { FormData } from '../types/types';
+import * as Type from '../types/types';
 import * as UserAction from './action';
 import * as Const from '../utils/constants';
 
-const formData: FormData = {
+type InitalState = {
+  offers: Type.Offer[];
+  city: string;
+  sortType: Const.SortType;
+  offer: Type.Offer | undefined;
+  formData: Type.FormData;
+  authorizationStatus: Const.AuthorizationStatus;
+}
+
+const formData: Type.FormData = {
   rating: Const.Rating.ZeroStar,
   text: '',
 };
-const initialState = {
-  offers,
+const initialState: InitalState = {
+  offers: [],
   city: Const.INITIAL_CITY,
   sortType: Const.DEFAULT_SORT_TYPE,
   offer: Const.INITIAL_OFFER,

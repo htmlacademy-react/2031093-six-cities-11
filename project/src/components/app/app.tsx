@@ -13,11 +13,11 @@ import RoomPage from '../../pages/room-page/room-page';
 import PrivateRoute from '../../components/private-route/private-route';
 
 type AppProps = {
-  offers: Offer[];
+  // offers: Offer[];
   comments: Comment[];
 };
 
-function App({ offers, comments }: AppProps): JSX.Element {
+function App({ comments }: AppProps): JSX.Element {
   const dispatch = useAppDispatch();
 
   const onLocationClick = (cityName: string) => {
