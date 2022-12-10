@@ -19,7 +19,7 @@ const initialState = {
 
 const reducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(UserAction.storeOffers, (state, action) => {
+    .addCase(UserAction.loadOffers, (state, action) => {
       state.offers = action.payload;
     })
     .addCase(UserAction.changeCity, (state, action) => {
