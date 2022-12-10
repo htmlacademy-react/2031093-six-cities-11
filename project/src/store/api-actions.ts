@@ -1,9 +1,9 @@
 import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
+import * as Action from './action';
 import { AppDispatch, State } from '../types/state.js';
 import { Offer } from '../types/types';
-import { loadOffers, requireAuthorization, setError } from './action';
 import { saveToken, dropToken } from '../services/token';
 import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../utils/constants';
 import { AuthData } from '../types/auth-data';
@@ -14,7 +14,7 @@ export const clearErrorAction = createAsyncThunk(
   'data/clearError',
   () => {
     setTimeout(
-      () => store.dispatch(setError(null)),
+      () => store.dispatch(Action.setError(null)),
       TIMEOUT_SHOW_ERROR,
     );
   },
@@ -29,9 +29,9 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   async (_arg, {dispatch, extra: api}) => {
     try {
       await api.get(APIRoute.Login);
-      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      dispatch(Action.requireAuthorization(AuthorizationStatus.Auth));
     } catch {
-      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+      dispatch(Action.requireAuthorization(AuthorizationStatus.NoAuth));
     }
   },
 );
@@ -45,7 +45,7 @@ export const loginAction = createAsyncThunk<void, AuthData, {
   async ({login: email, password}, {dispatch, extra: api}) => {
     const {data: {token}} = await api.post<UserData>(APIRoute.Login, {email, password});
     saveToken(token);
-    dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    dispatch(Action.requireAuthorization(AuthorizationStatus.Auth));
   },
 );
 
@@ -58,7 +58,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   async (_arg, {dispatch, extra: api}) => {
     await api.delete(APIRoute.Logout);
     dropToken();
-    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    dispatch(Action.requireAuthorization(AuthorizationStatus.NoAuth));
   },
 );
 
@@ -70,6 +70,8 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
   'data/fetchOffers',
   async (_arg, {dispatch, extra: api}) => {
     const {data} = await api.get<Offer[]>(APIRoute.GetOffers);
-    dispatch(loadOffers(data));
+    dispatch(Action.changeOffersDataLoadingStatus(true));
+    dispatch(Action.loadOffers(data));
+    dispatch(Action.changeOffersDataLoadingStatus(false));
   },
 );

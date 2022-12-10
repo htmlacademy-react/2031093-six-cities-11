@@ -19,7 +19,7 @@ export type Host = {
 }
 
 export type Offer = {
-  id: string;//TODO type number after test
+  id: number;
   bedrooms: number;
   city: City;
   description: string;
@@ -38,12 +38,12 @@ export type Offer = {
 }
 
 export type Comment = {
-  id: string;//TODO type number after test
+  id: number;
   comment: string;
   date: string;
   rating: number;
   user: {
-    id: string;//TODO type number after test
+    id: number;
     avatarUrl: string;
     isPro: boolean;
     name: string;

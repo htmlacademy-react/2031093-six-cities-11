@@ -4,11 +4,12 @@ import { Provider } from 'react-redux';
 
 import App from './components/app/app';
 import ErrorMessage from './components/error-message/error-message';
-import { checkAuthAction } from './store/api-actions';
+import { checkAuthAction, fetchOffersAction } from './store/api-actions';
 import { store } from '../src/store/index';
 import { comments } from './mock/comments';//TODO remove this mock
 
 store.dispatch(checkAuthAction());
+store.dispatch(fetchOffersAction());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,

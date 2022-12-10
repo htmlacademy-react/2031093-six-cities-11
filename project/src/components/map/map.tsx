@@ -63,7 +63,7 @@ function Map({ city, offers, selectedOffer, height, width }: MapProps): JSX.Elem
     }
 
     return () => markerGroup.forEach((marker) => marker.remove());
-  }, [map, offers, selectedOffer]);
+  }, [map, city, offers, selectedOffer]);
 
   return <div style={style} ref={mapRef}></div>;
 }

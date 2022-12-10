@@ -9,7 +9,7 @@ import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
 
 type FavoritesPageProps = {
-  onOfferCardClick: (offerId: string) => void;
+  onOfferCardClick: (offerId: number, offers: Offer[]) => void;
 }
 
 function FavoritesPage({ onOfferCardClick }: FavoritesPageProps): JSX.Element {

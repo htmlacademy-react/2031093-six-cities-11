@@ -7,7 +7,7 @@ import FavoritesCard from '../../components/favorites-card/favorites-card';
 type FavoritesLocationsProps = {
   offers: Offer[];
   city: string;
-  onOfferCardClick: (offerId: string) => void;
+  onOfferCardClick: (offerId: number, offers: Offer[]) => void;
 }
 
 function FavoritesLocations({ offers, city, onOfferCardClick }: FavoritesLocationsProps): JSX.Element {
@@ -16,7 +16,7 @@ function FavoritesLocations({ offers, city, onOfferCardClick }: FavoritesLocatio
 
     const cardElement: HTMLLIElement | null = event.currentTarget;
     if (cardElement && cardElement.dataset.id) {
-      onOfferCardClick(cardElement.dataset.id);
+      onOfferCardClick(+cardElement.dataset.id, offers);
     }
   };
 

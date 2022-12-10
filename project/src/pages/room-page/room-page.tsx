@@ -14,14 +14,13 @@ import ReviewForm from '../../components/review-form/review-form';
 
 type RoomPageProps = {
   comments: Comment[];
-  favoritesQty: number;
-  onOfferCardClick: (offerId: string) => void;
+  onOfferCardClick: (offerId: number, offers: Offer[]) => void;
   onOfferReviewFormSubmit: () => void;
 }
 
 const MAP_HEIGHT = '579px';
 
-function RoomPage({ comments, favoritesQty, onOfferCardClick, onOfferReviewFormSubmit }: RoomPageProps): JSX.Element {
+function RoomPage({ comments, onOfferCardClick, onOfferReviewFormSubmit }: RoomPageProps): JSX.Element {
   const offers: Offer[] = useAppSelector((state) => state.offers);
   const offer: Offer | undefined = useAppSelector((state) => state.offer);
   const ratingStyle = {
@@ -31,14 +30,11 @@ function RoomPage({ comments, favoritesQty, onOfferCardClick, onOfferReviewFormS
   const nearbyOffers: Offer[] = offers
     .filter((o) => offer && o.id !== offer.id)
     .slice(0, 3);
+  const favoritesQty = offers.filter((o) => o.isFavorite).length;
 
   const [hoveredOffer, setHoveredOffer] = useState<Offer | undefined>(
     undefined
   );
-
-  const onOfferCardHover = (offerId: string) => {
-    setHoveredOffer(offers.find((o) => o.id === offerId));
-  };
 
   return (
     <div className="page">
@@ -152,7 +148,7 @@ function RoomPage({ comments, favoritesQty, onOfferCardClick, onOfferReviewFormS
               <OffersList
                 offers={nearbyOffers}
                 parent={'near-places'}
-                onOfferCardHover={onOfferCardHover}
+                setHoveredOffer={setHoveredOffer}
                 onOfferCardClick={onOfferCardClick}
               />
             </div>

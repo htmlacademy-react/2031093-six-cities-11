@@ -12,6 +12,7 @@ type InitalState = {
   formData: Type.FormData;
   authorizationStatus: Const.AuthorizationStatus;
   error: string | null;
+  isOffersDataLoading: boolean;
 }
 
 const formData: Type.FormData = {
@@ -26,12 +27,22 @@ const initialState: InitalState = {
   formData,
   authorizationStatus: Const.AuthorizationStatus.Unknown,
   error: null,
+  isOffersDataLoading: false,
 };
 
 const reducer = createReducer(initialState, (builder) => {
   builder
+    .addCase(Action.setError, (state, action) => {
+      state.error = action.payload;
+    })
     .addCase(Action.loadOffers, (state, action) => {
       state.offers = action.payload;
+    })
+    .addCase(Action.changeOffersDataLoadingStatus, (state, action) => {
+      state.isOffersDataLoading = action.payload;
+    })
+    .addCase(Action.requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
     })
     .addCase(Action.changeCity, (state, action) => {
       state.city = action.payload;
@@ -46,12 +57,6 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(Action.changeFormData, (state, action) => {
       state.formData = action.payload;
-    })
-    .addCase(Action.requireAuthorization, (state, action) => {
-      state.authorizationStatus = action.payload;
-    })
-    .addCase(Action.setError, (state, action) => {
-      state.error = action.payload;
     });
 });
 

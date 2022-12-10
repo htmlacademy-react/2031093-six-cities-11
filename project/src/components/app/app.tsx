@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
-import { useAppDispatch } from '../../hooks';
-import { changeCity, loadOffers, changeOffer } from '../../store/action';
-import { AppRoute, AuthorizationStatus } from '../../utils/constants';
+import { useAppSelector, useAppDispatch } from '../../hooks';
+import { changeOffer } from '../../store/action';
+import { AppRoute } from '../../utils/constants';
 import { Offer, Comment } from '../../types/types';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import LoginPage from '../../pages/login-page/login-page';
@@ -12,28 +12,25 @@ import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import RoomPage from '../../pages/room-page/room-page';
 import PrivateRoute from '../../components/private-route/private-route';
 
+//TODO Line to remove before 7.15 homework pull request
+//TODO Line to remove before 7.16 homework pull request
+//TODO Line to remove before 7.17 homework pull request
+
 type AppProps = {
-  // offers: Offer[];
   comments: Comment[];
 };
 
 function App({ comments }: AppProps): JSX.Element {
   const dispatch = useAppDispatch();
 
-  const onLocationClick = (cityName: string) => {
-    dispatch(changeCity(cityName));
-    dispatch(loadOffers(offers
-      .filter((offer) => offer.city.name === cityName)));
-  };
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
-  const onListItemClick = (listItemId: string) => {
+  const onListItemClick = (listItemId: number, offers: Offer[]) => {
     const newOffer = offers.find((offer) => offer.id === listItemId);
     if (newOffer) {
       dispatch(changeOffer(newOffer));
     }
   };
-
-  const favoritesQty = offers.filter((offer) => offer.isFavorite).length;
 
   return (
     <HelmetProvider>
@@ -43,9 +40,7 @@ function App({ comments }: AppProps): JSX.Element {
             path={AppRoute.Main}
             element={
               <MainPage
-                onLocationClick={onLocationClick}
                 onOfferCardClick={onListItemClick}
-                favoritesQty={favoritesQty}
               />
             }
           />
@@ -56,7 +51,7 @@ function App({ comments }: AppProps): JSX.Element {
           <Route
             path={AppRoute.Favorites}
             element={
-              <PrivateRoute authorizationStatus={AuthorizationStatus.Auth} >
+              <PrivateRoute authorizationStatus={authorizationStatus} >
                 <FavoritesPage
                   onOfferCardClick={onListItemClick}
                 />
@@ -68,7 +63,6 @@ function App({ comments }: AppProps): JSX.Element {
             element={
               <RoomPage
                 comments={comments}
-                favoritesQty={favoritesQty}
                 onOfferCardClick={onListItemClick}
                 onOfferReviewFormSubmit={() => {
                   throw new Error('Function \'onAnswer\' isn\'t implemented.');
