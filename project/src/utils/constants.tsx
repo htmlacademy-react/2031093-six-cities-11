@@ -27,12 +27,12 @@ export enum Rating {
 
 export enum APIRoute {
   GetOffers = '/hotels',
-  GetOffer = '/hotels/{hotelId}',
-  GetNearbyOffers = '/hotels/{hotelId}/nearby',
-  GetFavoriteList = '/favorite',
-  PostFavoriteSrarus = '/favorite/{hotelId}/{status}',
-  GetCommentList = '/comments/{hotelId}',
-  PostNewComment = '/comments/{hotelId}',
+  GetOffer = '/hotels/{hotelId}',//TODO
+  GetNearbyOffers = '/hotels/{hotelId}/nearby',//TODO
+  GetFavoriteList = '/favorite',//TODO
+  PostFavoriteSrarus = '/favorite/{hotelId}/{status}',//TODO
+  GetOfferComments = '/comments/{hotelId}',//TODO
+  PostNewOfferComment = '/comments/{hotelId}',//TODO
   Login = '/login',
   Logout = '/logout',
 }

@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 
 import * as Type from '../types/types';
-import * as UserAction from './action';
+import * as Action from './action';
 import * as Const from '../utils/constants';
 
 type InitalState = {
@@ -11,6 +11,7 @@ type InitalState = {
   offer: Type.Offer | undefined;
   formData: Type.FormData;
   authorizationStatus: Const.AuthorizationStatus;
+  error: string | null;
 }
 
 const formData: Type.FormData = {
@@ -24,29 +25,33 @@ const initialState: InitalState = {
   offer: Const.INITIAL_OFFER,
   formData,
   authorizationStatus: Const.AuthorizationStatus.Unknown,
+  error: null,
 };
 
 const reducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(UserAction.loadOffers, (state, action) => {
+    .addCase(Action.loadOffers, (state, action) => {
       state.offers = action.payload;
     })
-    .addCase(UserAction.changeCity, (state, action) => {
+    .addCase(Action.changeCity, (state, action) => {
       state.city = action.payload;
     })
-    .addCase(UserAction.changeSortType, (state, action) => {
+    .addCase(Action.changeSortType, (state, action) => {
       state.sortType = action.payload;
     })
-    .addCase(UserAction.changeOffer, (state, action) => {
+    .addCase(Action.changeOffer, (state, action) => {
       if (action.payload) {
         state.offer = action.payload;
       }
     })
-    .addCase(UserAction.changeFormData, (state, action) => {
+    .addCase(Action.changeFormData, (state, action) => {
       state.formData = action.payload;
     })
-    .addCase(UserAction.requireAuthorization, (state, action) => {
+    .addCase(Action.requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
+    })
+    .addCase(Action.setError, (state, action) => {
+      state.error = action.payload;
     });
 });
 

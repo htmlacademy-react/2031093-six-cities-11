@@ -10,3 +10,4 @@ export const changeSortType = createAction<SortType>('offers/changeSortType');
 export const changeOffer = createAction<Offer | undefined>('offers/changeOffer');
 export const changeFormData = createAction<FormData>('offers/changeFormData');
 export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
+export const setError = createAction<string | null>('data/setError');
