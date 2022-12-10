@@ -15,6 +15,7 @@ const initialState = {
   sortType: Const.DEFAULT_SORT_TYPE,
   offer: Const.INITIAL_OFFER,
   formData,
+  authorizationStatus: Const.AuthorizationStatus.Unknown,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -35,6 +36,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(UserAction.changeFormData, (state, action) => {
       state.formData = action.payload;
+    })
+    .addCase(UserAction.requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
     });
 });
 
