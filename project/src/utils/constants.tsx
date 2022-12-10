@@ -25,6 +25,18 @@ export enum Rating {
   FiveStar = 5,
 }
 
+export enum APIRoute {
+  GetOffers = '/hotels',
+  GetOffer = '/hotels/{hotelId}',
+  GetNearbyOffers = '/hotels/{hotelId}/nearby',
+  GetFavoriteList = '/favorite',
+  PostFavoriteSrarus = '/favorite/{hotelId}/{status}',
+  GetCommentList = '/comments/{hotelId}',
+  PostNewComment = '/comments/{hotelId}',
+  Login = '/login',
+  Logout = '/logout',
+}
+
 export enum AppRoute {
   Main = '/',
   Login = '/login',
