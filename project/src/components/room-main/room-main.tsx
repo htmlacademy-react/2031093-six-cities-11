@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { useAppSelector } from '../../hooks/index';
 import { Offer, Comment } from '../../types/types';
+import { AuthorizationStatus } from '../../utils/constants';
 import GalaryCard from '../galary-card/galary-card';
 import InsideItemCard from '../inside-item-card/inside-item-card';
 import OffersList from '../offers-list/offers-list';
@@ -9,16 +10,13 @@ import ReviewList from '../review-list/review-list';
 import ReviewForm from '../review-form/review-form';
 import Map from '../map/map';
 
-type RoomPageProps = {
-  comments: Comment[];
-  onOfferReviewFormSubmit: () => void;
-}
-
 const MAP_HEIGHT = '579px';
 
-function RoomMain({ comments, onOfferReviewFormSubmit }: RoomPageProps): JSX.Element {
+function RoomMain(): JSX.Element {
+  const authorizationStatus: AuthorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const offer: Offer | undefined = useAppSelector((state) => state.offer);
   const nearbyOffers: Offer[] = useAppSelector((state) => state.nearbyOffers);
+  const comments: Comment[] = useAppSelector((state) => state.comments);
 
   const ratingStyle = {
     width: `${offer ? offer.rating * 20 : 0}%`,
@@ -105,9 +103,13 @@ function RoomMain({ comments, onOfferReviewFormSubmit }: RoomPageProps): JSX.Ele
               </div>
             </div>
             <section className="property__reviews reviews">
-              <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
-              <ReviewList />
-              <ReviewForm onSubmit={onOfferReviewFormSubmit} />
+              <h2 className="reviews__title">Reviews &middot;
+                <span className="reviews__amount">{comments.length}</span>
+              </h2>
+              <ReviewList comments={comments} />
+              {authorizationStatus === AuthorizationStatus.Auth
+                ? <ReviewForm />
+                : ''}
             </section>
           </div>
         </div>

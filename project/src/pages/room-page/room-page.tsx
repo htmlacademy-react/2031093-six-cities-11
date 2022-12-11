@@ -11,18 +11,12 @@ import {
   fetchFavoriteOffersAction
 } from '../../store/api-actions';
 import { AppRoute } from '../../utils/constants';
-import { Comment } from '../../types/types';
 import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
 import LoadingScreen from '../loading-screen/loading-screen';
 import RoomMain from '../../components/room-main/room-main';
 
-type RoomPageProps = {
-  comments: Comment[];
-  onOfferReviewFormSubmit: () => void;
-}
-
-function RoomPage({ comments, onOfferReviewFormSubmit }: RoomPageProps): JSX.Element {
+function RoomPage(): JSX.Element {
   const navigate = useNavigate();
   const offers = useAppSelector((state) => state.offers);
   const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
@@ -53,13 +47,8 @@ function RoomPage({ comments, onOfferReviewFormSubmit }: RoomPageProps): JSX.Ele
         </div>
       </header>
       {isOffersDataLoading
-        ?
-        <LoadingScreen />
-        :
-        <RoomMain
-          comments={comments}
-          onOfferReviewFormSubmit={onOfferReviewFormSubmit}
-        />}
+        ? <LoadingScreen />
+        : <RoomMain />}
     </div>
   );
 }

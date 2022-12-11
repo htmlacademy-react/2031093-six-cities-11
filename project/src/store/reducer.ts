@@ -12,17 +12,12 @@ type InitalState = {
   city: string;
   sortType: Const.SortType;
   offer: Type.Offer | undefined;
-  formData: Type.FormData;
   authorizationStatus: Const.AuthorizationStatus;
   isOffersDataLoading: boolean;
   user: UserData;
   comments: Type.Comment[];
 }
 
-const formData: Type.FormData = {
-  rating: Const.Rating.ZeroStar,
-  text: '',
-};
 const initialState: InitalState = {
   offers: [],
   nearbyOffers: [],
@@ -30,7 +25,6 @@ const initialState: InitalState = {
   city: Const.INITIAL_CITY,
   sortType: Const.DEFAULT_SORT_TYPE,
   offer: Const.INITIAL_OFFER,
-  formData,
   authorizationStatus: Const.AuthorizationStatus.Unknown,
   isOffersDataLoading: false,
   user: Const.INITIAL_USER,
@@ -70,12 +64,6 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(Action.loadComments, (state, action) => {
       state.comments = action.payload;
-    // })
-    // .addCase(Action.changeFormData, (state, action) => {//TODO
-    //   state.formData = action.payload;
-    // })
-    // .addCase(Action.postNewOfferComment, (state, action) => {//TODO
-    //   state.formData = action.payload;
       // })
       // .addCase(Action.postFavoriteStatus, (state, action) => {//TODO use in homework 8.14.
       //   state.offer = action.payload;

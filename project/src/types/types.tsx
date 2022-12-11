@@ -51,6 +51,11 @@ export type Comment = {
 }
 
 export type FormData = {
+  comment: string;
   rating: Rating;
-  text: string;
+}
+
+export type FormPostData = {
+  offerId: number;
+  formData: FormData;
 }

@@ -3,7 +3,6 @@ import { HelmetProvider } from 'react-helmet-async';
 
 import { useAppSelector } from '../../hooks';
 import { AppRoute } from '../../utils/constants';
-import { Comment } from '../../types/types';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import LoginPage from '../../pages/login-page/login-page';
 import MainPage from '../../pages/main-page/main-page';
@@ -13,11 +12,7 @@ import PrivateRoute from '../../components/private-route/private-route';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 
-type AppProps = {
-  comments: Comment[];
-};
-
-function App({ comments }: AppProps): JSX.Element {
+function App(): JSX.Element {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
   return (
@@ -43,12 +38,7 @@ function App({ comments }: AppProps): JSX.Element {
           <Route
             path={AppRoute.Room}
             element={
-              <RoomPage
-                comments={comments}
-                onOfferReviewFormSubmit={() => {
-                  throw new Error('Function \'onAnswer\' isn\'t implemented.');
-                }}
-              />
+              <RoomPage />
             }
           />
           <Route

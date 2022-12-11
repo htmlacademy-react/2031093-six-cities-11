@@ -3,7 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import * as Action from './action';
 import { AppDispatch, State } from '../types/state.js';
-import { Offer, Comment } from '../types/types';
+import { Offer, Comment, FormPostData } from '../types/types';
 import { saveToken, dropToken } from '../services/token';
 import { APIRoute, AuthorizationStatus, AppRoute, INITIAL_USER } from '../utils/constants';
 import { AuthData } from '../types/auth-data';
@@ -126,6 +126,21 @@ export const fetchCommentsAction = createAsyncThunk<void, number, {
     const {data} = await api.get<Comment[]>(`${APIRoute.Comments}/${offerID}`);
     dispatch(Action.changeOffersDataLoadingStatus(true));
     dispatch(Action.loadComments(data));
+    dispatch(Action.changeOffersDataLoadingStatus(false));
+  },
+);
+
+export const postNewOfferComment = createAsyncThunk<void, FormPostData, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/postNewOfferComment',
+  async ({offerId, formData}, {dispatch, extra: api}) => {
+    dispatch(Action.changeOffersDataLoadingStatus(true));
+    const {data: comments} = await api.post<Comment[]>(`${APIRoute.Comments}/${offerId}`, formData);
+
+    dispatch(Action.loadComments(comments));
     dispatch(Action.changeOffersDataLoadingStatus(false));
   },
 );

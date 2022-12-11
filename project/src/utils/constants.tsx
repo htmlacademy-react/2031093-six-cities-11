@@ -39,9 +39,8 @@ export enum APIRoute {
   Logout = '/logout',
   Offers = '/hotels',
   Favorite = '/favorite',
-  Comments = '/comments',//'/comments/{hotelId}'
+  Comments = '/comments',
   PostFavoriteStatus = '/favorite',//'/favorite/{hotelId}/{status}'
-  PostNewOfferComment = '/comments/{hotelId}',//'/comments/{hotelId}'
 }
 
 export enum AppRoute {
