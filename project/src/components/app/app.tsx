@@ -12,7 +12,6 @@ import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import RoomPage from '../../pages/room-page/room-page';
 import PrivateRoute from '../../components/private-route/private-route';
 
-//TODO Line to remove before 7.16 homework pull request
 //TODO Line to remove before 7.17 homework pull request
 
 type AppProps = {
