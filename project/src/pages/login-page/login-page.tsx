@@ -30,6 +30,8 @@ function LoginPage(): JSX.Element {
         password: passwordRef.current.value,
       });
     }
+
+    navigate(AppRoute.Main);
   };
 
   return (
@@ -49,7 +51,7 @@ function LoginPage(): JSX.Element {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" action="#" method="post"
+            <form className="login__form form" action=""
               onSubmit={handleSubmit}
             >
               <div className="login__input-wrapper form__input-wrapper">
@@ -60,9 +62,7 @@ function LoginPage(): JSX.Element {
                 <label className="visually-hidden">Password</label>
                 <input ref={passwordRef} className="login__input form__input" type="password" name="password" placeholder="Password" required></input>
               </div>
-              <button className="login__submit form__submit button" type="submit"
-                onClick={() => navigate(AppRoute.Main)}
-              >
+              <button className="login__submit form__submit button" type="submit">
                 Sign in
               </button>
             </form>
