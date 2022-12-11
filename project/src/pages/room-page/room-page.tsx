@@ -14,6 +14,7 @@ import { AppRoute } from '../../utils/constants';
 import { Comment } from '../../types/types';
 import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
+import LoadingScreen from '../loading-screen/loading-screen';
 import RoomMain from '../../components/room-main/room-main';
 
 type RoomPageProps = {
@@ -24,6 +25,7 @@ type RoomPageProps = {
 function RoomPage({ comments, onOfferReviewFormSubmit }: RoomPageProps): JSX.Element {
   const navigate = useNavigate();
   const offers = useAppSelector((state) => state.offers);
+  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
   const offerID = Number(window.location.pathname.split('/').pop());
 
   if (!offers.find((offer) => offer.id === offerID)) {
@@ -34,7 +36,7 @@ function RoomPage({ comments, onOfferReviewFormSubmit }: RoomPageProps): JSX.Ele
     store.dispatch(fetchOfferAction(offerID));
     store.dispatch(fetchFavoriteOffersAction());
     store.dispatch(fetchNearbyOffersAction(offerID));
-    store.dispatch(fetchCommentsAction());
+    store.dispatch(fetchCommentsAction(offerID));
   }, [offerID]);
 
   return (
@@ -50,12 +52,14 @@ function RoomPage({ comments, onOfferReviewFormSubmit }: RoomPageProps): JSX.Ele
           </div>
         </div>
       </header>
-
-      <RoomMain
-        comments={comments}
-        onOfferReviewFormSubmit={onOfferReviewFormSubmit}
-      />
-      {/* {loadRoomStatus ? <Load/> : <Room />} */}
+      {isOffersDataLoading
+        ?
+        <LoadingScreen />
+        :
+        <RoomMain
+          comments={comments}
+          onOfferReviewFormSubmit={onOfferReviewFormSubmit}
+        />}
     </div>
   );
 }

@@ -17,10 +17,12 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   'user/checkAuthAction',
   async (_arg, {dispatch, extra: api}) => {
     try {
-      await api.get(APIRoute.Login);
+      const {data: user} = await api.get<UserData>(APIRoute.Login);
       dispatch(Action.requireAuthorization(AuthorizationStatus.Auth));
+      dispatch(Action.setUser(user));
     } catch {
       dispatch(Action.requireAuthorization(AuthorizationStatus.NoAuth));
+      dispatch(Action.setUser(INITIAL_USER));
     }
   },
 );
@@ -62,7 +64,7 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
 }>(
   'data/fetchOffersAction',
   async (_arg, {dispatch, extra: api}) => {
-    const {data} = await api.get<Offer[]>(APIRoute.GetOffers);
+    const {data} = await api.get<Offer[]>(APIRoute.Offers);
     dispatch(Action.changeOffersDataLoadingStatus(true));
     dispatch(Action.loadOffers(data));
     dispatch(Action.changeOffersDataLoadingStatus(false));
@@ -77,7 +79,7 @@ export const fetchNearbyOffersAction = createAsyncThunk<void, number, {
 }>(
   'data/fetchNearbyOffersAction',
   async (offerID, {dispatch, extra: api}) => {
-    const {data} = await api.get<Offer[]>(`${APIRoute.GetOffers}/${offerID}/nearby`);
+    const {data} = await api.get<Offer[]>(`${APIRoute.Offers}/${offerID}/nearby`);
     dispatch(Action.changeOffersDataLoadingStatus(true));
     dispatch(Action.loadNearbyOffers(data));
     dispatch(Action.changeOffersDataLoadingStatus(false));
@@ -91,7 +93,7 @@ export const fetchFavoriteOffersAction = createAsyncThunk<void, undefined, {
 }>(
   'data/fetchFavoriteOffersAction',
   async (_arg, {dispatch, extra: api}) => {
-    const {data} = await api.get<Offer[]>(APIRoute.GetFavoriteList);
+    const {data} = await api.get<Offer[]>(APIRoute.Favorite);
     dispatch(Action.changeOffersDataLoadingStatus(true));
     dispatch(Action.loadFavoriteOffers(data));
     dispatch(Action.changeOffersDataLoadingStatus(false));
@@ -106,21 +108,22 @@ export const fetchOfferAction = createAsyncThunk<void, number, {
 }>(
   'data/fetchOfferAction',
   async (offerID, {dispatch, extra: api}) => {
-    const {data} = await api.get<Offer>(`${APIRoute.GetOffers}/${offerID}`);
+    const {data} = await api.get<Offer>(`${APIRoute.Offers}/${offerID}`);
     dispatch(Action.changeOffersDataLoadingStatus(true));
     dispatch(Action.loadOffer(data));
     dispatch(Action.changeOffersDataLoadingStatus(false));
   },
 );
 
-export const fetchCommentsAction = createAsyncThunk<void, undefined, {
+export const fetchCommentsAction = createAsyncThunk<void, number, {
+  offerID: number;
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'data/fetchCommentsAction',
-  async (_arg, {dispatch, extra: api}) => {
-    const {data} = await api.get<Comment[]>(APIRoute.GetOffers);
+  async (offerID, {dispatch, extra: api}) => {
+    const {data} = await api.get<Comment[]>(`${APIRoute.Comments}/${offerID}`);
     dispatch(Action.changeOffersDataLoadingStatus(true));
     dispatch(Action.loadComments(data));
     dispatch(Action.changeOffersDataLoadingStatus(false));

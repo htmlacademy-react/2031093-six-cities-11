@@ -1,11 +1,10 @@
-import ReviewCard from '../../components/review-card/review-card';
+import { useAppSelector } from '../../hooks';
 import { Comment } from '../../types/types';
+import ReviewCard from '../../components/review-card/review-card';
 
-type ReviewListProps = {
-  comments: Comment[];
-}
+function ReviewList(): JSX.Element {
+  const comments: Comment[] = useAppSelector((state) => state.comments);
 
-function ReviewList({ comments }: ReviewListProps): JSX.Element {
   return (
     <ul className="reviews__list">
       {comments.map((comment) => <ReviewCard comment={comment} key={comment.id} /> )}

@@ -106,7 +106,7 @@ function RoomMain({ comments, onOfferReviewFormSubmit }: RoomPageProps): JSX.Ele
             </div>
             <section className="property__reviews reviews">
               <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
-              <ReviewList comments={comments} />
+              <ReviewList />
               <ReviewForm onSubmit={onOfferReviewFormSubmit} />
             </section>
           </div>

@@ -20,7 +20,7 @@ export const CITIES: string[] = [
 
 export const INITIAL_USER: UserData = {
   id: -1,
-  email: '',
+  email: 'eee',
   token: '',
   avatarUrl: '',
 };
@@ -37,11 +37,11 @@ export enum Rating {
 export enum APIRoute {
   Login = '/login',
   Logout = '/logout',
-  GetOffers = '/hotels',
-  GetFavoriteList = '/favorite',
-  GetOfferComments = '/comments/{hotelId}',
-  PostFavoriteStatus = '/favorite/{hotelId}/{status}',
-  PostNewOfferComment = '/comments/{hotelId}',
+  Offers = '/hotels',
+  Favorite = '/favorite',
+  Comments = '/comments',//'/comments/{hotelId}'
+  PostFavoriteStatus = '/favorite',//'/favorite/{hotelId}/{status}'
+  PostNewOfferComment = '/comments/{hotelId}',//'/comments/{hotelId}'
 }
 
 export enum AppRoute {
