@@ -5,7 +5,7 @@ import * as Action from './action';
 import { AppDispatch, State } from '../types/state.js';
 import { Offer } from '../types/types';
 import { saveToken, dropToken } from '../services/token';
-import { APIRoute, AuthorizationStatus, AppRoute, TIMEOUT_SHOW_ERROR } from '../utils/constants';
+import { APIRoute, AuthorizationStatus, AppRoute, TIMEOUT_SHOW_ERROR, INITIAL_USER } from '../utils/constants';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import { store } from './';
@@ -62,6 +62,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     await api.delete(APIRoute.Logout);
     dropToken();
     dispatch(Action.requireAuthorization(AuthorizationStatus.NoAuth));
+    dispatch(Action.setUser(INITIAL_USER));
   },
 );
 

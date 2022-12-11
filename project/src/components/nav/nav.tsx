@@ -1,13 +1,16 @@
 import { Link } from 'react-router-dom';
 
-import { useAppSelector } from '../../hooks';
+import { useAppSelector, useAppDispatch } from '../../hooks';
 import { AppRoute, AuthorizationStatus } from '../../utils/constants';
+import { logoutAction } from '../../store/api-actions';
 
 type NavProps = {
   offersQty: number;
 }
 
 function Nav({ offersQty }: NavProps): JSX.Element {
+  const dispatch = useAppDispatch();
+
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const user = useAppSelector((state) => state.user);
 
@@ -16,6 +19,12 @@ function Nav({ offersQty }: NavProps): JSX.Element {
   const userEmail = isAuthorized ? user.email : '' ;
   const userAvatar = !(isAuthorized && user.avatarUrl) ? ''
     : <img className="user__avatar" src={user.avatarUrl} width="74" height="74" alt="User avatar"></img>;
+
+  const handlerSignOutClick = () => {
+    if (isAuthorized) {
+      dispatch(logoutAction());
+    }
+  };
 
   return (
     <nav className="header__nav">
@@ -31,7 +40,9 @@ function Nav({ offersQty }: NavProps): JSX.Element {
             </Link>
             : ''}
         </li>
-        <li className="header__nav-item">
+        <li className="header__nav-item"
+          onClick={handlerSignOutClick}
+        >
           <Link className="header__nav-link" to={`${AppRoute.Login}`}>
             <span className="header__signout">{signMessage}</span>
           </Link>
