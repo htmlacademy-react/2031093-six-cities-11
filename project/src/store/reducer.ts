@@ -1,5 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 
+import { UserData } from '../types/user-data';
 import * as Type from '../types/types';
 import * as Action from './action';
 import * as Const from '../utils/constants';
@@ -13,6 +14,7 @@ type InitalState = {
   authorizationStatus: Const.AuthorizationStatus;
   error: string | null;
   isOffersDataLoading: boolean;
+  user: UserData;
 }
 
 const formData: Type.FormData = {
@@ -28,6 +30,7 @@ const initialState: InitalState = {
   authorizationStatus: Const.AuthorizationStatus.Unknown,
   error: null,
   isOffersDataLoading: false,
+  user: Const.INITIAL_USER,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -43,6 +46,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(Action.requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
+    })
+    .addCase(Action.setUser, (state, action) => {
+      state.user = action.payload;
     })
     .addCase(Action.changeCity, (state, action) => {
       state.city = action.payload;

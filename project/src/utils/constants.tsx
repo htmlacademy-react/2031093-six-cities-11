@@ -1,4 +1,5 @@
 import { Offer } from '../types/types';
+import { UserData } from '../types/user-data';
 
 export const OFFERS_QUANTITY = 4;
 export const TIMEOUT_SHOW_ERROR = 2000;
@@ -17,6 +18,13 @@ export const CITIES: string[] = [
   'Hamburg',
   'Dusseldorf',
 ];
+
+export const INITIAL_USER: UserData = {
+  id: -1,
+  email: '',
+  token: '',
+  avatarUrl: '',
+};
 
 export enum Rating {
   ZeroStar = 0,

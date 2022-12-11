@@ -12,8 +12,8 @@ export type City = {
   }
 
 export type Host = {
-  avatarUrl: string;
   id: number;
+  avatarUrl: string;
   isPro: boolean;
   name: string;
 }
