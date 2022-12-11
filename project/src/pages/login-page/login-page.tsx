@@ -3,19 +3,15 @@ import { Helmet } from 'react-helmet-async';
 
 import Logo from '../../components/logo/logo';
 
-import { AppRoute } from '../../utils/constants';
 import { useRef, FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks';
 import { loginAction } from '../../store/api-actions';
 import { AuthData } from '../../types/auth-data';
 
 function LoginPage(): JSX.Element {
+  const dispatch = useAppDispatch();
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const onSubmit = (authData: AuthData) => {
     dispatch(loginAction(authData));
@@ -30,8 +26,6 @@ function LoginPage(): JSX.Element {
         password: passwordRef.current.value,
       });
     }
-
-    navigate(AppRoute.Main);
   };
 
   return (
