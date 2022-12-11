@@ -7,6 +7,8 @@ import * as Const from '../utils/constants';
 
 type InitalState = {
   offers: Type.Offer[];
+  nearbyOffers: Type.Offer[];
+  favoriteOffers: Type.Offer[];
   city: string;
   sortType: Const.SortType;
   offer: Type.Offer | undefined;
@@ -14,6 +16,7 @@ type InitalState = {
   authorizationStatus: Const.AuthorizationStatus;
   isOffersDataLoading: boolean;
   user: UserData;
+  comments: Type.Comment[];
 }
 
 const formData: Type.FormData = {
@@ -22,6 +25,8 @@ const formData: Type.FormData = {
 };
 const initialState: InitalState = {
   offers: [],
+  nearbyOffers: [],
+  favoriteOffers: [],
   city: Const.INITIAL_CITY,
   sortType: Const.DEFAULT_SORT_TYPE,
   offer: Const.INITIAL_OFFER,
@@ -29,12 +34,19 @@ const initialState: InitalState = {
   authorizationStatus: Const.AuthorizationStatus.Unknown,
   isOffersDataLoading: false,
   user: Const.INITIAL_USER,
+  comments: [],
 };
 
 const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(Action.loadOffers, (state, action) => {
       state.offers = action.payload;
+    })
+    .addCase(Action.loadNearbyOffers, (state, action) => {
+      state.nearbyOffers = action.payload;
+    })
+    .addCase(Action.loadFavoriteOffers, (state, action) => {
+      state.favoriteOffers = action.payload;
     })
     .addCase(Action.changeOffersDataLoadingStatus, (state, action) => {
       state.isOffersDataLoading = action.payload;
@@ -51,13 +63,22 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(Action.changeSortType, (state, action) => {
       state.sortType = action.payload;
     })
-    .addCase(Action.changeOffer, (state, action) => {
+    .addCase(Action.loadOffer, (state, action) => {
       if (action.payload) {
         state.offer = action.payload;
       }
     })
-    .addCase(Action.changeFormData, (state, action) => {
-      state.formData = action.payload;
+    .addCase(Action.loadComments, (state, action) => {
+      state.comments = action.payload;
+    // })
+    // .addCase(Action.changeFormData, (state, action) => {//TODO
+    //   state.formData = action.payload;
+    // })
+    // .addCase(Action.postNewOfferComment, (state, action) => {//TODO
+    //   state.formData = action.payload;
+      // })
+      // .addCase(Action.postFavoriteStatus, (state, action) => {//TODO use in homework 8.14.
+      //   state.offer = action.payload;
     });
 });
 

@@ -15,10 +15,6 @@ import SortList from '../../components/sort-list/sort-list';
 
 const MAP_HEIGHT = '850px';
 
-type MainPageProps = {
-  onOfferCardClick: (offerId: number, offers: Offer[]) => void;
-}
-
 const getCityOffers = (offers: Offer[], currentCityName: string): Offer[] => offers.filter((o) => o.city.name === currentCityName);
 
 const getSortedOffers = (offers: Offer[], sortType: Const.SortType): Offer[] => {
@@ -45,7 +41,7 @@ const getSortedOffers = (offers: Offer[], sortType: Const.SortType): Offer[] => 
 
 const getSortedCityOffers = (offers: Offer[], currentCityName: string, sortType: Const.SortType): Offer[] => getSortedOffers(getCityOffers(offers, currentCityName), sortType);
 
-function MainPage({ onOfferCardClick }: MainPageProps): JSX.Element {
+function MainPage(): JSX.Element {
   const dispatch = useAppDispatch();
 
   const offers: Offer[] = useAppSelector((state) => state.offers);
@@ -56,7 +52,6 @@ function MainPage({ onOfferCardClick }: MainPageProps): JSX.Element {
   const selectedCity: City | undefined = sortedCityOffers
     .map((offer) => offer.city)
     .find((city) => city.name === currentCityName);
-  const favoritesQty = offers.filter((offer) => offer.isFavorite).length;
   const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
 
   const [hoveredOffer, setHoveredOffer] = useState<Offer | undefined>(
@@ -76,7 +71,7 @@ function MainPage({ onOfferCardClick }: MainPageProps): JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <Logo />
-            <Nav offersQty={favoritesQty} />
+            <Nav />
           </div>
         </div>
       </header>
@@ -103,7 +98,6 @@ function MainPage({ onOfferCardClick }: MainPageProps): JSX.Element {
                       offers={sortedCityOffers}
                       parent={'cities'}
                       setHoveredOffer={setHoveredOffer}
-                      onOfferCardClick={onOfferCardClick}
                     />
                   </div>
                 </>)}

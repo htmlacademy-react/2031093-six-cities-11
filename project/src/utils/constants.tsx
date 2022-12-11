@@ -35,15 +35,13 @@ export enum Rating {
 }
 
 export enum APIRoute {
-  GetOffers = '/hotels',
-  GetOffer = '/hotels/{hotelId}',//TODO api request
-  GetNearbyOffers = '/hotels/{hotelId}/nearby',//TODO api request
-  GetFavoriteList = '/favorite',//TODO api request
-  PostFavoriteSrarus = '/favorite/{hotelId}/{status}',//TODO api request
-  GetOfferComments = '/comments/{hotelId}',//TODO api request
-  PostNewOfferComment = '/comments/{hotelId}',//TODO api request
   Login = '/login',
   Logout = '/logout',
+  GetOffers = '/hotels',
+  GetFavoriteList = '/favorite',
+  GetOfferComments = '/comments/{hotelId}',
+  PostFavoriteStatus = '/favorite/{hotelId}/{status}',
+  PostNewOfferComment = '/comments/{hotelId}',
 }
 
 export enum AppRoute {
@@ -51,6 +49,7 @@ export enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
   Room = '/offer/:id',
+  NotFound = '/404',
 }
 
 export enum AuthorizationStatus {

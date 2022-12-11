@@ -8,13 +8,8 @@ import FavoritesLocations from '../../components/favorites-locations/favorites-l
 import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
 
-type FavoritesPageProps = {
-  onOfferCardClick: (offerId: number, offers: Offer[]) => void;
-}
-
-function FavoritesPage({ onOfferCardClick }: FavoritesPageProps): JSX.Element {
+function FavoritesPage(): JSX.Element {
   const offers: Offer[] = useAppSelector((state) => state.offers);
-  const favoritesQty = offers.filter((offer) => offer.isFavorite).length;
 
   return (
     <div className="page">
@@ -25,7 +20,7 @@ function FavoritesPage({ onOfferCardClick }: FavoritesPageProps): JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <Logo />
-            <Nav offersQty={favoritesQty} />
+            <Nav />
           </div>
         </div>
       </header>
@@ -41,7 +36,6 @@ function FavoritesPage({ onOfferCardClick }: FavoritesPageProps): JSX.Element {
                   <FavoritesLocations
                     offers={favoriteOffers}
                     city={city}
-                    onOfferCardClick={onOfferCardClick}
                     key={city}
                   />
                 );

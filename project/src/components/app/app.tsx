@@ -1,10 +1,9 @@
 import { Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
-import { useAppSelector, useAppDispatch } from '../../hooks';
-import { changeOffer } from '../../store/action';
+import { useAppSelector } from '../../hooks';
 import { AppRoute } from '../../utils/constants';
-import { Offer, Comment } from '../../types/types';
+import { Comment } from '../../types/types';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import LoginPage from '../../pages/login-page/login-page';
 import MainPage from '../../pages/main-page/main-page';
@@ -19,16 +18,7 @@ type AppProps = {
 };
 
 function App({ comments }: AppProps): JSX.Element {
-  const dispatch = useAppDispatch();
-
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-
-  const onListItemClick = (listItemId: number, offers: Offer[]) => {
-    const newOffer = offers.find((offer) => offer.id === listItemId);
-    if (newOffer) {
-      dispatch(changeOffer(newOffer));
-    }
-  };
 
   return (
     <HelmetProvider>
@@ -36,11 +26,7 @@ function App({ comments }: AppProps): JSX.Element {
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={
-              <MainPage
-                onOfferCardClick={onListItemClick}
-              />
-            }
+            element={<MainPage />}
           />
           <Route
             path={AppRoute.Login}
@@ -50,9 +36,7 @@ function App({ comments }: AppProps): JSX.Element {
             path={AppRoute.Favorites}
             element={
               <PrivateRoute authorizationStatus={authorizationStatus} >
-                <FavoritesPage
-                  onOfferCardClick={onListItemClick}
-                />
+                <FavoritesPage />
               </PrivateRoute>
             }
           />
@@ -61,12 +45,15 @@ function App({ comments }: AppProps): JSX.Element {
             element={
               <RoomPage
                 comments={comments}
-                onOfferCardClick={onListItemClick}
                 onOfferReviewFormSubmit={() => {
                   throw new Error('Function \'onAnswer\' isn\'t implemented.');
                 }}
               />
             }
+          />
+          <Route
+            path={AppRoute.Login}
+            element={<NotFoundPage />}
           />
           <Route
             path={'*'}

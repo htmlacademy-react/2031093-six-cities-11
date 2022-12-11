@@ -4,16 +4,14 @@ import { useAppSelector, useAppDispatch } from '../../hooks';
 import { AppRoute, AuthorizationStatus } from '../../utils/constants';
 import { logoutAction } from '../../store/api-actions';
 
-type NavProps = {
-  offersQty: number;
-}
-
-function Nav({ offersQty }: NavProps): JSX.Element {
+function Nav(): JSX.Element {
   const dispatch = useAppDispatch();
 
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const user = useAppSelector((state) => state.user);
   const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
+  const favoritesQty: number = useAppSelector((state) => state.favoriteOffers)
+    .filter((o) => o.isFavorite).length;
   const signMessage = isAuthorized ? 'Sign out' : 'Sign in';
   const userEmail = isAuthorized ? user.email : '' ;
   const userAvatar = !(isAuthorized && user.avatarUrl) ? ''
@@ -35,7 +33,7 @@ function Nav({ offersQty }: NavProps): JSX.Element {
                 {userAvatar}
               </div>
               <span className="header__user-name user__name">{userEmail}</span>
-              <span className="header__favorite-count">{offersQty}</span>
+              <span className="header__favorite-count">{favoritesQty}</span>
             </Link>
             : ''}
         </li>
