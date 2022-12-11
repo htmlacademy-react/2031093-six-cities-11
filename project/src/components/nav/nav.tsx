@@ -13,7 +13,6 @@ function Nav({ offersQty }: NavProps): JSX.Element {
 
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const user = useAppSelector((state) => state.user);
-
   const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
   const signMessage = isAuthorized ? 'Sign out' : 'Sign in';
   const userEmail = isAuthorized ? user.email : '' ;
