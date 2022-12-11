@@ -14,8 +14,6 @@ import PrivateRoute from '../../components/private-route/private-route';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 
-//TODO Line to remove before 7.17 homework pull request
-
 type AppProps = {
   comments: Comment[];
 };
