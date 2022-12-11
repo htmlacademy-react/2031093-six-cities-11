@@ -2,7 +2,6 @@ import { Offer } from '../types/types';
 import { UserData } from '../types/user-data';
 
 export const OFFERS_QUANTITY = 4;
-export const TIMEOUT_SHOW_ERROR = 2000;
 export const REQUEST_TIMEOUT = 5000;
 export const BACKEND_URL = 'https://11.react.pages.academy/six-cities';
 export const URL_MARKER_DEFAULT = './img/pin.svg';

@@ -12,7 +12,6 @@ type InitalState = {
   offer: Type.Offer | undefined;
   formData: Type.FormData;
   authorizationStatus: Const.AuthorizationStatus;
-  error: string | null;
   isOffersDataLoading: boolean;
   user: UserData;
 }
@@ -28,16 +27,12 @@ const initialState: InitalState = {
   offer: Const.INITIAL_OFFER,
   formData,
   authorizationStatus: Const.AuthorizationStatus.Unknown,
-  error: null,
   isOffersDataLoading: false,
   user: Const.INITIAL_USER,
 };
 
 const reducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(Action.setError, (state, action) => {
-      state.error = action.payload;
-    })
     .addCase(Action.loadOffers, (state, action) => {
       state.offers = action.payload;
     })

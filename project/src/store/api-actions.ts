@@ -5,20 +5,9 @@ import * as Action from './action';
 import { AppDispatch, State } from '../types/state.js';
 import { Offer } from '../types/types';
 import { saveToken, dropToken } from '../services/token';
-import { APIRoute, AuthorizationStatus, AppRoute, TIMEOUT_SHOW_ERROR, INITIAL_USER } from '../utils/constants';
+import { APIRoute, AuthorizationStatus, AppRoute, INITIAL_USER } from '../utils/constants';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
-import { store } from './';
-
-export const clearErrorAction = createAsyncThunk(
-  'data/clearError',
-  () => {
-    setTimeout(
-      () => store.dispatch(Action.setError(null)),
-      TIMEOUT_SHOW_ERROR,
-    );
-  },
-);
 
 export const checkAuthAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;

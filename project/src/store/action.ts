@@ -5,7 +5,6 @@ import { UserData } from '../types/user-data';
 import { SortType } from '../utils/constants';
 import { AppRoute, AuthorizationStatus } from '../utils/constants';
 
-export const setError = createAction<string | null>('data/setError');
 export const loadOffers = createAction<Offer[]>('data/loadOffers');
 export const changeOffersDataLoadingStatus = createAction<boolean>('data/setOffersDataLoadingStatus');
 export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
