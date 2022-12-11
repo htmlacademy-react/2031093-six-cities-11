@@ -1,40 +1,72 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { offers } from '../mock/offers';
-import { FormData } from '../types/types';
-import * as UserAction from './action';
+import { UserData } from '../types/user-data';
+import * as Type from '../types/types';
+import * as Action from './action';
 import * as Const from '../utils/constants';
 
-const formData: FormData = {
-  rating: Const.Rating.ZeroStar,
-  text: '',
-};
-const initialState = {
-  offers,
+type InitalState = {
+  offers: Type.Offer[];
+  nearbyOffers: Type.Offer[];
+  favoriteOffers: Type.Offer[];
+  city: string;
+  sortType: Const.SortType;
+  offer: Type.Offer | undefined;
+  authorizationStatus: Const.AuthorizationStatus;
+  isOffersDataLoading: boolean;
+  user: UserData;
+  comments: Type.Comment[];
+}
+
+const initialState: InitalState = {
+  offers: [],
+  nearbyOffers: [],
+  favoriteOffers: [],
   city: Const.INITIAL_CITY,
   sortType: Const.DEFAULT_SORT_TYPE,
   offer: Const.INITIAL_OFFER,
-  formData,
+  authorizationStatus: Const.AuthorizationStatus.Unknown,
+  isOffersDataLoading: false,
+  user: Const.INITIAL_USER,
+  comments: [],
 };
 
 const reducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(UserAction.storeOffers, (state, action) => {
+    .addCase(Action.loadOffers, (state, action) => {
       state.offers = action.payload;
     })
-    .addCase(UserAction.changeCity, (state, action) => {
+    .addCase(Action.loadNearbyOffers, (state, action) => {
+      state.nearbyOffers = action.payload;
+    })
+    .addCase(Action.loadFavoriteOffers, (state, action) => {
+      state.favoriteOffers = action.payload;
+    })
+    .addCase(Action.changeOffersDataLoadingStatus, (state, action) => {
+      state.isOffersDataLoading = action.payload;
+    })
+    .addCase(Action.requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(Action.setUser, (state, action) => {
+      state.user = action.payload;
+    })
+    .addCase(Action.changeCity, (state, action) => {
       state.city = action.payload;
     })
-    .addCase(UserAction.changeSortType, (state, action) => {
+    .addCase(Action.changeSortType, (state, action) => {
       state.sortType = action.payload;
     })
-    .addCase(UserAction.changeOffer, (state, action) => {
+    .addCase(Action.loadOffer, (state, action) => {
       if (action.payload) {
         state.offer = action.payload;
       }
     })
-    .addCase(UserAction.changeFormData, (state, action) => {
-      state.formData = action.payload;
+    .addCase(Action.loadComments, (state, action) => {
+      state.comments = action.payload;
+      // })
+      // .addCase(Action.postFavoriteStatus, (state, action) => {//TODO use in homework 8.14.
+      //   state.offer = action.payload;
     });
 });
 

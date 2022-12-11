@@ -1,5 +1,5 @@
-import ReviewCard from '../../components/review-card/review-card';
 import { Comment } from '../../types/types';
+import ReviewCard from '../../components/review-card/review-card';
 
 type ReviewListProps = {
   comments: Comment[];

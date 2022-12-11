@@ -14,7 +14,7 @@ function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: City): Map |
           lat: city.location.latitude,
           lng: city.location.longitude,
         },
-        zoom: 10
+        zoom: city.location.zoom,
       });
 
       const layer = new TileLayer(
@@ -28,8 +28,13 @@ function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: City): Map |
 
       setMap(instance);
       isRenderedRef.current = true;
+    } else {
+      map?.setView({
+        lat: city.location.latitude,
+        lng: city.location.longitude,
+      }, city.location.zoom);
     }
-  }, [mapRef, city]);
+  }, [map, mapRef, city]);
 
   return map;
 }

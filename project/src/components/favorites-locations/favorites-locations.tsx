@@ -1,4 +1,3 @@
-import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Offer } from '../../types/types';
@@ -7,25 +6,14 @@ import FavoritesCard from '../../components/favorites-card/favorites-card';
 type FavoritesLocationsProps = {
   offers: Offer[];
   city: string;
-  onOfferCardClick: (offerId: string) => void;
 }
 
-function FavoritesLocations({ offers, city, onOfferCardClick }: FavoritesLocationsProps): JSX.Element {
-  const handleOfferCardClick = (event: MouseEvent<HTMLLIElement>) => {
-    event.preventDefault();
-
-    const cardElement: HTMLLIElement | null = event.currentTarget;
-    if (cardElement && cardElement.dataset.id) {
-      onOfferCardClick(cardElement.dataset.id);
-    }
-  };
-
+function FavoritesLocations({ offers, city }: FavoritesLocationsProps): JSX.Element {
   const favoriteOffers = Object.values(offers)
     .filter((offer) => offer.isFavorite)
     .map((offer: Offer) => (
       <FavoritesCard
         offer={offer}
-        onClick={handleOfferCardClick}
         key={`favorite-offer-${offer.id}`}
       />));
 

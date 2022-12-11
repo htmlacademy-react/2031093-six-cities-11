@@ -17,16 +17,9 @@ function FavoritesCard({ offer, onClick }: FavoriteOfferProps): JSX.Element {
   const photo = (images.length > 0) ? images[0] : '';
   const route = AppRoute.Room.slice(0, AppRoute.Room.indexOf(':'));
 
-  const handleClick = (evt: MouseEvent<HTMLLIElement>) => {
-    if (onClick) {
-      onClick(evt);
-    }
-  };
-
   return (
     <article data-id={offer.id}
       className="favorites__card place-card"
-      onClick={handleClick}
     >
       {offer.isPremium ?
         <div className="place-card__mark">

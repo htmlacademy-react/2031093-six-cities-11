@@ -12,14 +12,14 @@ export type City = {
   }
 
 export type Host = {
-  avatarUrl: string;
   id: number;
+  avatarUrl: string;
   isPro: boolean;
   name: string;
 }
 
 export type Offer = {
-  id: string;//TODO type number after test
+  id: number;
   bedrooms: number;
   city: City;
   description: string;
@@ -38,12 +38,12 @@ export type Offer = {
 }
 
 export type Comment = {
-  id: string;//TODO type number after test
+  id: number;
   comment: string;
   date: string;
   rating: number;
   user: {
-    id: string;//TODO type number after test
+    id: number;
     avatarUrl: string;
     isPro: boolean;
     name: string;
@@ -51,6 +51,11 @@ export type Comment = {
 }
 
 export type FormData = {
+  comment: string;
   rating: Rating;
-  text: string;
+}
+
+export type FormPostData = {
+  offerId: number;
+  formData: FormData;
 }
