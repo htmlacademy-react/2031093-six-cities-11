@@ -12,6 +12,8 @@ import PrivateRoute from '../../components/private-route/private-route';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 
+//Comment for new commit creation/ Will be deleted next pull request/
+
 function App(): JSX.Element {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
