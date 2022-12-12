@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { MouseEventHandler, useState } from 'react';
 
 import { useAppSelector } from '../../hooks/index';
 import { Offer, Comment } from '../../types/types';
@@ -12,7 +12,11 @@ import Map from '../map/map';
 
 const MAP_HEIGHT = '579px';
 
-function RoomMain(): JSX.Element {
+type RoomMainProps = {
+  onFavoritesButtonClick: (MouseEventHandler<HTMLButtonElement> | undefined);
+}
+
+function RoomMain({ onFavoritesButtonClick }: RoomMainProps): JSX.Element {
   const authorizationStatus: AuthorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const offer: Offer | undefined = useAppSelector((state) => state.offer);
   const nearbyOffers: Offer[] = useAppSelector((state) => state.nearbyOffers);
@@ -131,6 +135,7 @@ function RoomMain(): JSX.Element {
               offers={nearbyOffers}
               parent={'near-places'}
               setHoveredOffer={setHoveredOffer}
+              onFavoritesButtonClick={onFavoritesButtonClick}
             />
           </div>
         </section>

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { MouseEventHandler, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
@@ -16,7 +16,11 @@ import Nav from '../../components/nav/nav';
 import LoadingScreen from '../loading-screen/loading-screen';
 import RoomMain from '../../components/room-main/room-main';
 
-function RoomPage(): JSX.Element {
+type RoomPageProps = {
+  onFavoritesButtonClick: (MouseEventHandler<HTMLButtonElement> | undefined);
+}
+
+function RoomPage({ onFavoritesButtonClick }: RoomPageProps): JSX.Element {
   const navigate = useNavigate();
   const offers = useAppSelector((state) => state.offers);
   const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
@@ -47,8 +51,12 @@ function RoomPage(): JSX.Element {
         </div>
       </header>
       {isOffersDataLoading
-        ? <LoadingScreen />
-        : <RoomMain />}
+        ?
+        <LoadingScreen />
+        :
+        <RoomMain
+          onFavoritesButtonClick={onFavoritesButtonClick}
+        />}
     </div>
   );
 }

@@ -33,6 +33,12 @@ const initialState: InitalState = {
 
 const reducer = createReducer(initialState, (builder) => {
   builder
+    .addCase(Action.requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(Action.setUser, (state, action) => {
+      state.user = action.payload;
+    })
     .addCase(Action.loadOffers, (state, action) => {
       state.offers = action.payload;
     })
@@ -42,21 +48,6 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(Action.loadFavoriteOffers, (state, action) => {
       state.favoriteOffers = action.payload;
     })
-    .addCase(Action.changeOffersDataLoadingStatus, (state, action) => {
-      state.isOffersDataLoading = action.payload;
-    })
-    .addCase(Action.requireAuthorization, (state, action) => {
-      state.authorizationStatus = action.payload;
-    })
-    .addCase(Action.setUser, (state, action) => {
-      state.user = action.payload;
-    })
-    .addCase(Action.changeCity, (state, action) => {
-      state.city = action.payload;
-    })
-    .addCase(Action.changeSortType, (state, action) => {
-      state.sortType = action.payload;
-    })
     .addCase(Action.loadOffer, (state, action) => {
       if (action.payload) {
         state.offer = action.payload;
@@ -64,6 +55,15 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(Action.loadComments, (state, action) => {
       state.comments = action.payload;
+    })
+    .addCase(Action.changeOffersDataLoadingStatus, (state, action) => {
+      state.isOffersDataLoading = action.payload;
+    })
+    .addCase(Action.changeCity, (state, action) => {
+      state.city = action.payload;
+    })
+    .addCase(Action.changeSortType, (state, action) => {
+      state.sortType = action.payload;
       // })
       // .addCase(Action.postFavoriteStatus, (state, action) => {//TODO use in homework 8.14.
       //   state.offer = action.payload;

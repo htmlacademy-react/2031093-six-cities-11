@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { MouseEventHandler, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 import { useAppSelector, useAppDispatch } from '../../hooks';
@@ -42,7 +42,11 @@ const getSortedOffers = (offers: Offer[], sortType: Const.SortType): Offer[] => 
 
 const getSortedCityOffers = (offers: Offer[], currentCityName: string, sortType: Const.SortType): Offer[] => getSortedOffers(getCityOffers(offers, currentCityName), sortType);
 
-function MainPage(): JSX.Element {
+type MainPageProps = {
+  onFavoritesButtonClick: (MouseEventHandler<HTMLButtonElement> | undefined);
+}
+
+function MainPage({ onFavoritesButtonClick }: MainPageProps): JSX.Element {
   const dispatch = useAppDispatch();
 
   const offers: Offer[] = useAppSelector((state) => state.offers);
@@ -100,6 +104,7 @@ function MainPage(): JSX.Element {
                         offers={sortedCityOffers}
                         parent={'cities'}
                         setHoveredOffer={setHoveredOffer}
+                        onFavoritesButtonClick={onFavoritesButtonClick}
                       />
                     </div>
                   </>)}

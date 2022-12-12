@@ -15,13 +15,21 @@ import browserHistory from '../../browser-history';
 function App(): JSX.Element {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
+  const onOfferCardFavoritesButtonClick = () => {
+    //TODO
+  };
+
   return (
     <HelmetProvider>
       <HistoryRouter history={browserHistory}>
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<MainPage />}
+            element={
+              <MainPage
+                onFavoritesButtonClick={onOfferCardFavoritesButtonClick}
+              />
+            }
           />
           <Route
             path={AppRoute.Login}
@@ -38,7 +46,9 @@ function App(): JSX.Element {
           <Route
             path={AppRoute.Room}
             element={
-              <RoomPage />
+              <RoomPage
+                onFavoritesButtonClick={onOfferCardFavoritesButtonClick}
+              />
             }
           />
           <Route

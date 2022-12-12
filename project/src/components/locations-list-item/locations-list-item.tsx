@@ -10,10 +10,10 @@ type LocationsListItemProps = {
 function LocationsListItem({ city, onLocationClick, isActive = true }: LocationsListItemProps): JSX.Element {
   const className = `locations__item-link tabs__item${isActive ? ' tabs__item--active' : ''}`;
 
-  const handleLocationClick = (event: MouseEvent<HTMLLIElement>) => {
-    event.preventDefault();
+  const handleLocationClick = (evt: MouseEvent<HTMLLIElement>) => {
+    evt.preventDefault();
 
-    const cardTitleElement: HTMLLIElement | null = event.currentTarget.querySelector('.locations__item-link span');
+    const cardTitleElement: HTMLLIElement | null = evt.currentTarget.querySelector('.locations__item-link span');
     if (cardTitleElement) {
       onLocationClick(cardTitleElement.innerText);
     }
