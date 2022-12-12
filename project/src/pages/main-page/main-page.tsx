@@ -87,7 +87,7 @@ function MainPage(): JSX.Element {
           </section>
         </div>
         <div className="cities">
-          {sortedCityOffers.length ? <MainEmpty /> : (
+          {!sortedCityOffers.length ? <MainEmpty /> : (
             <div className="cities__places-container container">
               <section className="cities__places places">
                 {isOffersDataLoading ? <LoadingScreen /> : (
