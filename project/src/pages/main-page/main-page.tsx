@@ -12,6 +12,7 @@ import Map from '../../components/map/map';
 import Nav from '../../components/nav/nav';
 import OffersList from '../../components/offers-list/offers-list';
 import SortList from '../../components/sort-list/sort-list';
+import MainEmpty from '../../components/main-empty/main-empty';
 
 const MAP_HEIGHT = '850px';
 
@@ -86,35 +87,36 @@ function MainPage(): JSX.Element {
           </section>
         </div>
         <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              {isOffersDataLoading ? <LoadingScreen /> : (
-                <>
-                  <h2 className="visually-hidden">Places</h2>
-                  <b className="places__found">{placesQty} places to stay in {currentCityName}</b>
-                  <SortList />
-                  <div className="cities__places-list places__list tabs__content">
-                    <OffersList
-                      offers={sortedCityOffers}
-                      parent={'cities'}
-                      setHoveredOffer={setHoveredOffer}
-                    />
-                  </div>
-                </>)}
-            </section>
-            <div id="map" className="cities__right-section">
-              <section className="cities__map map">
-                {selectedCity && sortedCityOffers && (
-                  <Map
-                    city={selectedCity}
-                    offers={sortedCityOffers}
-                    selectedOffer={hoveredOffer}
-                    height={MAP_HEIGHT}
-                  />
-                )}
+          {sortedCityOffers.length ? <MainEmpty /> : (
+            <div className="cities__places-container container">
+              <section className="cities__places places">
+                {isOffersDataLoading ? <LoadingScreen /> : (
+                  <>
+                    <h2 className="visually-hidden">Places</h2>
+                    <b className="places__found">{placesQty} places to stay in {currentCityName}</b>
+                    <SortList />
+                    <div className="cities__places-list places__list tabs__content">
+                      <OffersList
+                        offers={sortedCityOffers}
+                        parent={'cities'}
+                        setHoveredOffer={setHoveredOffer}
+                      />
+                    </div>
+                  </>)}
               </section>
-            </div>
-          </div>
+              <div id="map" className="cities__right-section">
+                <section className="cities__map map">
+                  {selectedCity && sortedCityOffers && (
+                    <Map
+                      city={selectedCity}
+                      offers={sortedCityOffers}
+                      selectedOffer={hoveredOffer}
+                      height={MAP_HEIGHT}
+                    />
+                  )}
+                </section>
+              </div>
+            </div>)}
         </div>
       </main>
     </div>
