@@ -3,7 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import * as Action from './action';
 import { AppDispatch, State } from '../types/state.js';
-import { Offer, Comment, FormPostData } from '../types/types';
+import { Offer, Comment, FormPostData, FavoritePostData } from '../types/types';
 import { saveToken, dropToken } from '../services/token';
 import { APIRoute, AuthorizationStatus, AppRoute, INITIAL_USER } from '../utils/constants';
 import { AuthData } from '../types/auth-data';
@@ -78,8 +78,8 @@ export const fetchNearbyOffersAction = createAsyncThunk<void, number, {
   extra: AxiosInstance;
 }>(
   'data/fetchNearbyOffersAction',
-  async (offerID, {dispatch, extra: api}) => {
-    const {data} = await api.get<Offer[]>(`${APIRoute.Offers}/${offerID}/nearby`);
+  async (offerId, {dispatch, extra: api}) => {
+    const {data} = await api.get<Offer[]>(`${APIRoute.Offers}/${offerId}/nearby`);
     dispatch(Action.changeOffersDataLoadingStatus(true));
     dispatch(Action.loadNearbyOffers(data));
     dispatch(Action.changeOffersDataLoadingStatus(false));
@@ -142,5 +142,24 @@ export const postNewOfferComment = createAsyncThunk<void, FormPostData, {
 
     dispatch(Action.loadComments(comments));
     dispatch(Action.changeOffersDataLoadingStatus(false));
+  },
+);
+
+export const postFavoriteStatus = createAsyncThunk<void, FavoritePostData, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/postFavoriteStatus',
+  async ({offerId, status}, {dispatch, extra: api}) => {
+    dispatch(Action.changeOneOfferDataLoadingStatus(true));
+    await api.post<Offer>(`${APIRoute.Favorite}/${offerId}/${status}`, null);
+
+    dispatch(fetchOffersAction());
+    dispatch(fetchFavoriteOffersAction());
+    dispatch(fetchOfferAction(offerId));
+    dispatch(fetchNearbyOffersAction(offerId));
+    dispatch(Action.changeOneOfferDataLoadingStatus(false));
+
   },
 );

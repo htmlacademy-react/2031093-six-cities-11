@@ -1,3 +1,4 @@
+import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
@@ -8,8 +9,12 @@ import FavoritesLocations from '../../components/favorites-locations/favorites-l
 import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
 
-function FavoritesPage(): JSX.Element {
-  const offers: Offer[] = useAppSelector((state) => state.offers);
+type FavoritesPageProps = {
+  onFavoritesButtonClick: (evt: MouseEvent<HTMLButtonElement>) => void;
+}
+
+function FavoritesPage({ onFavoritesButtonClick }: FavoritesPageProps): JSX.Element {
+  const favoriteOffers: Offer[] = useAppSelector((state) => state.favoriteOffers);
 
   return (
     <div className="page">
@@ -31,11 +36,12 @@ function FavoritesPage(): JSX.Element {
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
               {Const.CITIES.map((city) => {
-                const favoriteOffers = Object.values(offers).filter((offer: Offer) => offer.city.name === city);
-                return (favoriteOffers.length > 0) && (
+                const cityFavoriteOffers = Object.values(favoriteOffers).filter((offer: Offer) => offer.city.name === city);
+                return (cityFavoriteOffers.length > 0) && (
                   <FavoritesLocations
-                    offers={favoriteOffers}
+                    offers={cityFavoriteOffers}
                     city={city}
+                    onFavoritesButtonClick={onFavoritesButtonClick}
                     key={city}
                   />
                 );

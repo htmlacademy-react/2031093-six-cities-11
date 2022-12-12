@@ -6,6 +6,8 @@ export const REQUEST_TIMEOUT = 5000;
 export const BACKEND_URL = 'https://11.react.pages.academy/six-cities';
 export const URL_MARKER_DEFAULT = './img/pin.svg';
 export const URL_MARKER_CURRENT = './img/pin-active.svg';
+export const FAVORITE_BUTTON_ACTIVE_CLASS = 'place-card__bookmark-button--active';
+export const ROOM_FAVORITE_BUTTON_ACTIVE_CLASS = 'property__bookmark-button--active';
 
 export const INITIAL_OFFER: Offer | undefined = undefined;
 export const INITIAL_CITY = 'Paris';

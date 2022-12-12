@@ -1,8 +1,9 @@
-import { MouseEventHandler, useState } from 'react';
+import { MouseEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { useAppSelector } from '../../hooks/index';
 import { Offer, Comment } from '../../types/types';
-import { AuthorizationStatus } from '../../utils/constants';
+import { AppRoute, AuthorizationStatus } from '../../utils/constants';
 import GalaryCard from '../galary-card/galary-card';
 import InsideItemCard from '../inside-item-card/inside-item-card';
 import OffersList from '../offers-list/offers-list';
@@ -13,10 +14,11 @@ import Map from '../map/map';
 const MAP_HEIGHT = '579px';
 
 type RoomMainProps = {
-  onFavoritesButtonClick: (MouseEventHandler<HTMLButtonElement> | undefined);
+  onFavoritesButtonClick: (evt: MouseEvent<HTMLButtonElement>) => void;
 }
 
 function RoomMain({ onFavoritesButtonClick }: RoomMainProps): JSX.Element {
+  const navigate = useNavigate();
   const authorizationStatus: AuthorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const offer: Offer | undefined = useAppSelector((state) => state.offer);
   const nearbyOffers: Offer[] = useAppSelector((state) => state.nearbyOffers);
@@ -30,6 +32,13 @@ function RoomMain({ onFavoritesButtonClick }: RoomMainProps): JSX.Element {
   const [hoveredOffer, setHoveredOffer] = useState<Offer | undefined>(
     undefined
   );
+
+  const handleFavoritesButtonClick = (evt: MouseEvent<HTMLButtonElement>) => {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      navigate(AppRoute.Login);
+    }
+    onFavoritesButtonClick(evt);
+  };
 
   return (
     <main className="page__main page__main--property">
@@ -52,8 +61,10 @@ function RoomMain({ onFavoritesButtonClick }: RoomMainProps): JSX.Element {
               <h1 className="property__name">
                 {offer && offer.title}
               </h1>
-              <button className={bookmarksClassName} type="button">
-                <svg className="property__bookmark-icon" width="31" height="33">
+              <button data-id={offer?.id} className={bookmarksClassName} type="button"
+                onClick={handleFavoritesButtonClick}
+              >
+                <svg className="place-card__bookmark-icon" width="31" height="33">
                   <use xlinkHref="#icon-bookmark"></use>
                 </svg>
                 <span className="visually-hidden">To bookmarks</span>

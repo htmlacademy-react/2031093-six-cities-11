@@ -1,21 +1,24 @@
-import { MouseEvent, MouseEventHandler } from 'react';
-import { Link } from 'react-router-dom';
+import { MouseEvent } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
+import { useAppSelector } from '../../hooks';
 import { Offer } from '../../types/types';
-import { AppRoute } from '../../utils/constants';
+import { AppRoute, AuthorizationStatus, FAVORITE_BUTTON_ACTIVE_CLASS } from '../../utils/constants';
 
 type OfferCardProps = {
   offer: Offer;
   parent: string;
   onMouseEnter?: (evt: MouseEvent<HTMLLIElement>) => void;
-  onFavoritesButtonClick: (MouseEventHandler<HTMLButtonElement> | undefined);
+  onFavoritesButtonClick: (evt: MouseEvent<HTMLButtonElement>) => void;
 }
 
 function OfferCard({ offer, parent, onMouseEnter, onFavoritesButtonClick }: OfferCardProps): JSX.Element {
+  const navigate = useNavigate();
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const style = {
     width: `${offer.rating * 20}%`,
   };
-  const classNameFavoritesButton = `place-card__bookmark-button ${offer.isFavorite ? 'place-card__bookmark-button--active ' : ''}button`;
+  const classNameFavoritesButton = `place-card__bookmark-button ${offer.isFavorite ? `${FAVORITE_BUTTON_ACTIVE_CLASS} ` : ''}button`;
   const images = offer.images as string[];
   const photo = (images.length > 0) ? images[0] : '';
   const route = AppRoute.Room.slice(0, AppRoute.Room.indexOf(':'));
@@ -27,9 +30,15 @@ function OfferCard({ offer, parent, onMouseEnter, onFavoritesButtonClick }: Offe
     }
   };
 
+  const handleFavoritesButtonClick = (evt: MouseEvent<HTMLButtonElement>) => {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      navigate(AppRoute.Login);
+    }
+    onFavoritesButtonClick(evt);
+  };
+
   return (
-    <article data-id={offer.id}
-      className={`${parent}__card place-card`}
+    <article className={`${parent}__card place-card`}
       onMouseEnter={handleMouseEnter}
     >
       {offer.isPremium ?
@@ -48,8 +57,8 @@ function OfferCard({ offer, parent, onMouseEnter, onFavoritesButtonClick }: Offe
             <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={classNameFavoritesButton} type="button"
-            onClick={onFavoritesButtonClick}
+          <button data-id={offer?.id} className={classNameFavoritesButton} type="button"
+            onClick={handleFavoritesButtonClick}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>

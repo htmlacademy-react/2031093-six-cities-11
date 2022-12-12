@@ -1,4 +1,4 @@
-import { MouseEventHandler, useEffect } from 'react';
+import { MouseEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
@@ -8,7 +8,6 @@ import {
   fetchOfferAction,
   fetchNearbyOffersAction,
   fetchCommentsAction,
-  fetchFavoriteOffersAction
 } from '../../store/api-actions';
 import { AppRoute } from '../../utils/constants';
 import Logo from '../../components/logo/logo';
@@ -17,7 +16,7 @@ import LoadingScreen from '../loading-screen/loading-screen';
 import RoomMain from '../../components/room-main/room-main';
 
 type RoomPageProps = {
-  onFavoritesButtonClick: (MouseEventHandler<HTMLButtonElement> | undefined);
+  onFavoritesButtonClick: (evt: MouseEvent<HTMLButtonElement>) => void;
 }
 
 function RoomPage({ onFavoritesButtonClick }: RoomPageProps): JSX.Element {
@@ -32,7 +31,6 @@ function RoomPage({ onFavoritesButtonClick }: RoomPageProps): JSX.Element {
 
   useEffect(() => {
     store.dispatch(fetchOfferAction(offerID));
-    store.dispatch(fetchFavoriteOffersAction());
     store.dispatch(fetchNearbyOffersAction(offerID));
     store.dispatch(fetchCommentsAction(offerID));
   }, [offerID]);

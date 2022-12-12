@@ -14,6 +14,7 @@ type InitalState = {
   offer: Type.Offer | undefined;
   authorizationStatus: Const.AuthorizationStatus;
   isOffersDataLoading: boolean;
+  isOneOfferDataLoading: boolean;
   user: UserData;
   comments: Type.Comment[];
 }
@@ -27,6 +28,7 @@ const initialState: InitalState = {
   offer: Const.INITIAL_OFFER,
   authorizationStatus: Const.AuthorizationStatus.Unknown,
   isOffersDataLoading: false,
+  isOneOfferDataLoading: false,
   user: Const.INITIAL_USER,
   comments: [],
 };
@@ -59,14 +61,14 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(Action.changeOffersDataLoadingStatus, (state, action) => {
       state.isOffersDataLoading = action.payload;
     })
+    .addCase(Action.changeOneOfferDataLoadingStatus, (state, action) => {
+      state.isOneOfferDataLoading = action.payload;
+    })
     .addCase(Action.changeCity, (state, action) => {
       state.city = action.payload;
     })
     .addCase(Action.changeSortType, (state, action) => {
       state.sortType = action.payload;
-      // })
-      // .addCase(Action.postFavoriteStatus, (state, action) => {//TODO use in homework 8.14.
-      //   state.offer = action.payload;
     });
 });
 

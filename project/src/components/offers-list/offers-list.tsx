@@ -1,4 +1,4 @@
-import { MouseEvent, MouseEventHandler } from 'react';
+import { MouseEvent } from 'react';
 
 import { Offer } from '../../types/types';
 import OfferCard from '../../components/offer-card/offer-card';
@@ -7,7 +7,7 @@ type OffersListProps = {
   offers: Offer[];
   parent: string;
   setHoveredOffer: (offer: Offer | undefined) => void;
-  onFavoritesButtonClick: (MouseEventHandler<HTMLButtonElement> | undefined);
+  onFavoritesButtonClick: (evt: MouseEvent<HTMLButtonElement>) => void;
 }
 
 function OffersList({ offers, parent, setHoveredOffer, onFavoritesButtonClick }: OffersListProps): JSX.Element {

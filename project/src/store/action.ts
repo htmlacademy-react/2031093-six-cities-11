@@ -17,6 +17,7 @@ export const postNewOfferComment = createAction<FormData>('data/postNewOfferComm
 export const postFavoriteStatus = createAction<Offer>('data/postFavoriteStatus');
 
 export const changeOffersDataLoadingStatus = createAction<boolean>('offers/changeOffersDataLoadingStatus');
+export const changeOneOfferDataLoadingStatus = createAction<boolean>('offers/changeOneOfferDataLoadingStatus');
 export const changeCity = createAction<string>('offers/changeCity');
 export const changeSortType = createAction<SortType>('offers/changeSortType');
 export const redirectToRoute = createAction<AppRoute>('offers/redirectToRoute');

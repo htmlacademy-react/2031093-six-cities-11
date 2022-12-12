@@ -11,8 +11,6 @@ function MainEmpty(): JSX.Element {
       </section>
       <div className="cities__right-section">
         <img src="../img/no-places@2x.png" alt="No offers"></img>
-
-        <img ></img>
       </div>
     </div>
   );
