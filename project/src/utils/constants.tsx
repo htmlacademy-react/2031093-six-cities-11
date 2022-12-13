@@ -22,9 +22,11 @@ export const CITIES: string[] = [
 
 export const INITIAL_USER: UserData = {
   id: -1,
+  avatarUrl: '',
+  isPro: false,
+  name: '',
   email: 'eee',
   token: '',
-  avatarUrl: '',
 };
 
 export enum Rating {
@@ -73,3 +75,9 @@ export enum SortType {
   TopRatedFirst = 'Top rated first'
 }
 export const DEFAULT_SORT_TYPE = SortType.Popular;
+
+export enum NameSpace {
+  User = 'USER',
+  Data = 'DATA',
+  App = 'APP',
+}

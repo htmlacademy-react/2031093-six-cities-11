@@ -1,6 +1,7 @@
 import { SyntheticEvent, useState, useRef } from 'react';
 
 import { useAppSelector } from '../../hooks';
+import { getOffer } from '../../store/data-process/selectors';
 import { store } from '../../store/index';
 import { FormPostData } from '../../types/types';
 import { Rating } from '../../utils/constants';
@@ -12,7 +13,7 @@ const MAX_COMMENT_LENGTH = 300;
 function ReviewForm(): JSX.Element {
   const submitButtonRef = useRef<HTMLButtonElement | null>(null);
 
-  const offer = useAppSelector((state) => state.offer);
+  const offer = useAppSelector(getOffer);
   const [formData, setFormData] = useState({
     rating: 0,
     comment: '',

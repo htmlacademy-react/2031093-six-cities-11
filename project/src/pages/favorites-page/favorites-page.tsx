@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
 import { useAppSelector } from '../../hooks/index';
+import { getFavoriteOffers } from '../../store/data-process/selectors';
 import { Offer } from '../../types/types';
 import * as Const from '../../utils/constants';
 import FavoritesLocations from '../../components/favorites-locations/favorites-locations';
@@ -14,7 +15,7 @@ type FavoritesPageProps = {
 }
 
 function FavoritesPage({ onFavoritesButtonClick }: FavoritesPageProps): JSX.Element {
-  const favoriteOffers: Offer[] = useAppSelector((state) => state.favoriteOffers);
+  const favoriteOffers = useAppSelector(getFavoriteOffers);
 
   return (
     <div className="page">
@@ -39,7 +40,6 @@ function FavoritesPage({ onFavoritesButtonClick }: FavoritesPageProps): JSX.Elem
                 const cityFavoriteOffers = Object.values(favoriteOffers).filter((offer: Offer) => offer.city.name === city);
                 return (cityFavoriteOffers.length > 0) && (
                   <FavoritesLocations
-                    offers={cityFavoriteOffers}
                     city={city}
                     onFavoritesButtonClick={onFavoritesButtonClick}
                     key={city}

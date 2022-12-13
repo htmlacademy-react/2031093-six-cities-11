@@ -1,6 +1,8 @@
 import { memo } from 'react';
-import { useAppSelector } from '../../hooks/index';
+
 import { CITIES } from '../../utils/constants';
+import { useAppSelector } from '../../hooks/index';
+import { getCity } from '../../store/app-process/selectors';
 import LocationsListItem from '../../components/locations-list-item/locations-list-item';
 
 type LocationsListProps = {
@@ -8,7 +10,7 @@ type LocationsListProps = {
 }
 
 function LocationsList({ onLocationClick }: LocationsListProps): JSX.Element {
-  const currentCity: string = useAppSelector((state) => state.city);
+  const currentCity: string = useAppSelector(getCity);
 
   return (
     <ul className="locations__list tabs__list">

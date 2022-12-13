@@ -2,22 +2,22 @@ import { MouseEvent } from 'react';
 
 import { useAppSelector } from '../../hooks';
 import {
+  fetchOffersAction,
   fetchFavoriteOffersAction,
-  fetchOffersAction
 } from '../../store/api-actions';
 import { store } from '../../store/index';
+import { getAuthLoggedStatus } from '../../store/user-process/selectors';
 import MainContent from '../../components/main-content/main-content';
-import { AuthorizationStatus } from '../../utils/constants';
 
 type MainPageProps = {
   onFavoritesButtonClick: (evt: MouseEvent<HTMLButtonElement>) => void;
 }
 
 function MainPage({ onFavoritesButtonClick }: MainPageProps): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isUserLogged = useAppSelector(getAuthLoggedStatus);
 
   store.dispatch(fetchOffersAction());
-  if (authorizationStatus === AuthorizationStatus.Auth) {
+  if (isUserLogged) {
     store.dispatch(fetchFavoriteOffersAction());
   }
 

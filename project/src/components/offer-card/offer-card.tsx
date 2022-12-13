@@ -1,9 +1,10 @@
-import { memo, MouseEvent } from 'react';
+import { MouseEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { useAppSelector } from '../../hooks';
 import { Offer } from '../../types/types';
-import { AppRoute, AuthorizationStatus, FAVORITE_BUTTON_ACTIVE_CLASS } from '../../utils/constants';
+import { AppRoute, FAVORITE_BUTTON_ACTIVE_CLASS } from '../../utils/constants';
+import { getAuthLoggedStatus } from '../../store/user-process/selectors';
 
 type OfferCardProps = {
   offer: Offer;
@@ -14,7 +15,7 @@ type OfferCardProps = {
 
 function OfferCard({ offer, parent, onMouseEnter, onFavoritesButtonClick }: OfferCardProps): JSX.Element {
   const navigate = useNavigate();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isUserLogged = useAppSelector(getAuthLoggedStatus);
   const style = {
     width: `${offer.rating * 20}%`,
   };
@@ -31,7 +32,7 @@ function OfferCard({ offer, parent, onMouseEnter, onFavoritesButtonClick }: Offe
   };
 
   const handleFavoritesButtonClick = (evt: MouseEvent<HTMLButtonElement>) => {
-    if (authorizationStatus !== AuthorizationStatus.Auth) {
+    if (!isUserLogged) {
       navigate(AppRoute.Login);
     }
     onFavoritesButtonClick(evt);
@@ -81,4 +82,4 @@ function OfferCard({ offer, parent, onMouseEnter, onFavoritesButtonClick }: Offe
   );
 }
 
-export default memo(OfferCard);
+export default OfferCard;

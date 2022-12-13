@@ -1,8 +1,12 @@
-import { MouseEvent, useEffect } from 'react';
+import {
+  MouseEvent,
+  useEffect
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
 import { useAppSelector } from '../../hooks/index';
+import { getOffers, getIsOffersDataLoading } from '../../store/data-process/selectors';
 import { store } from '../../store/index';
 import {
   fetchOfferAction,
@@ -22,19 +26,19 @@ type RoomPageProps = {
 function RoomPage({ onFavoritesButtonClick }: RoomPageProps): JSX.Element {
   const navigate = useNavigate();
 
-  const offers = useAppSelector((state) => state.offers);
-  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
-  const offerID = Number(window.location.pathname.split('/').pop());
+  const offers = useAppSelector(getOffers);
+  const isOffersDataLoading = useAppSelector(getIsOffersDataLoading);
+  const offerId = Number(window.location.pathname.split('/').pop());
 
-  if (!offers.find((offer) => offer.id === offerID)) {
+  if (!offers.find((o) => o.id === offerId)) {
     navigate(AppRoute.NotFound);
   }
 
   useEffect(() => {
-    store.dispatch(fetchOfferAction(offerID));
-    store.dispatch(fetchNearbyOffersAction(offerID));
-    store.dispatch(fetchCommentsAction(offerID));
-  }, [offerID]);
+    store.dispatch(fetchOfferAction(offerId));
+    store.dispatch(fetchNearbyOffersAction(offerId));
+    store.dispatch(fetchCommentsAction(offerId));
+  }, [offerId]);
 
   return (
     <div className="page">

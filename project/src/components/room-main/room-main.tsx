@@ -2,8 +2,10 @@ import { MouseEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAppSelector } from '../../hooks/index';
+import { getAuthLoggedStatus } from '../../store/user-process/selectors';
+import { getOffer, getNearbyOffers, getComments } from '../../store/data-process/selectors';
 import { Offer, Comment } from '../../types/types';
-import { AppRoute, AuthorizationStatus } from '../../utils/constants';
+import { AppRoute } from '../../utils/constants';
 import GalaryCard from '../galary-card/galary-card';
 import InsideItemCard from '../inside-item-card/inside-item-card';
 import OffersList from '../offers-list/offers-list';
@@ -20,10 +22,10 @@ type RoomMainProps = {
 function RoomMain({ onFavoritesButtonClick }: RoomMainProps): JSX.Element {
   const navigate = useNavigate();
 
-  const authorizationStatus: AuthorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const offer: Offer | undefined = useAppSelector((state) => state.offer);
-  const nearbyOffers: Offer[] = useAppSelector((state) => state.nearbyOffers);
-  const comments: Comment[] = useAppSelector((state) => state.comments);
+  const isUserLogged = useAppSelector(getAuthLoggedStatus);
+  const offer: Offer | undefined = useAppSelector(getOffer);
+  const nearbyOffers: Offer[] = useAppSelector(getNearbyOffers);
+  const comments: Comment[] = useAppSelector(getComments);
 
   const ratingStyle = {
     width: `${offer ? offer.rating * 20 : 0}%`,
@@ -35,7 +37,7 @@ function RoomMain({ onFavoritesButtonClick }: RoomMainProps): JSX.Element {
   );
 
   const handleFavoritesButtonClick = (evt: MouseEvent<HTMLButtonElement>) => {
-    if (authorizationStatus !== AuthorizationStatus.Auth) {
+    if (!isUserLogged) {
       navigate(AppRoute.Login);
     }
 
@@ -77,7 +79,7 @@ function RoomMain({ onFavoritesButtonClick }: RoomMainProps): JSX.Element {
                 <span style={ratingStyle}></span>
                 <span className="visually-hidden">Rating</span>
               </div>
-              <span className="property__rating-value rating__value">4.8</span>
+              <span className="property__rating-value rating__value">{offer && offer.rating}</span>
             </div>
             <ul className="property__features">
               <li className="property__feature property__feature--entire">
@@ -124,7 +126,7 @@ function RoomMain({ onFavoritesButtonClick }: RoomMainProps): JSX.Element {
                 <span className="reviews__amount">{comments.length}</span>
               </h2>
               <ReviewList comments={comments} />
-              {authorizationStatus === AuthorizationStatus.Auth
+              {isUserLogged
                 ? <ReviewForm />
                 : ''}
             </section>

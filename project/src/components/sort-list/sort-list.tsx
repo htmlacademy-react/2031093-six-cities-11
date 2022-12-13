@@ -1,7 +1,8 @@
 import { SyntheticEvent } from 'react';
 
 import { useAppSelector, useAppDispatch } from '../../hooks/index';
-import { changeSortType } from '../../store/action';
+import { getSortType } from '../../store/app-process/selectors';
+import { changeSortType } from '../../store/app-process/app-process';
 import { debounce } from '../../utils/utils';
 import * as Const from '../../utils/constants';
 
@@ -12,7 +13,7 @@ const SORT_LIST_CLASS_OPENED = 'places__options--opened';
 
 function SortList(): JSX.Element {
   const dispacth = useAppDispatch();
-  const oldSortType = useAppSelector((state) => state.sortType);
+  const oldSortType = useAppSelector(getSortType);
 
   const handleSortingTypeMouseEnter = () => {
     const sortListElement = document.querySelector(SORT_LIST_CLASS);
@@ -58,7 +59,7 @@ function SortList(): JSX.Element {
         onMouseEnter={handleSortingTypeMouseEnter}
         tabIndex={0}
       >
-        {useAppSelector((state) => state.sortType)}
+        {useAppSelector(getSortType)}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>

@@ -2,8 +2,10 @@ import { MouseEvent, useState, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { changeCity } from '../../store/action';
+import { changeCity } from '../../store/app-process/app-process';
 import { City, Offer } from '../../types/types';
+import { getOffers, getIsOffersDataLoading } from '../../store/data-process/selectors';
+import { getCity, getSortType } from '../../store/app-process/selectors';
 import * as Const from '../../utils/constants';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import LocationsList from '../locations-list/locations-list';
@@ -49,15 +51,15 @@ type MainContentProps = {
 function MainContent({ onFavoritesButtonClick }: MainContentProps): JSX.Element {
   const dispatch = useAppDispatch();
 
-  const offers: Offer[] = useAppSelector((state) => state.offers);
-  const currentCityName: string = useAppSelector((state) => state.city);
-  const sortType: Const.SortType = useAppSelector((state) => state.sortType);
+  const offers: Offer[] = useAppSelector(getOffers);
+  const currentCityName: string = useAppSelector(getCity);
+  const sortType: Const.SortType = useAppSelector(getSortType);
   const sortedCityOffers = getSortedCityOffers(offers, currentCityName, sortType);
   const placesQty = sortedCityOffers.length;
   const selectedCity: City | undefined = sortedCityOffers
-    .map((offer) => offer.city)
+    .map((o) => o.city)
     .find((city) => city.name === currentCityName);
-  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+  const isOffersDataLoading = useAppSelector(getIsOffersDataLoading);
 
   const [hoveredOffer, setHoveredOffer] = useState<Offer | undefined>(
     undefined
@@ -65,7 +67,7 @@ function MainContent({ onFavoritesButtonClick }: MainContentProps): JSX.Element 
 
   const onLocationClick = useCallback((cityName: string) => {
     dispatch(changeCity(cityName));
-  }, [dispatch]);
+  }, [dispatch, offers, currentCityName]);
 
   return (
     <div className="page page--gray page--main">
