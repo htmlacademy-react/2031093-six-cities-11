@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { useAppSelector } from '../../hooks/index';
 import { CITIES } from '../../utils/constants';
 import LocationsListItem from '../../components/locations-list-item/locations-list-item';
@@ -23,4 +24,4 @@ function LocationsList({ onLocationClick }: LocationsListProps): JSX.Element {
   );
 }
 
-export default LocationsList;
+export default memo(LocationsList);

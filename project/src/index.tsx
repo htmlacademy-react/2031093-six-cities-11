@@ -6,7 +6,9 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import App from './components/app/app';
 import { store } from '../src/store/index';
+import { checkAuthAction } from '../src/store/api-actions';
 
+store.dispatch(checkAuthAction());
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );

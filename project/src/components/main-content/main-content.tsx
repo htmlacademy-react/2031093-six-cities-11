@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, useState, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 import { useAppSelector, useAppDispatch } from '../../hooks';
@@ -50,7 +50,6 @@ function MainContent({ onFavoritesButtonClick }: MainContentProps): JSX.Element 
   const dispatch = useAppDispatch();
 
   const offers: Offer[] = useAppSelector((state) => state.offers);
-
   const currentCityName: string = useAppSelector((state) => state.city);
   const sortType: Const.SortType = useAppSelector((state) => state.sortType);
   const sortedCityOffers = getSortedCityOffers(offers, currentCityName, sortType);
@@ -64,9 +63,9 @@ function MainContent({ onFavoritesButtonClick }: MainContentProps): JSX.Element 
     undefined
   );
 
-  const onLocationClick = (cityName: string) => {
+  const onLocationClick = useCallback((cityName: string) => {
     dispatch(changeCity(cityName));
-  };
+  }, [dispatch]);
 
   return (
     <div className="page page--gray page--main">

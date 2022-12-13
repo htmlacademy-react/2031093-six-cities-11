@@ -21,6 +21,7 @@ type RoomPageProps = {
 
 function RoomPage({ onFavoritesButtonClick }: RoomPageProps): JSX.Element {
   const navigate = useNavigate();
+
   const offers = useAppSelector((state) => state.offers);
   const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
   const offerID = Number(window.location.pathname.split('/').pop());

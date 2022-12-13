@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useAppSelector, useAppDispatch } from '../../hooks';
@@ -7,8 +8,8 @@ import { logoutAction } from '../../store/api-actions';
 function Nav(): JSX.Element {
   const dispatch = useAppDispatch();
 
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const user = useAppSelector((state) => state.user);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
   const favoritesQty: number = useAppSelector((state) => state.favoriteOffers)
     .filter((o) => o.isFavorite).length;
@@ -49,4 +50,4 @@ function Nav(): JSX.Element {
   );
 }
 
-export default Nav;
+export default memo(Nav);

@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 import { StatusCodes } from 'http-status-codes';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 
 import { getToken } from './token';
 import * as Const from '../utils/constants';

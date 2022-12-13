@@ -1,14 +1,11 @@
 import { MouseEvent } from 'react';
-import { Routes, Route,
-  // useNavigate
-} from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
 import { useAppSelector } from '../../hooks';
 import { store } from '../../store/index';
 import {
   AppRoute,
-  // AuthorizationStatus,
   FAVORITE_BUTTON_ACTIVE_CLASS,
   ROOM_FAVORITE_BUTTON_ACTIVE_CLASS,
 } from '../../utils/constants';
@@ -24,12 +21,7 @@ import browserHistory from '../../browser-history';
 import { postFavoriteStatus } from '../../store/api-actions';
 
 function App(): JSX.Element {
-  // const navigate = useNavigate();
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-
-  // if (authorizationStatus !== AuthorizationStatus.Auth) {
-  //   navigate(AppRoute.Login);
-  // }
 
   const onOfferCardFavoritesButtonClick = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();

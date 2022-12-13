@@ -1,4 +1,4 @@
-import { MouseEvent } from 'react';
+import { memo, MouseEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { useAppSelector } from '../../hooks';
@@ -18,7 +18,7 @@ function OfferCard({ offer, parent, onMouseEnter, onFavoritesButtonClick }: Offe
   const style = {
     width: `${offer.rating * 20}%`,
   };
-  const classNameFavoritesButton = `place-card__bookmark-button ${offer.isFavorite ? `${FAVORITE_BUTTON_ACTIVE_CLASS} ` : ''}button`;
+  const favoritesButtonClass = `place-card__bookmark-button ${offer.isFavorite ? `${FAVORITE_BUTTON_ACTIVE_CLASS} ` : ''}button`;
   const images = offer.images as string[];
   const photo = (images.length > 0) ? images[0] : '';
   const route = AppRoute.Room.slice(0, AppRoute.Room.indexOf(':'));
@@ -38,7 +38,7 @@ function OfferCard({ offer, parent, onMouseEnter, onFavoritesButtonClick }: Offe
   };
 
   return (
-    <article className={`${parent}__card place-card`}
+    <article data-id={offer?.id} className={`${parent}__card place-card`}
       onMouseEnter={handleMouseEnter}
     >
       {offer.isPremium ?
@@ -57,7 +57,7 @@ function OfferCard({ offer, parent, onMouseEnter, onFavoritesButtonClick }: Offe
             <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button data-id={offer?.id} className={classNameFavoritesButton} type="button"
+          <button data-id={offer?.id} className={favoritesButtonClass} type="button"
             onClick={handleFavoritesButtonClick}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
@@ -81,4 +81,4 @@ function OfferCard({ offer, parent, onMouseEnter, onFavoritesButtonClick }: Offe
   );
 }
 
-export default OfferCard;
+export default memo(OfferCard);

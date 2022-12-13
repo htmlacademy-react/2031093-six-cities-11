@@ -19,6 +19,7 @@ type RoomMainProps = {
 
 function RoomMain({ onFavoritesButtonClick }: RoomMainProps): JSX.Element {
   const navigate = useNavigate();
+
   const authorizationStatus: AuthorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const offer: Offer | undefined = useAppSelector((state) => state.offer);
   const nearbyOffers: Offer[] = useAppSelector((state) => state.nearbyOffers);
@@ -37,6 +38,7 @@ function RoomMain({ onFavoritesButtonClick }: RoomMainProps): JSX.Element {
     if (authorizationStatus !== AuthorizationStatus.Auth) {
       navigate(AppRoute.Login);
     }
+
     onFavoritesButtonClick(evt);
   };
 
@@ -95,7 +97,7 @@ function RoomMain({ onFavoritesButtonClick }: RoomMainProps): JSX.Element {
             <div className="property__inside">
               <h2 className="property__inside-title">What&apos;s inside</h2>
               <ul className="property__inside-list">
-                {offer && offer.goods.map((item) => <InsideItemCard item={item} key={`${offer && offer.id}-${item}`} /> )}
+                {offer && offer.goods.map((item) => <InsideItemCard item={item} key={`${offer.id}-${item.split(' ').join('-')}`} />)}
               </ul>
             </div>
             <div className="property__host">
