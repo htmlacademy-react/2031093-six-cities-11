@@ -67,7 +67,7 @@ function MainContent({ onFavoritesButtonClick }: MainContentProps): JSX.Element 
 
   const onLocationClick = useCallback((cityName: string) => {
     dispatch(changeCity(cityName));
-  }, [dispatch, offers, currentCityName]);
+  }, [dispatch]);
 
   return (
     <div className="page page--gray page--main">
