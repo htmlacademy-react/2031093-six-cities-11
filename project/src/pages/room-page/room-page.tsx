@@ -5,10 +5,11 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
-import { useAppSelector } from '../../hooks/index';
+import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getOffers, getIsOffersDataLoading } from '../../store/data-process/selectors';
-import { store } from '../../store/index';
 import {
+  fetchOffersAction,
+  fetchFavoriteOffersAction,
   fetchOfferAction,
   fetchNearbyOffersAction,
   fetchCommentsAction,
@@ -24,6 +25,7 @@ type RoomPageProps = {
 }
 
 function RoomPage({ onFavoritesButtonClick }: RoomPageProps): JSX.Element {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const offers = useAppSelector(getOffers);
@@ -35,9 +37,12 @@ function RoomPage({ onFavoritesButtonClick }: RoomPageProps): JSX.Element {
   }
 
   useEffect(() => {
-    store.dispatch(fetchOfferAction(offerId));
-    store.dispatch(fetchNearbyOffersAction(offerId));
-    store.dispatch(fetchCommentsAction(offerId));
+    dispatch(fetchOffersAction());
+    dispatch(fetchFavoriteOffersAction());
+
+    dispatch(fetchOfferAction(offerId));
+    dispatch(fetchNearbyOffersAction(offerId));
+    dispatch(fetchCommentsAction(offerId));
   }, [offerId]);
 
   return (

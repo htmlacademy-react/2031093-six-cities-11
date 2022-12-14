@@ -1,16 +1,19 @@
-import { MouseEvent } from 'react';
+import {
+  memo,
+  MouseEvent,
+  useCallback,
+} from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
-import { useAppSelector } from '../../hooks';
-import { store } from '../../store/index';
+import { useAppSelector, useAppDispatch } from '../../hooks';
 import {
   AppRoute,
   FAVORITE_BUTTON_ACTIVE_CLASS,
   ROOM_FAVORITE_BUTTON_ACTIVE_CLASS,
 } from '../../utils/constants';
 import { FavoritePostData } from '../../types/types';
-import { postFavoriteStatus } from '../../store/api-actions';
+import { postFavoriteStatus, fetchOffersAction, fetchFavoriteOffersAction } from '../../store/api-actions';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import LoginPage from '../../pages/login-page/login-page';
@@ -22,9 +25,10 @@ import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 
 function App(): JSX.Element {
+  const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
-  const onOfferCardFavoritesButtonClick = (evt: MouseEvent<HTMLButtonElement>) => {
+  const onOfferCardFavoritesButtonClick = useCallback((evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
     const offerId: number | undefined = Number(evt.currentTarget.dataset.id);
     const status = Number(!( evt.currentTarget.classList.contains(FAVORITE_BUTTON_ACTIVE_CLASS) ||
@@ -35,8 +39,14 @@ function App(): JSX.Element {
         offerId,
         status,
       };
-      store.dispatch(postFavoriteStatus(favoritePostData));
+      updateData(dispatch(postFavoriteStatus(favoritePostData)));
     }
+  }, []);
+
+  const updateData = async <T, >(p: Promise<T>) => {
+    await p;
+    dispatch(fetchOffersAction());
+    dispatch(fetchFavoriteOffersAction());
   };
 
   return (
@@ -85,4 +95,4 @@ function App(): JSX.Element {
   );
 }
 
-export default App;
+export default memo(App);

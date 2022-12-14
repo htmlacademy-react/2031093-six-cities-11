@@ -41,6 +41,7 @@ function FavoritesPage({ onFavoritesButtonClick }: FavoritesPageProps): JSX.Elem
                 return (cityFavoriteOffers.length > 0) && (
                   <FavoritesLocations
                     city={city}
+                    cityFavoriteOffers={cityFavoriteOffers}
                     onFavoritesButtonClick={onFavoritesButtonClick}
                     key={city}
                   />

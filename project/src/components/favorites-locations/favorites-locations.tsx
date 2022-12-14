@@ -1,18 +1,17 @@
 import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 
-import { useAppSelector } from '../../hooks/index';
-import { getFavoriteOffers } from '../../store/data-process/selectors';
 import { Offer } from '../../types/types';
 import FavoritesCard from '../../components/favorites-card/favorites-card';
 
 type FavoritesLocationsProps = {
   city: string;
   onFavoritesButtonClick: (evt: MouseEvent<HTMLButtonElement>) => void;
+  cityFavoriteOffers: Offer[];
 }
 
-function FavoritesLocations({ city, onFavoritesButtonClick }: FavoritesLocationsProps): JSX.Element {
-  const favoriteOffers = Object.values(useAppSelector(getFavoriteOffers))
+function FavoritesLocations({ city, cityFavoriteOffers, onFavoritesButtonClick }: FavoritesLocationsProps): JSX.Element {
+  const favoriteOffers = Object.values(cityFavoriteOffers)
     .filter((offer) => offer.isFavorite)
     .map((offer: Offer) => (
       <FavoritesCard

@@ -57,7 +57,6 @@ export const dataProcess = createSlice({
       .addCase(Action.fetchOfferAction.fulfilled, (state, action) => {
         if (action.payload) {
           state.offer = action.payload;
-          Action.fetchNearbyOffersAction(state.offer.id);
         }
         state.isOneOfferDataLoading = false;
       })
@@ -90,8 +89,6 @@ export const dataProcess = createSlice({
       .addCase(Action.postFavoriteStatus.fulfilled, (state, action) => {
         if (action.payload) {
           state.offer = action.payload;
-          Action.fetchOffersAction();
-          Action.fetchFavoriteOffersAction();
         }
         state.isOneOfferDataLoading = false;
       })

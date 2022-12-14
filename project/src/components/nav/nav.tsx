@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useAppSelector, useAppDispatch } from '../../hooks';
@@ -52,4 +51,4 @@ function Nav(): JSX.Element {
   );
 }
 
-export default memo(Nav);
+export default Nav;
