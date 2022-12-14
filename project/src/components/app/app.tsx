@@ -1,8 +1,20 @@
+import {
+  memo,
+  MouseEvent,
+  useCallback,
+} from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
-import { useAppSelector } from '../../hooks';
-import { AppRoute } from '../../utils/constants';
+import { useAppSelector, useAppDispatch } from '../../hooks';
+import {
+  AppRoute,
+  FAVORITE_BUTTON_ACTIVE_CLASS,
+  ROOM_FAVORITE_BUTTON_ACTIVE_CLASS,
+} from '../../utils/constants';
+import { FavoritePostData } from '../../types/types';
+import { postFavoriteStatus, fetchOffersAction, fetchFavoriteOffersAction } from '../../store/api-actions';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import LoginPage from '../../pages/login-page/login-page';
 import MainPage from '../../pages/main-page/main-page';
@@ -13,7 +25,29 @@ import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 
 function App(): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const dispatch = useAppDispatch();
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+
+  const updateData = useCallback(async <T, >(p: Promise<T>) => {
+    await p;
+    dispatch(fetchOffersAction());
+    dispatch(fetchFavoriteOffersAction());
+  }, [dispatch]);
+
+  const onOfferCardFavoritesButtonClick = useCallback((evt: MouseEvent<HTMLButtonElement>) => {
+    evt.preventDefault();
+    const offerId: number | undefined = Number(evt.currentTarget.dataset.id);
+    const status = Number(!( evt.currentTarget.classList.contains(FAVORITE_BUTTON_ACTIVE_CLASS) ||
+      evt.currentTarget.classList.contains(ROOM_FAVORITE_BUTTON_ACTIVE_CLASS) ));
+
+    if (offerId) {
+      const favoritePostData: FavoritePostData = {
+        offerId,
+        status,
+      };
+      updateData(dispatch(postFavoriteStatus(favoritePostData)));
+    }
+  }, [dispatch, updateData]);
 
   return (
     <HelmetProvider>
@@ -21,7 +55,11 @@ function App(): JSX.Element {
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<MainPage />}
+            element={
+              <MainPage
+                onFavoritesButtonClick={onOfferCardFavoritesButtonClick}
+              />
+            }
           />
           <Route
             path={AppRoute.Login}
@@ -31,14 +69,16 @@ function App(): JSX.Element {
             path={AppRoute.Favorites}
             element={
               <PrivateRoute authorizationStatus={authorizationStatus} >
-                <FavoritesPage />
+                <FavoritesPage onFavoritesButtonClick={onOfferCardFavoritesButtonClick} />
               </PrivateRoute>
             }
           />
           <Route
             path={AppRoute.Room}
             element={
-              <RoomPage />
+              <RoomPage
+                onFavoritesButtonClick={onOfferCardFavoritesButtonClick}
+              />
             }
           />
           <Route
@@ -55,4 +95,4 @@ function App(): JSX.Element {
   );
 }
 
-export default App;
+export default memo(App);

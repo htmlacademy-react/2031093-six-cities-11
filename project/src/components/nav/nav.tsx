@@ -3,14 +3,16 @@ import { Link } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { AppRoute, AuthorizationStatus } from '../../utils/constants';
 import { logoutAction } from '../../store/api-actions';
+import { getAuthorizationStatus, getUser } from '../../store/user-process/selectors';
+import { getFavoriteOffers } from '../../store/data-process/selectors';
 
 function Nav(): JSX.Element {
   const dispatch = useAppDispatch();
 
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const user = useAppSelector((state) => state.user);
+  const user = useAppSelector(getUser);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
-  const favoritesQty: number = useAppSelector((state) => state.favoriteOffers)
+  const favoritesQty: number = useAppSelector(getFavoriteOffers)
     .filter((o) => o.isFavorite).length;
   const signMessage = isAuthorized ? 'Sign out' : 'Sign in';
   const userEmail = isAuthorized ? user.email : '' ;

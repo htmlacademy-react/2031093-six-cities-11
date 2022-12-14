@@ -30,7 +30,7 @@ function ReviewCard({ comment }: ReviewCardProps): JSX.Element {
         <p className="reviews__text">
           {comment.comment}
         </p>
-        <time className="reviews__time" dateTime="2019-04-24">{date}</time>
+        <time className="reviews__time" dateTime={`${date}`}>{date}</time>
       </div>
     </li>
   );

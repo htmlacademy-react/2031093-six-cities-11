@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { MouseEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { useAppSelector } from '../../hooks/index';
+import { getAuthLoggedStatus } from '../../store/user-process/selectors';
+import { getOffer, getNearbyOffers, getComments } from '../../store/data-process/selectors';
 import { Offer, Comment } from '../../types/types';
-import { AuthorizationStatus } from '../../utils/constants';
+import { AppRoute } from '../../utils/constants';
 import GalaryCard from '../galary-card/galary-card';
 import InsideItemCard from '../inside-item-card/inside-item-card';
 import OffersList from '../offers-list/offers-list';
@@ -12,11 +15,17 @@ import Map from '../map/map';
 
 const MAP_HEIGHT = '579px';
 
-function RoomMain(): JSX.Element {
-  const authorizationStatus: AuthorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const offer: Offer | undefined = useAppSelector((state) => state.offer);
-  const nearbyOffers: Offer[] = useAppSelector((state) => state.nearbyOffers);
-  const comments: Comment[] = useAppSelector((state) => state.comments);
+type RoomMainProps = {
+  onFavoritesButtonClick: (evt: MouseEvent<HTMLButtonElement>) => void;
+}
+
+function RoomMain({ onFavoritesButtonClick }: RoomMainProps): JSX.Element {
+  const navigate = useNavigate();
+
+  const isUserLogged = useAppSelector(getAuthLoggedStatus);
+  const offer: Offer | undefined = useAppSelector(getOffer);
+  const nearbyOffers: Offer[] = useAppSelector(getNearbyOffers);
+  const comments: Comment[] = useAppSelector(getComments);
 
   const ratingStyle = {
     width: `${offer ? offer.rating * 20 : 0}%`,
@@ -26,6 +35,14 @@ function RoomMain(): JSX.Element {
   const [hoveredOffer, setHoveredOffer] = useState<Offer | undefined>(
     undefined
   );
+
+  const handleFavoritesButtonClick = (evt: MouseEvent<HTMLButtonElement>) => {
+    if (!isUserLogged) {
+      navigate(AppRoute.Login);
+    }
+
+    onFavoritesButtonClick(evt);
+  };
 
   return (
     <main className="page__main page__main--property">
@@ -48,8 +65,10 @@ function RoomMain(): JSX.Element {
               <h1 className="property__name">
                 {offer && offer.title}
               </h1>
-              <button className={bookmarksClassName} type="button">
-                <svg className="property__bookmark-icon" width="31" height="33">
+              <button data-id={offer?.id} className={bookmarksClassName} type="button"
+                onClick={handleFavoritesButtonClick}
+              >
+                <svg className="place-card__bookmark-icon" width="31" height="33">
                   <use xlinkHref="#icon-bookmark"></use>
                 </svg>
                 <span className="visually-hidden">To bookmarks</span>
@@ -60,7 +79,7 @@ function RoomMain(): JSX.Element {
                 <span style={ratingStyle}></span>
                 <span className="visually-hidden">Rating</span>
               </div>
-              <span className="property__rating-value rating__value">4.8</span>
+              <span className="property__rating-value rating__value">{offer && offer.rating}</span>
             </div>
             <ul className="property__features">
               <li className="property__feature property__feature--entire">
@@ -80,7 +99,7 @@ function RoomMain(): JSX.Element {
             <div className="property__inside">
               <h2 className="property__inside-title">What&apos;s inside</h2>
               <ul className="property__inside-list">
-                {offer && offer.goods.map((item) => <InsideItemCard item={item} key={`${offer && offer.id}-${item}`} /> )}
+                {offer && offer.goods.map((item) => <InsideItemCard item={item} key={`${offer.id}-${item.split(' ').join('-')}`} />)}
               </ul>
             </div>
             <div className="property__host">
@@ -107,7 +126,7 @@ function RoomMain(): JSX.Element {
                 <span className="reviews__amount">{comments.length}</span>
               </h2>
               <ReviewList comments={comments} />
-              {authorizationStatus === AuthorizationStatus.Auth
+              {isUserLogged
                 ? <ReviewForm />
                 : ''}
             </section>
@@ -131,6 +150,7 @@ function RoomMain(): JSX.Element {
               offers={nearbyOffers}
               parent={'near-places'}
               setHoveredOffer={setHoveredOffer}
+              onFavoritesButtonClick={onFavoritesButtonClick}
             />
           </div>
         </section>

@@ -59,3 +59,8 @@ export type FormPostData = {
   offerId: number;
   formData: FormData;
 }
+
+export type FavoritePostData = {
+  offerId: number;
+  status: number;
+}

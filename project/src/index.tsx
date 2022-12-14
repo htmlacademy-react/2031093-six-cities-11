@@ -5,12 +5,11 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import App from './components/app/app';
-import { checkAuthAction, fetchOffersAction } from './store/api-actions';
 import { store } from '../src/store/index';
+import { checkAuthAction, fetchOffersAction } from '../src/store/api-actions';
 
 store.dispatch(checkAuthAction());
 store.dispatch(fetchOffersAction());
-
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );

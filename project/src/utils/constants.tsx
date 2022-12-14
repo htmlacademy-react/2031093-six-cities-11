@@ -6,6 +6,8 @@ export const REQUEST_TIMEOUT = 5000;
 export const BACKEND_URL = 'https://11.react.pages.academy/six-cities';
 export const URL_MARKER_DEFAULT = './img/pin.svg';
 export const URL_MARKER_CURRENT = './img/pin-active.svg';
+export const FAVORITE_BUTTON_ACTIVE_CLASS = 'place-card__bookmark-button--active';
+export const ROOM_FAVORITE_BUTTON_ACTIVE_CLASS = 'property__bookmark-button--active';
 
 export const INITIAL_OFFER: Offer | undefined = undefined;
 export const INITIAL_CITY = 'Paris';
@@ -20,9 +22,11 @@ export const CITIES: string[] = [
 
 export const INITIAL_USER: UserData = {
   id: -1,
+  avatarUrl: '',
+  isPro: false,
+  name: '',
   email: 'eee',
   token: '',
-  avatarUrl: '',
 };
 
 export enum Rating {
@@ -40,7 +44,6 @@ export enum APIRoute {
   Offers = '/hotels',
   Favorite = '/favorite',
   Comments = '/comments',
-  PostFavoriteStatus = '/favorite',//'/favorite/{hotelId}/{status}'
 }
 
 export enum AppRoute {
@@ -71,3 +74,9 @@ export enum SortType {
   TopRatedFirst = 'Top rated first'
 }
 export const DEFAULT_SORT_TYPE = SortType.Popular;
+
+export enum NameSpace {
+  User = 'USER',
+  Data = 'DATA',
+  App = 'APP',
+}
