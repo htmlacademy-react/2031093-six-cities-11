@@ -28,6 +28,12 @@ function App(): JSX.Element {
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
+  const updateData = useCallback(async <T, >(p: Promise<T>) => {
+    await p;
+    dispatch(fetchOffersAction());
+    dispatch(fetchFavoriteOffersAction());
+  }, [dispatch]);
+
   const onOfferCardFavoritesButtonClick = useCallback((evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
     const offerId: number | undefined = Number(evt.currentTarget.dataset.id);
@@ -41,13 +47,7 @@ function App(): JSX.Element {
       };
       updateData(dispatch(postFavoriteStatus(favoritePostData)));
     }
-  }, []);
-
-  const updateData = async <T, >(p: Promise<T>) => {
-    await p;
-    dispatch(fetchOffersAction());
-    dispatch(fetchFavoriteOffersAction());
-  };
+  }, [dispatch, updateData]);
 
   return (
     <HelmetProvider>

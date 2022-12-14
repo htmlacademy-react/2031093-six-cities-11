@@ -10,7 +10,7 @@ const initialState: AppProcess = {
 
 export const appProcess = createSlice({
   name: NameSpace.App,
-  initialState,
+  initialState: initialState,
   reducers: {
     changeCity: (state, action: PayloadAction<string>) => {
       state.city = action.payload;

@@ -43,7 +43,7 @@ function RoomPage({ onFavoritesButtonClick }: RoomPageProps): JSX.Element {
     dispatch(fetchOfferAction(offerId));
     dispatch(fetchNearbyOffersAction(offerId));
     dispatch(fetchCommentsAction(offerId));
-  }, [offerId]);
+  }, [dispatch, offerId]);
 
   return (
     <div className="page">

@@ -11,12 +11,12 @@ const initialState: UserProcess = {
 
 export const userProcess = createSlice({
   name: NameSpace.User,
-  initialState,
+  initialState: initialState,
   reducers: {},
   extraReducers(builder) {
     builder
       .addCase(checkAuthAction.fulfilled, (state, action) => {
-        state.authorizationStatus = AuthorizationStatus.Auth;
+        state.authorizationStatus = AuthorizationStatus.Auth as AuthorizationStatus;
         state.user = action.payload;
       })
       .addCase(checkAuthAction.rejected, (state) => {
