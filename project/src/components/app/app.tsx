@@ -1,17 +1,9 @@
-import {
-  memo,
-  MouseEvent,
-  useCallback,
-} from 'react';
+import { memo, MouseEvent, useCallback } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import {
-  AppRoute,
-  FAVORITE_BUTTON_ACTIVE_CLASS,
-  ROOM_FAVORITE_BUTTON_ACTIVE_CLASS,
-} from '../../utils/constants';
+import { AppRoute, FAVORITE_BUTTON_ACTIVE_CLASS, ROOM_FAVORITE_BUTTON_ACTIVE_CLASS } from '../../utils/constants';
 import { FavoritePostData } from '../../types/types';
 import { postFavoriteStatus, fetchOffersAction, fetchFavoriteOffersAction } from '../../store/api-actions';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
