@@ -15,16 +15,18 @@ import {
   fetchCommentsAction,
 } from '../../store/api-actions';
 import { AppRoute } from '../../utils/constants';
+import { Offer } from '../../types/types';
 import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
 import LoadingScreen from '../loading-screen/loading-screen';
 import RoomMain from '../../components/room-main/room-main';
 
 type RoomPageProps = {
+  setHoveredOffer: React.Dispatch<React.SetStateAction<Offer | undefined>>;
   onFavoritesButtonClick: (evt: MouseEvent<HTMLButtonElement>) => void;
 }
 
-function RoomPage({ onFavoritesButtonClick }: RoomPageProps): JSX.Element {
+function RoomPage({ setHoveredOffer, onFavoritesButtonClick }: RoomPageProps): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -63,6 +65,7 @@ function RoomPage({ onFavoritesButtonClick }: RoomPageProps): JSX.Element {
         <LoadingScreen />
         :
         <RoomMain
+          setHoveredOffer={setHoveredOffer}
           onFavoritesButtonClick={onFavoritesButtonClick}
         />}
     </div>

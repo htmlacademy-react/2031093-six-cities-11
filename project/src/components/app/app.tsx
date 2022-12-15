@@ -1,4 +1,4 @@
-import { memo, MouseEvent, useCallback } from 'react';
+import { memo, MouseEvent, useCallback, useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
@@ -7,6 +7,7 @@ import { AppRoute, FAVORITE_BUTTON_ACTIVE_CLASS, ROOM_FAVORITE_BUTTON_ACTIVE_CLA
 import { FavoritePostData } from '../../types/types';
 import { postFavoriteStatus, fetchOffersAction, fetchFavoriteOffersAction } from '../../store/api-actions';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { Offer } from '../../types/types';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import LoginPage from '../../pages/login-page/login-page';
 import MainPage from '../../pages/main-page/main-page';
@@ -19,6 +20,13 @@ import browserHistory from '../../browser-history';
 function App(): JSX.Element {
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
+
+
+  useEffect(() => {
+    dispatch(fetchOffersAction());
+    dispatch(fetchFavoriteOffersAction());
+  }, [dispatch, authorizationStatus]);
+
 
   const updateData = useCallback(async <T, >(p: Promise<T>) => {
     await p;
@@ -41,6 +49,10 @@ function App(): JSX.Element {
     }
   }, [dispatch, updateData]);
 
+  const [hoveredOffer, setHoveredOffer] = useState<Offer | undefined>(
+    undefined
+  );
+
   return (
     <HelmetProvider>
       <HistoryRouter history={browserHistory}>
@@ -49,6 +61,8 @@ function App(): JSX.Element {
             path={AppRoute.Main}
             element={
               <MainPage
+                hoveredOffer={hoveredOffer}
+                setHoveredOffer={setHoveredOffer}
                 onFavoritesButtonClick={onOfferCardFavoritesButtonClick}
               />
             }
@@ -69,6 +83,7 @@ function App(): JSX.Element {
             path={AppRoute.Room}
             element={
               <RoomPage
+                setHoveredOffer={setHoveredOffer}
                 onFavoritesButtonClick={onOfferCardFavoritesButtonClick}
               />
             }

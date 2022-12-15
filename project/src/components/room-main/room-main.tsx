@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from 'react';
+import { MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAppSelector } from '../../hooks/index';
@@ -16,10 +16,11 @@ import Map from '../map/map';
 const MAP_HEIGHT = '579px';
 
 type RoomMainProps = {
+  setHoveredOffer: React.Dispatch<React.SetStateAction<Offer | undefined>>;
   onFavoritesButtonClick: (evt: MouseEvent<HTMLButtonElement>) => void;
 }
 
-function RoomMain({ onFavoritesButtonClick }: RoomMainProps): JSX.Element {
+function RoomMain({ setHoveredOffer, onFavoritesButtonClick }: RoomMainProps): JSX.Element {
   const navigate = useNavigate();
 
   const isUserLogged = useAppSelector(getAuthLoggedStatus);
@@ -31,10 +32,6 @@ function RoomMain({ onFavoritesButtonClick }: RoomMainProps): JSX.Element {
     width: `${offer ? offer.rating * 20 : 0}%`,
   };
   const bookmarksClassName = `property__bookmark-button ${offer && offer.isFavorite ? 'property__bookmark-button--active ' : ''}button`;
-
-  const [hoveredOffer, setHoveredOffer] = useState<Offer | undefined>(
-    undefined
-  );
 
   const handleFavoritesButtonClick = (evt: MouseEvent<HTMLButtonElement>) => {
     if (!isUserLogged) {
@@ -136,8 +133,8 @@ function RoomMain({ onFavoritesButtonClick }: RoomMainProps): JSX.Element {
           {nearbyOffers && (nearbyOffers.length > 0) && offer && offer.city &&
             <Map
               city={offer.city}
-              offers={nearbyOffers}
-              selectedOffer={hoveredOffer}
+              offers={[...nearbyOffers, offer]}
+              selectedOffer={offer}
               height={MAP_HEIGHT}
             />}
         </section>
