@@ -1,8 +1,7 @@
-import { SyntheticEvent, useState, useRef } from 'react';
+import { SyntheticEvent, useState, useRef, useEffect, useCallback } from 'react';
 
-import { useAppSelector } from '../../hooks';
+import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getOffer } from '../../store/data-process/selectors';
-import { store } from '../../store/index';
 import { FormPostData } from '../../types/types';
 import { Rating } from '../../utils/constants';
 import { postNewOfferComment } from '../../store/api-actions';
@@ -11,7 +10,9 @@ const MIN_COMMENT_LENGTH = 50;
 const MAX_COMMENT_LENGTH = 300;
 
 function ReviewForm(): JSX.Element {
+  const dispatch = useAppDispatch();
   const submitButtonRef = useRef<HTMLButtonElement | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const offer = useAppSelector(getOffer);
   const [formData, setFormData] = useState({
@@ -19,30 +20,44 @@ function ReviewForm(): JSX.Element {
     comment: '',
   });
 
-  const handleSubmitButtonAvailability = () => {
-    if (submitButtonRef.current && formData.comment && formData.comment.length >= MIN_COMMENT_LENGTH
-      && formData.comment.length <= MAX_COMMENT_LENGTH && formData.rating) {
 
-      submitButtonRef.current.removeAttribute('disabled');
+  useEffect(() => {
+    if (formData.comment.length >= MIN_COMMENT_LENGTH
+      && formData.comment.length <= MAX_COMMENT_LENGTH
+      && formData.rating) {
+      submitButtonRef.current?.removeAttribute('disabled');
     } else {
       submitButtonRef.current?.setAttribute('disabled', 'true');
     }
-  };
+  }, [dispatch, formData]);
 
   const handleCommentChange = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
     setFormData({
-      rating: formData.rating,
+      ...formData,
       comment: evt.target.value,
     });
-    handleSubmitButtonAvailability();
   };
 
   const HandleRadioToggle = (evt: SyntheticEvent<HTMLInputElement>) => {
     setFormData({
+      ...formData,
       rating: Number(evt.currentTarget.value) as Rating,
-      comment: formData.comment,
     });
-    handleSubmitButtonAvailability();
+  };
+
+  const updateData = useCallback(async <T, >(p: Promise<T>, callback: () => void) => {
+    try {
+      await p;
+      callback();
+    } catch (error) {
+      //TODO show error to user
+    }
+  }, [dispatch]);
+
+  const updateReviewForm = () => {
+    if (textareaRef.current) {
+      textareaRef.current.value = '';
+    }
   };
 
   const handleSubmit = (evt: SyntheticEvent) => {
@@ -53,7 +68,7 @@ function ReviewForm(): JSX.Element {
         offerId: offer.id,
         formData,
       };
-      store.dispatch(postNewOfferComment(formPostData));
+      updateData(dispatch(postNewOfferComment(formPostData)), updateReviewForm);
     }
   };
 
@@ -98,7 +113,7 @@ function ReviewForm(): JSX.Element {
           </svg>
         </label>
       </div>
-      <textarea className="reviews__textarea form__textarea" id="review" name="review"
+      <textarea ref={textareaRef} className="reviews__textarea form__textarea" id="review" name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         onChange={handleCommentChange}
       >
