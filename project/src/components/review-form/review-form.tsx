@@ -32,7 +32,7 @@ function ReviewForm(): JSX.Element {
     ratingThreeRef,
     ratingFourRef,
     ratingFiveRef,
-  ], [ratingOneRef, ratingTwoRef, ratingThreeRef, ratingFourRef, ratingFiveRef]);
+  ], []);
 
   const [formData, setFormData] = useState({
     rating: 0,
