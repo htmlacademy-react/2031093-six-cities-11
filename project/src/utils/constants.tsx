@@ -8,6 +8,7 @@ export const URL_MARKER_DEFAULT = './img/pin.svg';
 export const URL_MARKER_CURRENT = './img/pin-active.svg';
 export const FAVORITE_BUTTON_ACTIVE_CLASS = 'place-card__bookmark-button--active';
 export const ROOM_FAVORITE_BUTTON_ACTIVE_CLASS = 'property__bookmark-button--active';
+export const NEW_REVIEW_POST_ERROR = 'An error occured during your review posting.';
 
 export const INITIAL_OFFER: Offer | undefined = undefined;
 export const INITIAL_CITY = 'Paris';
@@ -58,6 +59,13 @@ export enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
+}
+
+export enum ReviewPostStatus {
+  Unknown = 'UNKNOWN',
+  Pending = 'PENDING',
+  Fulfilled = 'FULFILLED',
+  Rejected = 'REJECTED',
 }
 
 export enum ApartmentType {

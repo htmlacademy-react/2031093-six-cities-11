@@ -83,7 +83,6 @@ function App(): JSX.Element {
             path={AppRoute.Room}
             element={
               <RoomPage
-                setHoveredOffer={setHoveredOffer}
                 onFavoritesButtonClick={onOfferCardFavoritesButtonClick}
               />
             }

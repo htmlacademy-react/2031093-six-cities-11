@@ -6,6 +6,7 @@ import { getAuthLoggedStatus } from '../../store/user-process/selectors';
 import { getOffer, getNearbyOffers, getComments } from '../../store/data-process/selectors';
 import { Offer, Comment } from '../../types/types';
 import { AppRoute } from '../../utils/constants';
+import { shuffle } from '../../utils/utils';
 import GalaryCard from '../galary-card/galary-card';
 import InsideItemCard from '../inside-item-card/inside-item-card';
 import OffersList from '../offers-list/offers-list';
@@ -16,11 +17,10 @@ import Map from '../map/map';
 const MAP_HEIGHT = '579px';
 
 type RoomMainProps = {
-  setHoveredOffer: React.Dispatch<React.SetStateAction<Offer | undefined>>;
   onFavoritesButtonClick: (evt: MouseEvent<HTMLButtonElement>) => void;
 }
 
-function RoomMain({ setHoveredOffer, onFavoritesButtonClick }: RoomMainProps): JSX.Element {
+function RoomMain({ onFavoritesButtonClick }: RoomMainProps): JSX.Element {
   const navigate = useNavigate();
 
   const isUserLogged = useAppSelector(getAuthLoggedStatus);
@@ -144,9 +144,8 @@ function RoomMain({ setHoveredOffer, onFavoritesButtonClick }: RoomMainProps): J
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
           <div className="near-places__list places__list">
             <OffersList
-              offers={nearbyOffers}
+              offers={shuffle(nearbyOffers)}
               parent={'near-places'}
-              setHoveredOffer={setHoveredOffer}
               onFavoritesButtonClick={onFavoritesButtonClick}
             />
           </div>

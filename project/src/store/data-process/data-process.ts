@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import * as Action from '../api-actions';
-import { NameSpace, INITIAL_OFFER } from '../../utils/constants';
+import { NameSpace, ReviewPostStatus, INITIAL_OFFER } from '../../utils/constants';
 import { DataProcess } from '../../types/state';
 
 const initialState: DataProcess = {
@@ -13,12 +13,19 @@ const initialState: DataProcess = {
   isOffersDataLoading: false,
   isOneOfferDataLoading: false,
   isCommentsDataLoading: false,
+  isNewCommentDataPosting: false,
+  reviewPostStatus: ReviewPostStatus.Unknown,
 };
 
 export const dataProcess = createSlice({
   name: NameSpace.Data,
   initialState,
-  reducers: {},
+  reducers: {
+    resetIsNewCommentDataPosting: (state) => {
+      state.isNewCommentDataPosting = false;
+      state.reviewPostStatus = ReviewPostStatus.Unknown;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(Action.fetchOffersAction.pending, (state) => {
@@ -74,14 +81,15 @@ export const dataProcess = createSlice({
         state.isCommentsDataLoading = false;
       })
       .addCase(Action.postNewOfferComment.pending, (state) => {
-        state.isCommentsDataLoading = true;
+        state.isNewCommentDataPosting = true;
+        state.reviewPostStatus = ReviewPostStatus.Pending;
       })
       .addCase(Action.postNewOfferComment.fulfilled, (state, action) => {
         state.comments = action.payload;
-        state.isCommentsDataLoading = false;
+        state.reviewPostStatus = ReviewPostStatus.Fulfilled;
       })
       .addCase(Action.postNewOfferComment.rejected, (state) => {
-        state.isCommentsDataLoading = false;
+        state.reviewPostStatus = ReviewPostStatus.Rejected;
       })
       .addCase(Action.postFavoriteStatus.pending, (state) => {
         state.isOneOfferDataLoading = true;
