@@ -73,13 +73,6 @@ export enum ReviewPostStatus {
   Rejected = 'REJECTED',
 }
 
-export enum ApartmentType {
-  Apartment = 'apartment',
-  Room = 'room',
-  House = 'house',
-  Hotel = 'hotel',
-}
-
 export enum SortType {
   Popular = 'Popular',
   PriceLowToHigh = 'Price: low to high',

@@ -15,8 +15,6 @@ export type DataProcess = {
   offer: Offer | undefined;
   comments: Comment[];
   isOffersDataLoading: boolean;
-  isOneOfferDataLoading: boolean;
-  isCommentsDataLoading: boolean;
   isNewCommentDataPosting: boolean;
   reviewPostStatus: ReviewPostStatus;
 };
