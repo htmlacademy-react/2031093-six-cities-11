@@ -3,12 +3,18 @@ import { UserData } from '../types/user-data';
 
 export const OFFERS_QUANTITY = 4;
 export const REQUEST_TIMEOUT = 5000;
+
 export const BACKEND_URL = 'https://11.react.pages.academy/six-cities';
 export const URL_MARKER_DEFAULT = './img/pin.svg';
 export const URL_MARKER_CURRENT = './img/pin-active.svg';
+
 export const FAVORITE_BUTTON_ACTIVE_CLASS = 'place-card__bookmark-button--active';
 export const ROOM_FAVORITE_BUTTON_ACTIVE_CLASS = 'property__bookmark-button--active';
+
 export const NEW_REVIEW_POST_ERROR = 'An error occured during your review posting.';
+export const NOT_VALID_PASSWORD_ERROR = 'The password must contain at least one latin character and one number.';
+
+export const PASSWORD_REGEX = /([a-zA-Z_]{1}[0-9]{1}|[0-9]{1}[a-zA-Z_]{1})[a-zA-Z0-9_]*/;
 
 export const INITIAL_OFFER: Offer | undefined = undefined;
 export const INITIAL_CITY = 'Paris';
@@ -20,7 +26,6 @@ export const CITIES: string[] = [
   'Hamburg',
   'Dusseldorf',
 ];
-
 export const INITIAL_USER: UserData = {
   id: -1,
   avatarUrl: '',
