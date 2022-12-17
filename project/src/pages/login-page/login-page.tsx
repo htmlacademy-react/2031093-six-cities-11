@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getAuthLoggedStatus } from '../../store/user-process/selectors';
 import { loginAction } from '../../store/api-actions';
 import { AuthData } from '../../types/auth-data';
-import { AppRoute, PASSWORD_REGEX, NOT_VALID_PASSWORD_ERROR } from '../../utils/constants';
+import { AppRoute, EMAIL_REGEX, PASSWORD_REGEX, NOT_VALID_LOGIN_PASSWORD_MESSAGE } from '../../utils/constants';
 import Logo from '../../components/logo/logo';
 
 function LoginPage(): JSX.Element {
@@ -24,13 +24,13 @@ function LoginPage(): JSX.Element {
   }, [isUserLogged, navigate]);
 
   const showToastReviewPostErrorMessage = () => {
-    toast.warning(NOT_VALID_PASSWORD_ERROR, {
+    toast.warning(NOT_VALID_LOGIN_PASSWORD_MESSAGE, {
       position: toast.POSITION.TOP_RIGHT,
     });
   };
 
   const onSubmit = (authData: AuthData) => {
-    if (PASSWORD_REGEX.test(authData.password)) {
+    if (PASSWORD_REGEX.test(authData.password) && EMAIL_REGEX.test(authData.login)) {
       dispatch(loginAction(authData));
     } else {
       showToastReviewPostErrorMessage();

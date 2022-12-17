@@ -14,8 +14,9 @@ export const FAVORITE_BUTTON_ACTIVE_CLASS = 'place-card__bookmark-button--active
 export const ROOM_FAVORITE_BUTTON_ACTIVE_CLASS = 'property__bookmark-button--active';
 
 export const NEW_REVIEW_POST_ERROR = 'An error occured during your review posting.';
-export const NOT_VALID_PASSWORD_ERROR = 'The password must contain at least one latin character and one number.';
+export const NOT_VALID_LOGIN_PASSWORD_MESSAGE = 'Login must be the correct form of email. The password must contain at least one latin character and one number.';
 
+export const EMAIL_REGEX = /[a-zA-Z0-9_-]+@[a-zA-Z0-9_]+\.[A-Za-z]+/;
 export const PASSWORD_REGEX = /([a-zA-Z_]{1}[0-9]{1}|[0-9]{1}[a-zA-Z_]{1})[a-zA-Z0-9_]*/;
 
 export const INITIAL_OFFER: Offer | undefined = undefined;
