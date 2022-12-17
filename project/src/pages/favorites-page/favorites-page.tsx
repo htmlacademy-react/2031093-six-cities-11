@@ -9,6 +9,7 @@ import { getFavoriteOffers } from '../../store/data-process/selectors';
 import { Offer } from '../../types/types';
 import * as Const from '../../utils/constants';
 import FavoritesLocations from '../../components/favorites-locations/favorites-locations';
+import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
 import Logo from '../../components/logo/logo';
 import Nav from '../../components/nav/nav';
 
@@ -37,22 +38,24 @@ function FavoritesPage({ onFavoritesButtonClick }: FavoritesPageProps): JSX.Elem
 
         <main className="page__main page__main--favorites">
           <div className="page__favorites-container container">
-            <section className="favorites">
-              <h1 className="favorites__title">Saved listing</h1>
-              <ul className="favorites__list">
-                {Const.CITIES.map((city) => {
-                  const cityFavoriteOffers = Object.values(favoriteOffers).filter((offer: Offer) => offer.city.name === city);
-                  return (cityFavoriteOffers.length > 0) && (
-                    <FavoritesLocations
-                      city={city}
-                      cityFavoriteOffers={cityFavoriteOffers}
-                      onFavoritesButtonClick={onFavoritesButtonClick}
-                      key={city}
-                    />
-                  );
-                })}
-              </ul>
-            </section>
+            {!favoriteOffers.length ?
+              <FavoritesEmpty /> :
+              <section className="favorites">
+                <h1 className="favorites__title">Saved listing</h1>
+                <ul className="favorites__list">
+                  {Const.CITIES.map((city) => {
+                    const cityFavoriteOffers = Object.values(favoriteOffers).filter((offer: Offer) => offer.city.name === city);
+                    return (cityFavoriteOffers.length > 0) && (
+                      <FavoritesLocations
+                        city={city}
+                        cityFavoriteOffers={cityFavoriteOffers}
+                        onFavoritesButtonClick={onFavoritesButtonClick}
+                        key={city}
+                      />
+                    );
+                  })}
+                </ul>
+              </section>}
           </div>
         </main>
         <footer className="footer container">
