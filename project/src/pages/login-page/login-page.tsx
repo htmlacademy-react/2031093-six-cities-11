@@ -1,18 +1,27 @@
-import { useRef, FormEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { useRef, useEffect, FormEvent } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { ToastContainer, toast } from 'react-toastify';
 
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getAuthLoggedStatus } from '../../store/user-process/selectors';
 import { loginAction } from '../../store/api-actions';
 import { AuthData } from '../../types/auth-data';
-import { PASSWORD_REGEX, NOT_VALID_PASSWORD_ERROR } from '../../utils/constants';
+import { AppRoute, PASSWORD_REGEX, NOT_VALID_PASSWORD_ERROR } from '../../utils/constants';
 import Logo from '../../components/logo/logo';
 
 function LoginPage(): JSX.Element {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const isUserLogged = useAppSelector(getAuthLoggedStatus);
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (isUserLogged) {
+      navigate(AppRoute.Main);
+    }
+  }, [isUserLogged, navigate]);
 
   const showToastReviewPostErrorMessage = () => {
     toast.warning(NOT_VALID_PASSWORD_ERROR, {

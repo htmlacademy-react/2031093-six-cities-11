@@ -10,10 +10,15 @@ import { dataProcess } from '../../store/data-process/data-process';
 
 const MIN_COMMENT_LENGTH = 50;
 const MAX_COMMENT_LENGTH = 300;
+const FORM_DATA_INITIAL_VALUE = {
+  rating: 0,
+  comment: '',
+};
 
 function ReviewForm(): JSX.Element {
   const dispatch = useAppDispatch();
 
+  const newReviewFormRef = useRef<HTMLFormElement | null>(null);
   const submitButtonRef = useRef<HTMLButtonElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const ratingOneRef = useRef<HTMLInputElement | null>(null);
@@ -34,10 +39,9 @@ function ReviewForm(): JSX.Element {
     ratingFiveRef,
   ], []);
 
-  const [formData, setFormData] = useState({
-    rating: 0,
-    comment: '',
-  });
+  const [formData, setFormData] = useState(FORM_DATA_INITIAL_VALUE);
+
+  const [isFormDisabled, setIsFormDisabled] = useState(false);
 
   const showToastReviewPostErrorMessage = () => {
     toast.warning(NEW_REVIEW_POST_ERROR, {
@@ -60,21 +64,27 @@ function ReviewForm(): JSX.Element {
     if (formData.comment.length >= MIN_COMMENT_LENGTH
       && formData.comment.length <= MAX_COMMENT_LENGTH
       && formData.rating) {
+
       submitButtonRef.current?.removeAttribute('disabled');
     } else {
       submitButtonRef.current?.setAttribute('disabled', 'true');
     }
-  }, [dispatch, formData]);
+  }, [dispatch, formData, formData.comment, formData.rating]);
 
   useEffect(() => {
     if (isNewCommentDataPosting) {
       switch (reviewPostStatus) {
         case ReviewPostStatus.Fulfilled:
           resetReviewForm();
+          setIsFormDisabled(false);
+          submitButtonRef.current?.setAttribute('disabled', 'true');
+          setFormData(FORM_DATA_INITIAL_VALUE);
           break;
 
         case ReviewPostStatus.Rejected:
           showToastReviewPostErrorMessage();
+          setIsFormDisabled(false);
+          submitButtonRef.current?.removeAttribute('disabled');
           break;
 
         default:
@@ -106,6 +116,8 @@ function ReviewForm(): JSX.Element {
         offerId: offer.id,
         formData,
       };
+      setIsFormDisabled(true);
+      submitButtonRef.current?.setAttribute('disabled', 'true');
       dispatch(postNewOfferComment(formPostData));
     }
   };
@@ -113,48 +125,50 @@ function ReviewForm(): JSX.Element {
   return (
     <>
       <ToastContainer />
-      <form className="reviews__form form" action="#" method="post"
+      <form ref={newReviewFormRef} className="reviews__form form" action="#" method="post"
         onSubmit={handleSubmit}
       >
         <label className="reviews__label form__label" htmlFor="review">Your review</label>
         <div className="reviews__rating-form form__rating">
-          <input ref={ratingFiveRef} onChange={HandleRadioToggle} className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio"></input>
+          <input ref={ratingFiveRef} onChange={HandleRadioToggle} disabled={isFormDisabled} className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio"></input>
           <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
             <svg className="form__star-image" width="37" height="33">
               <use xlinkHref="#icon-star"></use>
             </svg>
           </label>
 
-          <input ref={ratingFourRef} onChange={HandleRadioToggle} className="form__rating-input visually-hidden" name="rating" value="4" id="4-stars" type="radio"></input>
+          <input ref={ratingFourRef} onChange={HandleRadioToggle} disabled={isFormDisabled} className="form__rating-input visually-hidden" name="rating" value="4" id="4-stars" type="radio"></input>
           <label htmlFor="4-stars" className="reviews__rating-label form__rating-label" title="good">
             <svg className="form__star-image" width="37" height="33">
               <use xlinkHref="#icon-star"></use>
             </svg>
           </label>
 
-          <input ref={ratingThreeRef} onChange={HandleRadioToggle} className="form__rating-input visually-hidden" name="rating" value="3" id="3-stars" type="radio"></input>
+          <input ref={ratingThreeRef} onChange={HandleRadioToggle} disabled={isFormDisabled} className="form__rating-input visually-hidden" name="rating" value="3" id="3-stars" type="radio"></input>
           <label htmlFor="3-stars" className="reviews__rating-label form__rating-label" title="not bad">
             <svg className="form__star-image" width="37" height="33">
               <use xlinkHref="#icon-star"></use>
             </svg>
           </label>
 
-          <input ref={ratingTwoRef} onChange={HandleRadioToggle} className="form__rating-input visually-hidden" name="rating" value="2" id="2-stars" type="radio"></input>
+          <input ref={ratingTwoRef} onChange={HandleRadioToggle} disabled={isFormDisabled} className="form__rating-input visually-hidden" name="rating" value="2" id="2-stars" type="radio"></input>
           <label htmlFor="2-stars" className="reviews__rating-label form__rating-label" title="badly">
             <svg className="form__star-image" width="37" height="33">
               <use xlinkHref="#icon-star"></use>
             </svg>
           </label>
 
-          <input ref={ratingOneRef} onChange={HandleRadioToggle} className="form__rating-input visually-hidden" name="rating" value="1" id="1-star" type="radio"></input>
+          <input ref={ratingOneRef} onChange={HandleRadioToggle} disabled={isFormDisabled} className="form__rating-input visually-hidden" name="rating" value="1" id="1-star" type="radio"></input>
           <label htmlFor="1-star" className="reviews__rating-label form__rating-label" title="terribly">
             <svg className="form__star-image" width="37" height="33">
               <use xlinkHref="#icon-star"></use>
             </svg>
           </label>
         </div>
-        <textarea ref={textareaRef} className="reviews__textarea form__textarea" id="review" name="review"
+        <textarea className="reviews__textarea form__textarea" id="review" name="review"
           placeholder="Tell how was your stay, what you like and what can be improved"
+          ref={textareaRef}
+          disabled={isFormDisabled}
           onChange={handleCommentChange}
         >
         </textarea>
@@ -162,7 +176,7 @@ function ReviewForm(): JSX.Element {
           <p className="reviews__help">
             To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
           </p>
-          <button ref={submitButtonRef} className="reviews__submit form__submit button" type="submit" disabled>Submit</button>
+          <button ref={submitButtonRef} disabled className="reviews__submit form__submit button" type="submit">Submit</button>
         </div>
       </form>
     </>

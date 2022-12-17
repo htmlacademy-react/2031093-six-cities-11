@@ -17,7 +17,7 @@ function OfferCard({ offer, parent, onMouseEnter, onFavoritesButtonClick }: Offe
   const navigate = useNavigate();
   const isUserLogged = useAppSelector(getAuthLoggedStatus);
   const style = {
-    width: `${offer.rating * 20}%`,
+    width: `${Math.round(offer.rating) * 20}%`,
   };
   const favoritesButtonClass = `place-card__bookmark-button ${offer.isFavorite ? `${FAVORITE_BUTTON_ACTIVE_CLASS} ` : ''}button`;
   const images = offer.images as string[];
@@ -76,7 +76,7 @@ function OfferCard({ offer, parent, onMouseEnter, onFavoritesButtonClick }: Offe
         <h2 className="place-card__name">
           <Link to={link}>{offer.title}</Link>
         </h2>
-        <p className="place-card__type">{offer.type}</p>
+        <p className="place-card__type">{`${offer.type.slice(0, 1).toUpperCase()}${offer.type.slice(1).toLowerCase()}`}</p>
       </div>
     </article>
   );

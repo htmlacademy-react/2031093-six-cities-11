@@ -2,6 +2,8 @@ import { Offer } from '../types/types';
 import { UserData } from '../types/user-data';
 
 export const OFFERS_QUANTITY = 4;
+export const MAX_OFFER_PHOTOS_QUANTITY = 6;
+export const MAX_OFFER_REVIEWS_QUANTITY = 10;
 export const REQUEST_TIMEOUT = 5000;
 
 export const BACKEND_URL = 'https://11.react.pages.academy/six-cities';
