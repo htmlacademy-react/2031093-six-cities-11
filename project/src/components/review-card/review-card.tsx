@@ -1,14 +1,16 @@
 import { Comment } from '../../types/types';
 
+import { getShortTDate } from '../../utils/utils';
+
 type ReviewCardProps = {
   comment: Comment;
 }
 
 function ReviewCard({ comment }: ReviewCardProps): JSX.Element {
   const ratingStyle = {
-    width: `${comment.rating * 20}%`,
+    width: `${Math.round(comment.rating) * 20}%`,
   };
-  const date = comment.date.slice(0, comment.date.indexOf('T'));
+  const date = getShortTDate(comment.date);
 
   return (
     <li className="reviews__item">

@@ -1,5 +1,5 @@
 import { store } from '../store/index';
-import { AuthorizationStatus, SortType } from '../utils/constants';
+import { AuthorizationStatus, ReviewPostStatus, SortType } from '../utils/constants';
 import { UserData } from '../types/user-data';
 import { Offer, Comment } from '../types/types';
 
@@ -15,8 +15,8 @@ export type DataProcess = {
   offer: Offer | undefined;
   comments: Comment[];
   isOffersDataLoading: boolean;
-  isOneOfferDataLoading: boolean;
-  isCommentsDataLoading: boolean;
+  isNewCommentDataPosting: boolean;
+  reviewPostStatus: ReviewPostStatus;
 };
 
 export type AppProcess = {

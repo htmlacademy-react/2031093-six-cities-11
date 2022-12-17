@@ -1,11 +1,12 @@
-import { MouseEvent, useState } from 'react';
+import { MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAppSelector } from '../../hooks/index';
 import { getAuthLoggedStatus } from '../../store/user-process/selectors';
 import { getOffer, getNearbyOffers, getComments } from '../../store/data-process/selectors';
 import { Offer, Comment } from '../../types/types';
-import { AppRoute } from '../../utils/constants';
+import { AppRoute, MAX_OFFER_PHOTOS_QUANTITY } from '../../utils/constants';
+import { shuffle } from '../../utils/utils';
 import GalaryCard from '../galary-card/galary-card';
 import InsideItemCard from '../inside-item-card/inside-item-card';
 import OffersList from '../offers-list/offers-list';
@@ -28,13 +29,9 @@ function RoomMain({ onFavoritesButtonClick }: RoomMainProps): JSX.Element {
   const comments: Comment[] = useAppSelector(getComments);
 
   const ratingStyle = {
-    width: `${offer ? offer.rating * 20 : 0}%`,
+    width: `${offer ? Math.round(offer.rating) * 20 : 0}%`,
   };
   const bookmarksClassName = `property__bookmark-button ${offer && offer.isFavorite ? 'property__bookmark-button--active ' : ''}button`;
-
-  const [hoveredOffer, setHoveredOffer] = useState<Offer | undefined>(
-    undefined
-  );
 
   const handleFavoritesButtonClick = (evt: MouseEvent<HTMLButtonElement>) => {
     if (!isUserLogged) {
@@ -49,7 +46,7 @@ function RoomMain({ onFavoritesButtonClick }: RoomMainProps): JSX.Element {
       <section className="property">
         <div className="property__gallery-container container">
           <div className="property__gallery">
-            {offer && offer.images && offer.images.map((imagePath) => (
+            {offer && offer.images && shuffle(offer.images).slice(0, MAX_OFFER_PHOTOS_QUANTITY).map((imagePath) => (
               <GalaryCard imagePath={imagePath} key={`${offer && offer.id}-${imagePath}`} />
             ))}
           </div>
@@ -83,13 +80,13 @@ function RoomMain({ onFavoritesButtonClick }: RoomMainProps): JSX.Element {
             </div>
             <ul className="property__features">
               <li className="property__feature property__feature--entire">
-                {offer && offer.type}
+                {offer && `${offer.type.slice(0, 1).toUpperCase()}${offer.type.slice(1).toLowerCase()}`}
               </li>
               <li className="property__feature property__feature--bedrooms">
-                {offer && offer.bedrooms}
+                {offer && (!offer.bedrooms ? '' : `${offer.bedrooms} Bedroom${offer.bedrooms > 1 ? 's' : ''}`)}
               </li>
               <li className="property__feature property__feature--adults">
-                {offer && offer.maxAdults}
+                {offer && (!offer.maxAdults ? '' : `${offer.maxAdults} Adult${offer.maxAdults > 1 ? 's' : ''}`)}
               </li>
             </ul>
             <div className="property__price">
@@ -136,8 +133,8 @@ function RoomMain({ onFavoritesButtonClick }: RoomMainProps): JSX.Element {
           {nearbyOffers && (nearbyOffers.length > 0) && offer && offer.city &&
             <Map
               city={offer.city}
-              offers={nearbyOffers}
-              selectedOffer={hoveredOffer}
+              offers={[...nearbyOffers, offer]}
+              selectedOffer={offer}
               height={MAP_HEIGHT}
             />}
         </section>
@@ -147,9 +144,8 @@ function RoomMain({ onFavoritesButtonClick }: RoomMainProps): JSX.Element {
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
           <div className="near-places__list places__list">
             <OffersList
-              offers={nearbyOffers}
+              offers={shuffle(nearbyOffers)}
               parent={'near-places'}
-              setHoveredOffer={setHoveredOffer}
               onFavoritesButtonClick={onFavoritesButtonClick}
             />
           </div>

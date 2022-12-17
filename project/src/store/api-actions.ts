@@ -117,7 +117,7 @@ export const postNewOfferComment = createAsyncThunk<Comment[], FormPostData, {
   extra: AxiosInstance;
 }>(
   'data/postNewOfferComment',
-  async ({offerId, formData}, {dispatch, extra: api}) => {
+  async ({offerId, formData}, {extra: api}) => {
     const {data: comments} = await api.post<Comment[]>(`${APIRoute.Comments}/${offerId}`, formData);
     return comments;
   },
@@ -129,7 +129,7 @@ export const postFavoriteStatus = createAsyncThunk<Offer, FavoritePostData, {
   extra: AxiosInstance;
 }>(
   'data/postFavoriteStatus',
-  async ({offerId, status}, {dispatch, extra: api}) => {
+  async ({offerId, status}, {extra: api}) => {
     const {data: offer} = await api.post<Offer>(`${APIRoute.Favorite}/${offerId}/${status}`, null);
 
     return offer;

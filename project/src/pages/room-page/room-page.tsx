@@ -1,7 +1,4 @@
-import {
-  MouseEvent,
-  useEffect
-} from 'react';
+import { MouseEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 

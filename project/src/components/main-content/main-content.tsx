@@ -1,4 +1,4 @@
-import { MouseEvent, useState, useCallback } from 'react';
+import { MouseEvent, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 import { useAppSelector, useAppDispatch } from '../../hooks';
@@ -45,10 +45,12 @@ const getSortedOffers = (offers: Offer[], sortType: Const.SortType): Offer[] => 
 const getSortedCityOffers = (offers: Offer[], currentCityName: string, sortType: Const.SortType): Offer[] => getSortedOffers(getCityOffers(offers, currentCityName), sortType);
 
 type MainContentProps = {
+  hoveredOffer: Offer | undefined;
+  setHoveredOffer: React.Dispatch<React.SetStateAction<Offer | undefined>>;
   onFavoritesButtonClick: (evt: MouseEvent<HTMLButtonElement>) => void;
 }
 
-function MainContent({ onFavoritesButtonClick }: MainContentProps): JSX.Element {
+function MainContent({ hoveredOffer, setHoveredOffer, onFavoritesButtonClick }: MainContentProps): JSX.Element {
   const dispatch = useAppDispatch();
 
   const offers: Offer[] = useAppSelector(getOffers);
@@ -60,10 +62,6 @@ function MainContent({ onFavoritesButtonClick }: MainContentProps): JSX.Element 
     .map((o) => o.city)
     .find((city) => city.name === currentCityName);
   const isOffersDataLoading = useAppSelector(getIsOffersDataLoading);
-
-  const [hoveredOffer, setHoveredOffer] = useState<Offer | undefined>(
-    undefined
-  );
 
   const onLocationClick = useCallback((cityName: string) => {
     dispatch(changeCity(cityName));

@@ -2,12 +2,22 @@ import { Offer } from '../types/types';
 import { UserData } from '../types/user-data';
 
 export const OFFERS_QUANTITY = 4;
+export const MAX_OFFER_PHOTOS_QUANTITY = 6;
+export const MAX_OFFER_REVIEWS_QUANTITY = 10;
 export const REQUEST_TIMEOUT = 5000;
+
 export const BACKEND_URL = 'https://11.react.pages.academy/six-cities';
 export const URL_MARKER_DEFAULT = './img/pin.svg';
 export const URL_MARKER_CURRENT = './img/pin-active.svg';
+
 export const FAVORITE_BUTTON_ACTIVE_CLASS = 'place-card__bookmark-button--active';
 export const ROOM_FAVORITE_BUTTON_ACTIVE_CLASS = 'property__bookmark-button--active';
+
+export const NEW_REVIEW_POST_ERROR = 'An error occured during your review posting.';
+export const NOT_VALID_LOGIN_PASSWORD_MESSAGE = 'Login must be the correct form of email. The password must contain at least one latin character and one number.';
+
+export const EMAIL_REGEX = /[a-zA-Z0-9_-]+@[a-zA-Z0-9_]+\.[A-Za-z]+/;
+export const PASSWORD_REGEX = /([a-zA-Z_]{1}[0-9]{1}|[0-9]{1}[a-zA-Z_]{1})[a-zA-Z0-9_]*/;
 
 export const INITIAL_OFFER: Offer | undefined = undefined;
 export const INITIAL_CITY = 'Paris';
@@ -19,7 +29,6 @@ export const CITIES: string[] = [
   'Hamburg',
   'Dusseldorf',
 ];
-
 export const INITIAL_USER: UserData = {
   id: -1,
   avatarUrl: '',
@@ -60,11 +69,11 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export enum ApartmentType {
-  Apartment = 'apartment',
-  Room = 'room',
-  House = 'house',
-  Hotel = 'hotel',
+export enum ReviewPostStatus {
+  Unknown = 'UNKNOWN',
+  Pending = 'PENDING',
+  Fulfilled = 'FULFILLED',
+  Rejected = 'REJECTED',
 }
 
 export enum SortType {

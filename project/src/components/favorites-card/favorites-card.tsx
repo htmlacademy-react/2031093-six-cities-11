@@ -11,7 +11,7 @@ type FavoriteOfferProps = {
 
 function FavoritesCard({ offer, onFavoritesButtonClick }: FavoriteOfferProps): JSX.Element {
   const style = {
-    width: `${offer.rating * 20}%`,
+    width: `${Math.round(offer.rating) * 20}%`,
   };
   const favoritesButtonClass = `place-card__bookmark-button ${offer.isFavorite ? `${FAVORITE_BUTTON_ACTIVE_CLASS} ` : ''}button`;
   const images = offer.images as string[];
@@ -58,7 +58,7 @@ function FavoritesCard({ offer, onFavoritesButtonClick }: FavoriteOfferProps): J
         <h2 className="place-card__name">
           <Link to="#">{offer.title}</Link>
         </h2>
-        <p className="place-card__type">{offer.type}</p>
+        <p className="place-card__type">{`${offer.type.slice(0, 1).toUpperCase()}${offer.type.slice(1).toLowerCase()}`}</p>
       </div>
     </article>
   );
